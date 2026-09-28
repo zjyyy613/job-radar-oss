@@ -1,6 +1,6 @@
 # Job Radar
 
-当前已实现 **Task 1–3**：冻结契约、job-pro ingestion 与独立 NCSS complementary adapter，未进入 Task 4。
+当前已实现 **Task 1–4**：冻结契约、独立来源 ingestion、保守 canonicalization 与 source reliability，未进入 Task 5。
 
 冻结依据（按优先级）：
 - [Product Spec v1.0](docs/specs/job-radar-product-spec-v1.0.md)
@@ -91,7 +91,47 @@ stdout 为 JSON；错误仅输出阶段标签，不输出异常原文、响应�
 真实 fixture 与合成行业样本见 [fixture 说明](tests/fixtures/ncss/README.md)，
 实际写入与自审见 [Task 3 smoke 报告](docs/reports/2026-09-28-task3-ncss-smoke.md)。
 
-## 契约约定
+## Task 4 canonicalization
+
+```sh
+npm run canonicalize -- --dry-run
+npm run canonicalize -- --write
+```
+
+命令使用同一服务端 Supabase 配置，读取完整的小规模快照，再生成 `jobs`。
+先应用 `20260928122238_canonicalization_reliability.sql`；本项目真实 Supabase 已应用。
+来源 ingestion workflow 保持独立，本阶段 canonicalization 通过上述命令单独运行。
+
+- 同 `(source, source_job_id)` 取最新记录。同源不同 ID 不合并。
+- 跨源仅接受 NFKC、大小写、空白归一化后的 company/title 精确一致、地点交集、
+  明确且一致的 recruitment_batch，以及无冲突的 internship_type。批次未知/空白也不合并。
+- 不删除公司后缀、不做别名猜测/模糊匹配。不通过传递关系桥接不兼容记录，
+  同源多个候选也不任意择一。未确定时保留两条。
+- 字段采用权威等级最高的完整记录；同等级按抓取时间、稳定身份选择，不拼造字段。
+  `canonicalization_trace` 记录主来源、自动 merge reason 和来源状态依据；命令输出全部 pair 决策。
+- `raw_content_hash` 只涵盖 canonical 内容，排除抓取时间与运行状态。
+  复跑保持 ID；合并保留已有 ID，拆分避免重复分配。`gates=[]`，提取元数据为 null。
+- `record_observations` 是可选的运行审计快照：`{present: source_job_id[], closed: source_job_id[]}`。
+  closed 只能来自明确上游状态，不能由 HTTP 错误、过期 deadline 或文本猜测生成。
+  历史 null 快照不表示空列表，不从当前可变的 last_seen_at 反推历史缺失。
+- 现有 bounded run 仅通过 last_seen_at 落在成功 run 时间窗口内确认出现；
+  官方出现为 open，NCSS 出现仍为 unknown。状态表示最新已记录证据，未额外引入时间 TTL。
+- 只有 authoritative、success、full_list 且有完整快照的连续两次缺失才能关闭。
+  full_list 必须覆盖整个 source key 的全部 program；只扫 campus/intern 子集不可标全量。
+  failed/partial 不增加 missing count，并打断连续缺失链；NCSS 缺失不增加权威计数。
+  明确的闭合证据可以立即关闭；同组权威证据冲突则保守 unknown。
+- 写入 RPC 使用事务、输入版本检查和“每个 source record 恰好关联一次”校验。
+  只更新 canonical jobs，不改来源记录或运行状态；来源变动导致 stale plan 时需重新预览。
+  调用仅服务端可用，维持已有 RLS。网络响应不明时先查数据库，禁止盲目重试。
+- M0 快照预算为 1,000 source records / 10,000 source runs，超出明确失败而非截断。
+  RPC 超时 30 秒，CLI 整体预算 60 秒。没有新增队列、ORM、embedding 或 LLM。
+- Task 4 writer 检测到已有 gates/提取元数据时拒绝覆盖；Task 5 接入提取时须接续这一保护，
+  不能直接清空已提取内容。本阶段不实现提取。
+
+真实 8→8 写入、幂等复跑、状态测试和自审见
+[Task 4 报告](docs/reports/2026-09-28-task4-canonicalization-smoke.md)。
+
+## 冻结契约约定
 
 - `src/lib/domain/source-record.ts` 是所有来源唯一的标准化契约；`scripts/ingest/contracts.ts` 直接复用它。
 - 缺失源信息保留 `null` 或空数组。数据库生成来源记录 UUID；CanonicalJob 按架构使用 `source_record_ids`，不嵌入原始载荷。

@@ -10,7 +10,8 @@
     "lint": "eslint . --max-warnings=0",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
-    "ingest:job-pro": "tsx scripts/ingest/run-job-pro.ts"
+    "ingest:job-pro": "tsx scripts/ingest/run-job-pro.ts",
+    "canonicalize": "tsx scripts/ingest/canonicalize.ts"
   },
   "dependencies": {
     "next": "16.3.6",

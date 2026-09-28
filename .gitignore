@@ -10,3 +10,4 @@ coverage/
 .venv-ncss/
 __pycache__/
 *.pyc
+supabase/.temp/
