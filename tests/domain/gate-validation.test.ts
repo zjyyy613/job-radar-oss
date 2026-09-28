@@ -58,6 +58,13 @@ describe("validateGate", () => {
     expect(validateGate(input)).toEqual(input);
   });
 
+  it("does not expand M0 to nested AND/OR or research-intent fields", () => {
+    expect(() => validateGate({ ...gate, value: { kind: "or", alternatives: [
+      { field: "education", value: { kind: "and", conditions: [] } },
+      { field: "long_term_research", value: { kind: "one_of", values: [true] } },
+    ] } })).toThrow();
+  });
+
   it("preserves verbatim whitespace, context, scope, and note", () => {
     const input = { ...gate, scope: "program", note: "标题范围待确认", evidence: [
       { quote: "  每周至少实习3天\n", source: "title", context: "实习要求：  每周至少实习3天\n。" },

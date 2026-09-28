@@ -1,0 +1,538 @@
+{
+  "summary": {
+    "model": "deepseek-flash",
+    "endpoint": "https://api.deepseek.com/responses",
+    "total": 6,
+    "success": 6,
+    "failed": 0,
+    "semantic_valid": 5,
+    "semantic_invalid": 1,
+    "created_at": "2026-09-26T16:05:44.686Z"
+  },
+  "results": [
+    {
+      "post_id": "1153452731391100928",
+      "semantic_valid": true,
+      "semantic_issues": [],
+      "extracted": {
+        "graduation_year": null,
+        "student_status": null,
+        "major_requirement": "理工科专业",
+        "education": null,
+        "days_per_week": null,
+        "duration": null,
+        "gates": [
+          {
+            "field": "major_requirement",
+            "level": "required",
+            "scope": "job",
+            "evidence": "理工科专业",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "major_domains",
+                  "op": "includes_any",
+                  "value_type": "string_array",
+                  "value_string": null,
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": [
+                    "stem"
+                  ]
+                }
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "post_id": "1153452731391100929",
+      "semantic_valid": true,
+      "semantic_issues": [],
+      "extracted": {
+        "graduation_year": null,
+        "student_status": null,
+        "major_requirement": "计算机、信息技术、计算机交叉学科等相关专业背景优先；商科专业背景同时愿意快速学习技术产品知识",
+        "education": null,
+        "days_per_week": null,
+        "duration": null,
+        "gates": [
+          {
+            "field": "major_requirement",
+            "level": "preferred",
+            "scope": "job",
+            "evidence": "计算机、信息技术、计算机交叉学科等相关专业背景优先，商科专业背景同时愿意快速学习技术产品知识的同学",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "major_tags",
+                  "op": "includes_any",
+                  "value_type": "string_array",
+                  "value_string": null,
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": [
+                    "computer_science"
+                  ]
+                }
+              ],
+              [
+                {
+                  "profile_field": "major_tags",
+                  "op": "includes_any",
+                  "value_type": "string_array",
+                  "value_string": null,
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": [
+                    "it"
+                  ]
+                }
+              ],
+              [
+                {
+                  "profile_field": "major_domains",
+                  "op": "includes_any",
+                  "value_type": "string_array",
+                  "value_string": null,
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": [
+                    "business"
+                  ]
+                }
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "post_id": "7666032765686942006",
+      "semantic_valid": true,
+      "semantic_issues": [],
+      "extracted": {
+        "graduation_year": null,
+        "student_status": null,
+        "major_requirement": "CV / ML / 机器人 / AI 相关方向",
+        "education": "博士，或具备长期科研意愿的硕士",
+        "days_per_week": null,
+        "duration": null,
+        "gates": [
+          {
+            "field": "education_research_path",
+            "level": "required",
+            "scope": "job",
+            "evidence": "CV / ML / 机器人 / AI 相关方向博士，或具备长期科研意愿的硕士",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "education",
+                  "op": "eq",
+                  "value_type": "string",
+                  "value_string": "phd",
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": []
+                },
+                {
+                  "profile_field": "major_tags",
+                  "op": "includes_any",
+                  "value_type": "string_array",
+                  "value_string": null,
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": [
+                    "cv",
+                    "ml",
+                    "robotics",
+                    "ai"
+                  ]
+                }
+              ],
+              [
+                {
+                  "profile_field": "education",
+                  "op": "eq",
+                  "value_type": "string",
+                  "value_string": "master",
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": []
+                },
+                {
+                  "profile_field": "long_term_research",
+                  "op": "eq",
+                  "value_type": "boolean",
+                  "value_string": null,
+                  "value_number": null,
+                  "value_boolean": true,
+                  "value_strings": []
+                }
+              ]
+            ]
+          },
+          {
+            "field": "research_foundation",
+            "level": "required",
+            "scope": "job",
+            "evidence": "在 VLM / 多模态大模型 / 视频理解 / 3D 视觉 / VLN / Embodied Agent / RL / 视频生成 / 世界模型任一方向有研究基础",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "research_areas",
+                  "op": "includes_any",
+                  "value_type": "string_array",
+                  "value_string": null,
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": [
+                    "vlm",
+                    "multimodal",
+                    "video_understanding",
+                    "3d_vision",
+                    "vln",
+                    "embodied_agent",
+                    "rl",
+                    "video_generation",
+                    "world_model"
+                  ]
+                }
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "post_id": "7685687737094424895",
+      "semantic_valid": true,
+      "semantic_issues": [],
+      "extracted": {
+        "graduation_year": 2027,
+        "student_status": "enrolled",
+        "major_requirement": "人力资源、管理、统计、数据、财经等相关专业优先",
+        "education": "本科及以上",
+        "days_per_week": 5,
+        "duration": "6个月以上",
+        "gates": [
+          {
+            "field": "graduation_year",
+            "level": "ambiguous",
+            "scope": "program",
+            "evidence": "COE实习生-2027届",
+            "evidence_source": "title",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "graduation_year",
+                  "op": "eq",
+                  "value_type": "number",
+                  "value_string": null,
+                  "value_number": 2027,
+                  "value_boolean": null,
+                  "value_strings": []
+                }
+              ]
+            ]
+          },
+          {
+            "field": "student_status",
+            "level": "required",
+            "scope": "job",
+            "evidence": "在校生",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "student_status",
+                  "op": "eq",
+                  "value_type": "string",
+                  "value_string": "enrolled",
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": []
+                }
+              ]
+            ]
+          },
+          {
+            "field": "education",
+            "level": "required",
+            "scope": "job",
+            "evidence": "本科及以上",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "education",
+                  "op": "education_at_least",
+                  "value_type": "string",
+                  "value_string": "bachelor",
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": []
+                }
+              ]
+            ]
+          },
+          {
+            "field": "major_requirement",
+            "level": "preferred",
+            "scope": "job",
+            "evidence": "人力资源、管理、统计、数据、财经等相关专业优先",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "major_tags",
+                  "op": "includes_any",
+                  "value_type": "string_array",
+                  "value_string": null,
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": [
+                    "human_resources",
+                    "management",
+                    "statistics",
+                    "data",
+                    "finance"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "field": "days_per_week",
+            "level": "required",
+            "scope": "job",
+            "evidence": "每周到岗 5天",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "days_per_week",
+                  "op": "gte",
+                  "value_type": "number",
+                  "value_string": null,
+                  "value_number": 5,
+                  "value_boolean": null,
+                  "value_strings": []
+                }
+              ]
+            ]
+          },
+          {
+            "field": "duration",
+            "level": "required",
+            "scope": "job",
+            "evidence": "可连续实习 6个月以上",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "duration_months",
+                  "op": "gte",
+                  "value_type": "number",
+                  "value_string": null,
+                  "value_number": 6,
+                  "value_boolean": null,
+                  "value_strings": []
+                }
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "post_id": "561237024",
+      "semantic_valid": false,
+      "semantic_issues": [
+        "noncanonical research_areas value: ml"
+      ],
+      "extracted": {
+        "graduation_year": 2027,
+        "student_status": null,
+        "major_requirement": "计算机或相关专业",
+        "education": "博士及以上",
+        "days_per_week": null,
+        "duration": null,
+        "gates": [
+          {
+            "field": "graduation_year",
+            "level": "ambiguous",
+            "scope": "program",
+            "evidence": "博士27届暑期实习",
+            "evidence_source": "title",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "graduation_year",
+                  "op": "eq",
+                  "value_type": "number",
+                  "value_string": null,
+                  "value_number": 2027,
+                  "value_boolean": null,
+                  "value_strings": []
+                }
+              ]
+            ]
+          },
+          {
+            "field": "education",
+            "level": "required",
+            "scope": "job",
+            "evidence": "博士及以上学历",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "education",
+                  "op": "education_at_least",
+                  "value_type": "string",
+                  "value_string": "phd",
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": []
+                }
+              ]
+            ]
+          },
+          {
+            "field": "major_requirement",
+            "level": "required",
+            "scope": "job",
+            "evidence": "计算机或相关专业",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "major_tags",
+                  "op": "includes_any",
+                  "value_type": "string_array",
+                  "value_string": null,
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": [
+                    "computer_science"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "field": "research_foundation",
+            "level": "required",
+            "scope": "job",
+            "evidence": "熟悉图像处理、计算机视觉、机器学习和模式识别等相关知识",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "research_areas",
+                  "op": "includes_any",
+                  "value_type": "string_array",
+                  "value_string": null,
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": [
+                    "image_processing",
+                    "cv",
+                    "ml",
+                    "pattern_recognition"
+                  ]
+                }
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "post_id": "561244865",
+      "semantic_valid": true,
+      "semantic_issues": [],
+      "extracted": {
+        "graduation_year": 2027,
+        "student_status": null,
+        "major_requirement": "电子类、机械类、光电、半导体专业",
+        "education": "本科及以上",
+        "days_per_week": null,
+        "duration": null,
+        "gates": [
+          {
+            "field": "education",
+            "level": "required",
+            "scope": "job",
+            "evidence": "本科及以上学历",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "education",
+                  "op": "education_at_least",
+                  "value_type": "string",
+                  "value_string": "bachelor",
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": []
+                }
+              ]
+            ]
+          },
+          {
+            "field": "major_requirement",
+            "level": "required",
+            "scope": "job",
+            "evidence": "电子类、机械类、光电、半导体专业",
+            "evidence_source": "requirements",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "major_tags",
+                  "op": "includes_any",
+                  "value_type": "string_array",
+                  "value_string": null,
+                  "value_number": null,
+                  "value_boolean": null,
+                  "value_strings": [
+                    "electronics",
+                    "mechanical",
+                    "optics",
+                    "semiconductor"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "field": "graduation_year",
+            "level": "ambiguous",
+            "scope": "program",
+            "evidence": "品质工程师-27届暑期实习",
+            "evidence_source": "title",
+            "alternatives": [
+              [
+                {
+                  "profile_field": "graduation_year",
+                  "op": "eq",
+                  "value_type": "number",
+                  "value_string": null,
+                  "value_number": 2027,
+                  "value_boolean": null,
+                  "value_strings": []
+                }
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

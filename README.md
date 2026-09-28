@@ -1,6 +1,6 @@
 # Job Radar
 
-当前已实现 **Task 1–4**：冻结契约、独立来源 ingestion、保守 canonicalization 与 source reliability，未进入 Task 5。
+当前已实现 **Task 1–5**：冻结契约、独立来源 ingestion、保守 canonicalization、source reliability 与 Gate Extraction。未进入 Task 6。
 
 冻结依据（按优先级）：
 - [Product Spec v1.0](docs/specs/job-radar-product-spec-v1.0.md)
@@ -110,7 +110,7 @@ npm run canonicalize -- --write
 - 字段采用权威等级最高的完整记录；同等级按抓取时间、稳定身份选择，不拼造字段。
   `canonicalization_trace` 记录主来源、自动 merge reason 和来源状态依据；命令输出全部 pair 决策。
 - `raw_content_hash` 只涵盖 canonical 内容，排除抓取时间与运行状态。
-  复跑保持 ID；合并保留已有 ID，拆分避免重复分配。`gates=[]`，提取元数据为 null。
+  复跑保持 ID；合并保留已有 ID，拆分避免重复分配。新岗位 `gates=[]`，提取元数据为 null；已有岗位保留最后成功提取结果。
 - `record_observations` 是可选的运行审计快照：`{present: source_job_id[], closed: source_job_id[]}`。
   closed 只能来自明确上游状态，不能由 HTTP 错误、过期 deadline 或文本猜测生成。
   历史 null 快照不表示空列表，不从当前可变的 last_seen_at 反推历史缺失。
@@ -125,11 +125,46 @@ npm run canonicalize -- --write
   调用仅服务端可用，维持已有 RLS。网络响应不明时先查数据库，禁止盲目重试。
 - M0 快照预算为 1,000 source records / 10,000 source runs，超出明确失败而非截断。
   RPC 超时 30 秒，CLI 整体预算 60 秒。没有新增队列、ORM、embedding 或 LLM。
-- Task 4 writer 检测到已有 gates/提取元数据时拒绝覆盖；Task 5 接入提取时须接续这一保护，
-  不能直接清空已提取内容。本阶段不实现提取。
+- Task 5 迁移接续提取保护：canonicalization 更新内容和哈希时不覆盖 gates/提取元数据，
+  新内容由独立 extraction runner 处理；旧结果的输入哈希可用于识别过期提取。
 
 真实 8→8 写入、幂等复跑、状态测试和自审见
 [Task 4 报告](docs/reports/2026-09-28-task4-canonicalization-smoke.md)。
+
+## Task 5 Gate Extraction
+
+先应用 `20260928175131_gate_extraction.sql`（真实 Supabase 已应用）。在 `.env.local` 配置
+`DEEPSEEK_API_KEY`、`DEEPSEEK_BASE_URL=https://api.deepseek.com`、`DEEPSEEK_MODEL=deepseek-flash`。
+只使用服务端 Responses API `POST /responses`、封闭 JSON Schema 和独立 runtime validation。
+不创建新的 SDK、ORM、队列、定时工作流或 UI。
+
+```sh
+# 1–6 个现有 job UUID；只预览，不调用模型、不写入
+npm run extract:gates -- --preview JOB_UUID
+# 只提取新增/内容变化岗位，验证后写入
+npm run extract:gates -- --write JOB_UUID
+# 六条 Spike 真实样本 live 回归；不写数据库
+npm run extract:gates -- --corpus
+```
+
+- Parser 优先覆盖明确在校身份、毕业届别、学历、专业、每周天数、实习月数、已审研究领域和简单 OR。
+  标题单独届别保持 ambiguous/program；专业/经验优先保持 preferred。描述中的工作职责不当作任职条件。
+- 仅未解析的复杂/歧义子句发给模型，不发送旧 gates、raw payload、整个源记录或环境配置。
+  `reasoning.effort=none`、`temperature=0`、最多 4096 输出 tokens，单请求 90 秒，无自动重试。
+- Evidence 必须逐字来自所标记的 title/description/requirements。字段、值、上下文、偏好、标题届别、
+  OR 和模型输出范围均独立校验；required gate 还需确定性语义确认。整次提取无效则不替换旧 gates。
+- 专业/研究词表沿用 Spike；未知专业列表不删掉未知备选项来缩窄条件，整句保留非阻断 metadata。
+  冻结契约无法表达的 compound AND/OR 保留原文与 OR 分支，不进入资格比较。
+- `extraction_input_hash` 标记最后成功结果；`extraction_attempt_hash` 标记最后尝试，包括失败。
+  哈希相同始终跳过模型，版本变化也不自动重抽。失败保留成功 gates、时间、版本和 metadata，记录失败状态。
+  失败后的修复需人工核实并显式处理；不提供自动清缓存或无差别重试入口。
+- 写入 RPC 用当前内容哈希和上次尝试哈希做 CAS，避免陈旧结果覆盖新 JD。
+  仅服务端可调用；不要并行运行 writer（CAS 防止覆盖，但不承诺并发启动时的模型调用去重）。
+  传输结果不明先查数据库，再决定是否重试。单条模型失败不会阻止随后岗位；数据库写入不明时停止。
+- CLI 每次最多 6 条、整体最多 12 分钟。成功/失败输出只含 ID、计数、耗时和固定错误码；不输出密钥或供应商错误正文。
+
+回归来源见 [fixture 说明](tests/fixtures/gates/README.md)，真实结果与失败修复见
+[Task 5 报告](docs/reports/2026-09-29-task5-gate-extraction-smoke.md)。
 
 ## 冻结契约约定
 
@@ -138,7 +173,7 @@ npm run canonicalize -- --write
 - `QualificationProfile` 与 `PreferenceProfile` 不共享字段；没有资格判断实现。
 - `GateValue`：`one_of` 表示任一允许值；天数/月数用 `minimum`；学历可用 `education_minimum`。学生状态值为 `enrolled | graduated`；学历值为 `secondary | associate | bachelor | master | doctorate`。未知资料使用 `null`，不能猜测映射。
 - `or.alternatives` 保留各分支的 `field` 和 `value`，支持跨字段 OR；整个 OR 仍是一条 gate。外层 `field` 仅用于主展示，必须出现在分支中。嵌套 Boolean/AND 等未支持表达式会拒绝，不拆分成多个必需条件。
-- `validateGate(unknown)` 严格检查值域、字段和值的组合、非空证据、上下文包含引文及未知属性，原样保留引文。它不持有原始 JD，**不能证明引文来自原文**；Task 5 写入前须另做原文核验。
+- `validateGate(unknown)` 严格检查值域、字段和值的组合、非空证据、上下文包含引文及未知属性，原样保留引文。它不持有原始 JD，**不能证明引文来自原文**；Task 5 的 `validateExtraction` 在写入前另做原文核验。
 
 ## 数据库与验证边界
 
@@ -149,7 +184,7 @@ npm run canonicalize -- --write
 UUID 数组形式的来源关联由后续 canonicalization 维护，不增加关联表或数据库 gate 图。
 
 测试用 PGlite 在本地执行原始 SQL，验证唯一性、JSONB 往返、约束与读写权限；它只是开发测试依赖，不是产品数据库或新服务。
-PGlite 测试本身不代表真实部署；Task 2 已另行应用原始迁移并完成 Supabase 真实写入 smoke。关闭判定、提取与资格引擎仍属于后续任务。
+PGlite 测试本身不代表真实部署；Task 2–5 已分别应用迁移并完成真实 Supabase smoke。资格引擎仍属于后续任务。
 
 ## Task 1 交付记录
 

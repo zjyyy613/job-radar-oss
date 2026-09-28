@@ -1,0 +1,107 @@
+{
+  "post_id": "561237024",
+  "output": {
+    "gates": [
+      {
+        "id": "g1",
+        "field": "education",
+        "requirement": "required",
+        "scope": "job",
+        "value": {
+          "kind": "education_minimum",
+          "value": "doctorate"
+        },
+        "evidence": [
+          {
+            "quote": "博士及以上学历，计算机或相关专业",
+            "source": "requirements",
+            "context": null
+          }
+        ],
+        "note": null
+      },
+      {
+        "id": "g2",
+        "field": "major",
+        "requirement": "required",
+        "scope": "job",
+        "value": {
+          "kind": "one_of",
+          "values": [
+            "computer_science"
+          ]
+        },
+        "evidence": [
+          {
+            "quote": "博士及以上学历，计算机或相关专业",
+            "source": "requirements",
+            "context": null
+          }
+        ],
+        "note": null
+      }
+    ],
+    "metadata": [
+      {
+        "kind": "unsupported",
+        "requirement": "required",
+        "evidence": {
+          "quote": "熟悉图像处理、计算机视觉、机器学习和模式识别等相关知识",
+          "source": "requirements",
+          "context": null
+        },
+        "branches": []
+      },
+      {
+        "kind": "unsupported",
+        "requirement": "required",
+        "evidence": {
+          "quote": "具有扎实的数学功底和较强的算法实现能力，熟悉C/C++，具有良好的代码质量和风格",
+          "source": "requirements",
+          "context": null
+        },
+        "branches": []
+      },
+      {
+        "kind": "unsupported",
+        "requirement": "required",
+        "evidence": {
+          "quote": "严谨踏实，责任心强，条理清楚，善于学习总结，有良好的团队精神和沟通协调能力",
+          "source": "requirements",
+          "context": null
+        },
+        "branches": []
+      },
+      {
+        "kind": "unsupported",
+        "requirement": "preferred",
+        "evidence": {
+          "quote": "具备熟练的英文文献阅读能力",
+          "source": "requirements",
+          "context": null
+        },
+        "branches": []
+      },
+      {
+        "kind": "unsupported",
+        "requirement": "preferred",
+        "evidence": {
+          "quote": "发表过高水平的图像、视觉、机器学习和模式识别等相关学术论文/专利",
+          "source": "requirements",
+          "context": null
+        },
+        "branches": []
+      },
+      {
+        "kind": "experience",
+        "requirement": "preferred",
+        "evidence": {
+          "quote": "有图像/视频相关项目的开发经验",
+          "source": "requirements",
+          "context": null
+        },
+        "branches": []
+      }
+    ]
+  }
+}

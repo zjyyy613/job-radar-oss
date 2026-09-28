@@ -11,7 +11,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "ingest:job-pro": "tsx scripts/ingest/run-job-pro.ts",
-    "canonicalize": "tsx scripts/ingest/canonicalize.ts"
+    "canonicalize": "tsx scripts/ingest/canonicalize.ts",
+    "extract:gates": "tsx scripts/ingest/run-gate-extraction.ts"
   },
   "dependencies": {
     "next": "16.3.6",

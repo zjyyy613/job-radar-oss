@@ -7,8 +7,8 @@ import { serverConfig } from "./source-store";
 
 export async function runCanonicalization(store: ReturnType<typeof createCanonicalizationStore>, write: boolean) {
   const snapshot = await store.snapshot();
-  // Avoid silently dropping future extraction data, even in a preview.
-  if (snapshot.jobs.some(j => j.gates.length || j.extraction_version || j.extracted_at || j.extractor_type)) throw new Error("Task 4 runner cannot overwrite extraction metadata");
+  // The Task 5 migration preserves existing extraction columns on conflict.
+  // Changed JD hashes are re-extracted separately; old valid gates survive failures.
   if (snapshot.jobs.some(j => j.source_record_ids.some(id => !snapshot.records.some(r => r.id === id)))) throw new Error("Orphaned canonical source linkage requires review");
   const plan = canonicalize(snapshot.records, snapshot.runs, snapshot.jobs);
   const written = write ? await store.apply(snapshot.token, plan.jobs) : 0;
