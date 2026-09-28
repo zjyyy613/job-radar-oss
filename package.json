@@ -2,13 +2,15 @@
   "name": "job-radar",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "ingest:job-pro": "tsx scripts/ingest/run-job-pro.ts"
   },
   "dependencies": {
     "next": "16.3.6",
@@ -17,11 +19,13 @@
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.8",
+    "@ha7ch/job-pro": "1.2.1",
     "@types/node": "24.19.0",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.6",
+    "tsx": "4.23.15",
     "typescript": "5.9.3",
     "vitest": "4.1.11"
   }

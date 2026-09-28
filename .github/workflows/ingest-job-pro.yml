@@ -1,0 +1,43 @@
+name: Ingest job-pro
+
+on:
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: Recruitment channel
+        type: choice
+        options: [campus, intern]
+        default: campus
+      limit:
+        description: Maximum jobs per company (1–50)
+        type: number
+        default: 20
+  schedule:
+    - cron: "23 1 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ingest-job-pro
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - name: Ingest bounded allowlist
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          INGEST_SCOPE: ${{ inputs.scope || 'campus' }}
+          INGEST_LIMIT: ${{ inputs.limit || '20' }}
+        run: npm run ingest:job-pro -- --write --scope "$INGEST_SCOPE" --limit "$INGEST_LIMIT"
