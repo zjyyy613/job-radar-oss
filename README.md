@@ -1,6 +1,6 @@
 # Job Radar
 
-当前已实现 **Task 1 / M0-1** 与 **Task 2：job-pro adapter + source ingestion**，未进入 Task 3。
+当前已实现 **Task 1–3**：冻结契约、job-pro ingestion 与独立 NCSS complementary adapter，未进入 Task 4。
 
 冻结依据（按优先级）：
 - [Product Spec v1.0](docs/specs/job-radar-product-spec-v1.0.md)
@@ -9,7 +9,9 @@
 
 ## 本地运行
 
-使用 Node.js 24 LTS 和 npm；依赖版本固定在 `package.json` 与 lockfile。
+使用 Node.js 24 LTS、npm 和 Python 3.13；Node 依赖版本固定在 `package.json` 与 lockfile。
+`npm test` 也会执行 NCSS 的 Python 标准库离线测试，无需安装 Playwright。
+Python 默认 Windows 使用 `py -3`、其他平台使用 `python3`，可用 `NCSS_PYTHON` 指定解释器绝对路径。
 
 ```sh
 npm ci
@@ -53,6 +55,41 @@ workflow 已加入本地仓库，尚未推送或在 GitHub 上执行。
 
 真实 fixture 的抓取命令与映射边界见 [fixture 说明](tests/fixtures/job-pro/README.md)。
 真实 Supabase 写入、复跑与自审记录见 [Task 2 smoke 报告](docs/reports/2026-09-28-task2-job-pro-smoke.md)。
+
+## Task 3 NCSS ingestion
+
+仅复用 JobHunter 的 NCSS 路径，固定 commit
+`4b5a69010a98b3d80b408fd983c1c2dfa60788e4`；提取边界、原文件哈希及 MIT 许可见
+[上游说明](scripts/ingest/vendor/jobhunter/NOTICE.md)。运行时不下载 JobHunter 或跟随分支。
+
+```sh
+python -m venv .venv-ncss
+# 激活虚拟环境：Windows PowerShell 使用 .venv-ncss/Scripts/Activate.ps1
+# macOS/Linux 使用 source .venv-ncss/bin/activate
+python -m pip install -r scripts/ingest/requirements-ncss.txt
+python -m playwright install chromium
+python scripts/ingest/run-ncss.py --dry-run --limit 2
+python scripts/ingest/run-ncss.py --write --limit 2
+python -m unittest discover -s tests/ingest -p test_ncss.py
+```
+
+Windows 未配置 `python` 时可用 `py -3.13` 创建虚拟环境，激活后使用 `python`。
+runner 读取同一 `.env.local` 的服务端设置，优先新版 secret；只向 Supabase 发送密钥。
+stdout 为 JSON；错误仅输出阶段标签，不输出异常原文、响应体或凭据。
+
+- NCSS 使用独立 Python/Playwright 进程，固定 `playwright==1.63.0`，不依赖 Node ingestion。
+- 默认抓第一页 2 条，允许 1–20 条；`full_list=false`。不分页、不请求详情，不推断关闭。
+- `source=ncss`、`source_family=public_employment`、`source_tier=trusted_aggregator`。
+- 学历原文保存在 `raw_payload.degreeName`；行业按上游可选字段映射，缺失保持 null。
+  不扩展冻结领域字段、不生成 gates；现有列表没有详情/申请链接，相关字段保持 null。
+- 只写当前来源的 `source_records` / `source_runs`；失败不改 job-pro 或 `jobs`。
+  混合成功记录 `partial`，全失败返回非零；审计写入失败也返回非零，不能保证数据库不可用时留存日志。
+- upsert 用现有唯一键，计数只包含确认写入。不要并发启动手动 writer；写入响应不明时先查数据库，不盲目重试。
+- 独立 workflow `ingest-ncss.yml` 支持手动和每日 UTC 01:43 运行，单独 concurrency group。
+  尚未推送/运行 GitHub Actions；远端仍需配置服务端 Secrets。
+
+真实 fixture 与合成行业样本见 [fixture 说明](tests/fixtures/ncss/README.md)，
+实际写入与自审见 [Task 3 smoke 报告](docs/reports/2026-09-28-task3-ncss-smoke.md)。
 
 ## 契约约定
 

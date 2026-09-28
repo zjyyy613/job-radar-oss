@@ -1,0 +1,41 @@
+name: Ingest NCSS
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: First-page job limit (1–20; never a full-list run)
+        type: number
+        default: 2
+  schedule:
+    - cron: "43 1 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ingest-ncss
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: scripts/ingest/requirements-ncss.txt
+      - run: python -m pip install -r scripts/ingest/requirements-ncss.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Offline NCSS tests
+        run: python -m unittest discover -s tests/ingest -p test_ncss.py
+      - name: Ingest NCSS only
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          NCSS_LIMIT: ${{ inputs.limit || '2' }}
+        run: python scripts/ingest/run-ncss.py --write --limit "$NCSS_LIMIT"

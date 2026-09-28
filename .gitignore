@@ -7,3 +7,6 @@ coverage/
 !.env.example
 .npm-cache/
 .verification/
+.venv-ncss/
+__pycache__/
+*.pyc
