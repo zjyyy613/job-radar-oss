@@ -1,6 +1,6 @@
 # Job Radar
 
-当前已实现 **Task 1–5**：冻结契约、独立来源 ingestion、保守 canonicalization、source reliability 与 Gate Extraction。未进入 Task 6。
+当前已实现 **Task 1–6**：冻结契约、独立来源 ingestion、保守 canonicalization、source reliability、Gate Extraction、本地 Guest Profile 与确定性资格引擎。未进入 Task 7。
 
 冻结依据（按优先级）：
 - [Product Spec v1.0](docs/specs/job-radar-product-spec-v1.0.md)
@@ -22,7 +22,7 @@ npm test
 npm run build
 ```
 
-根页面仅验证 Next.js 骨架可运行，不是产品 Landing。Task 1 不需要环境变量或外部服务。
+根路径进入 `/profile`，无资料时可进入 `/onboarding`；不是产品 Landing 或 Radar。Guest Profile 不需要环境变量或外部服务。
 Task 2 固定安装 `@ha7ch/job-pro@1.2.1`，通过公开 CLI/process 边界使用；未引入其私有 API、ORM、Auth 或状态库。Supabase 写入使用原生 fetch 调用 PostgREST。
 
 ## Task 2 ingestion
@@ -170,7 +170,7 @@ npm run extract:gates -- --corpus
 
 - `src/lib/domain/source-record.ts` 是所有来源唯一的标准化契约；`scripts/ingest/contracts.ts` 直接复用它。
 - 缺失源信息保留 `null` 或空数组。数据库生成来源记录 UUID；CanonicalJob 按架构使用 `source_record_ids`，不嵌入原始载荷。
-- `QualificationProfile` 与 `PreferenceProfile` 不共享字段；没有资格判断实现。
+- `QualificationProfile` 与 `PreferenceProfile` 不共享字段；资格引擎不接受偏好作为判断条件。
 - `GateValue`：`one_of` 表示任一允许值；天数/月数用 `minimum`；学历可用 `education_minimum`。学生状态值为 `enrolled | graduated`；学历值为 `secondary | associate | bachelor | master | doctorate`。未知资料使用 `null`，不能猜测映射。
 - `or.alternatives` 保留各分支的 `field` 和 `value`，支持跨字段 OR；整个 OR 仍是一条 gate。外层 `field` 仅用于主展示，必须出现在分支中。嵌套 Boolean/AND 等未支持表达式会拒绝，不拆分成多个必需条件。
 - `validateGate(unknown)` 严格检查值域、字段和值的组合、非空证据、上下文包含引文及未知属性，原样保留引文。它不持有原始 JD，**不能证明引文来自原文**；Task 5 的 `validateExtraction` 在写入前另做原文核验。
@@ -184,7 +184,27 @@ npm run extract:gates -- --corpus
 UUID 数组形式的来源关联由后续 canonicalization 维护，不增加关联表或数据库 gate 图。
 
 测试用 PGlite 在本地执行原始 SQL，验证唯一性、JSONB 往返、约束与读写权限；它只是开发测试依赖，不是产品数据库或新服务。
-PGlite 测试本身不代表真实部署；Task 2–5 已分别应用迁移并完成真实 Supabase smoke。资格引擎仍属于后续任务。
+PGlite 测试本身不代表真实部署；Task 2–5 已分别应用迁移并完成真实 Supabase smoke。Task 6 不改数据库或重新运行 extraction。
+
+## Task 6 本地资料与资格判断
+
+- `/onboarding`：两步，四项必填基本资格 → 可选时间/城市；无需登录，不显示 completeness 百分比。
+- `/profile`：默认只读，可修改资格资料与偏好；可确认清除本浏览器的 Job Radar 数据。
+- localStorage key：`job-radar:guest-profile:v1`。单条版本化记录 `{version:1, qualification, preferences}`，两个领域对象严格分离。
+  空白选填数值保持 null；研究方向 null=未填写，[]=明确暂无。只有成功写入才显示保存成功；写入失败保留草稿。
+- `createLocalProfileStore` 提供 read/write/clear；clear 仅删除 `job-radar:` 命名空间，不调用 `localStorage.clear()`。
+  读到损坏或不支持版本时显示恢复入口，不自动覆盖。当前页同步发布更新，其他标签页通过 storage event 同步。
+- `useQualification(job)` 随本地资料更新同步调用纯函数 `evaluateQualification`，不触发 fetch、模型或 extraction。
+  Task 6 不显示岗位列表；Task 7 的岗位消费者可直接复用这个 hook。
+- 资格计算先 Closed→Excluded，再检查 Task 5 的 `extraction_status`、`raw_content_hash`、
+  `extraction_input_hash`、`extraction_attempt_hash`、`extraction_error`。只有 success、非空且一致的三份 hash、无 error 才可消费。
+  缺字段/未处理/失败/过期统一 Check，reason=`qualification_data_unavailable`；不能仅凭 gates=[] 得出 Eligible。
+- Ready 后按冻结顺序：required clear fail→Blocked，required unknown→Check，ambiguous non-pass→Check，否则 Eligible。
+  preferred 永不阻断，偏好完全不参与。OR 任一 pass 即 pass，全 fail 才 fail，其余 unknown。
+  未识别专业不猜测成不符合；“相关专业”不匹配保留 Check。理由带原 Gate/evidence，不改写证据。
+
+原始 24-case 来源与 M0 表示映射见 [truth table 说明](tests/fixtures/qualification/README.md)。
+验证与限制见 [Task 6 报告](docs/reports/2026-09-29-task6-guest-profile-qualification.md)。
 
 ## Task 1 交付记录
 

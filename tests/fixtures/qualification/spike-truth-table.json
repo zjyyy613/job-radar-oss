@@ -1,0 +1,443 @@
+{
+  "profiles": [
+    {
+      "id": "P1",
+      "name": "2027 HR 本科生",
+      "graduation_year": 2027,
+      "education": "bachelor",
+      "student_status": "enrolled",
+      "major_domains": [
+        "business"
+      ],
+      "major_tags": [
+        "human_resources"
+      ],
+      "days_per_week": 5,
+      "duration_months": 6,
+      "long_term_research": false,
+      "research_areas": []
+    },
+    {
+      "id": "P2",
+      "name": "2028 管理本科生",
+      "graduation_year": 2028,
+      "education": "bachelor",
+      "student_status": "enrolled",
+      "major_domains": [
+        "business"
+      ],
+      "major_tags": [
+        "management"
+      ],
+      "days_per_week": 5,
+      "duration_months": 6,
+      "long_term_research": false,
+      "research_areas": []
+    },
+    {
+      "id": "P3",
+      "name": "2027 机械本科生",
+      "graduation_year": 2027,
+      "education": "bachelor",
+      "student_status": "enrolled",
+      "major_domains": [
+        "stem"
+      ],
+      "major_tags": [
+        "mechanical"
+      ],
+      "days_per_week": 3,
+      "duration_months": 2,
+      "long_term_research": false,
+      "research_areas": []
+    },
+    {
+      "id": "P4",
+      "name": "2027 AI 硕士生",
+      "graduation_year": 2027,
+      "education": "master",
+      "student_status": "enrolled",
+      "major_domains": [
+        "stem"
+      ],
+      "major_tags": [
+        "ai",
+        "computer_science",
+        "ml"
+      ],
+      "days_per_week": 5,
+      "duration_months": 6,
+      "long_term_research": true,
+      "research_areas": [
+        "multimodal",
+        "llm"
+      ]
+    }
+  ],
+  "jobs": [
+    {
+      "id": "T1",
+      "title": "腾讯｜解决方案-行业咨询方向",
+      "application_status": "open",
+      "gates": [
+        {
+          "field": "major_requirement",
+          "level": "required",
+          "scope": "job",
+          "evidence": "理工科专业",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "major_domains",
+            "op": "includes_any",
+            "value": [
+              "stem"
+            ]
+          }
+        },
+        {
+          "field": "technical_background",
+          "level": "preferred",
+          "scope": "job",
+          "evidence": "熟悉云计算、大数据、人工智能等技术优先",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "major_tags",
+            "op": "includes_any",
+            "value": [
+              "cloud",
+              "big_data",
+              "ai"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "腾讯｜CSIG技术产品商务培训生",
+      "application_status": "open",
+      "gates": [
+        {
+          "field": "major_requirement",
+          "level": "preferred",
+          "scope": "job",
+          "evidence": "计算机、信息技术、计算机交叉学科等相关专业背景优先",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "major_tags",
+            "op": "includes_any",
+            "value": [
+              "computer_science",
+              "it"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "title": "小米｜顶尖实习-具身大模型算法研究员",
+      "application_status": "open",
+      "gates": [
+        {
+          "field": "education_research_path",
+          "level": "required",
+          "scope": "job",
+          "evidence": "CV / ML / 机器人 / AI 相关方向博士，或具备长期科研意愿的硕士",
+          "evidence_source": "requirements",
+          "condition": {
+            "any": [
+              {
+                "all": [
+                  {
+                    "field": "education",
+                    "op": "education_at_least",
+                    "value": "phd"
+                  },
+                  {
+                    "field": "major_tags",
+                    "op": "includes_any",
+                    "value": [
+                      "cv",
+                      "ml",
+                      "robotics",
+                      "ai"
+                    ]
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "field": "education",
+                    "op": "education_at_least",
+                    "value": "master"
+                  },
+                  {
+                    "field": "long_term_research",
+                    "op": "eq",
+                    "value": true
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "field": "research_foundation",
+          "level": "required",
+          "scope": "job",
+          "evidence": "在 VLM / 多模态大模型 / 视频理解 / 3D视觉 / VLN / Embodied Agent / RL / 视频生成 / 世界模型任一方向有研究基础",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "research_areas",
+            "op": "includes_any",
+            "value": [
+              "vlm",
+              "multimodal",
+              "video_understanding",
+              "3d_vision",
+              "vln",
+              "embodied_agent",
+              "rl",
+              "video_generation",
+              "world_model",
+              "llm"
+            ]
+          }
+        },
+        {
+          "field": "paper_or_oss",
+          "level": "preferred",
+          "scope": "job",
+          "evidence": "有顶会论文或高影响力开源项目者优先",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "paper_or_oss",
+            "op": "eq",
+            "value": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "title": "小米｜COE实习生-2027届",
+      "application_status": "open",
+      "gates": [
+        {
+          "field": "graduation_year",
+          "level": "ambiguous",
+          "scope": "program",
+          "evidence": "COE实习生-2027届",
+          "evidence_source": "title",
+          "condition": {
+            "field": "graduation_year",
+            "op": "eq",
+            "value": 2027
+          }
+        },
+        {
+          "field": "student_status",
+          "level": "required",
+          "scope": "job",
+          "evidence": "在校生",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "student_status",
+            "op": "eq",
+            "value": "enrolled"
+          }
+        },
+        {
+          "field": "education",
+          "level": "required",
+          "scope": "job",
+          "evidence": "本科及以上",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "education",
+            "op": "education_at_least",
+            "value": "bachelor"
+          }
+        },
+        {
+          "field": "major_requirement",
+          "level": "preferred",
+          "scope": "job",
+          "evidence": "人力资源、管理、统计、数据、财经等相关专业优先",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "major_tags",
+            "op": "includes_any",
+            "value": [
+              "human_resources",
+              "management",
+              "statistics",
+              "data",
+              "finance"
+            ]
+          }
+        },
+        {
+          "field": "days_per_week",
+          "level": "required",
+          "scope": "job",
+          "evidence": "每周到岗5天",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "days_per_week",
+            "op": "gte",
+            "value": 5
+          }
+        },
+        {
+          "field": "duration",
+          "level": "required",
+          "scope": "job",
+          "evidence": "可连续实习6个月以上",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "duration_months",
+            "op": "gte",
+            "value": 6
+          }
+        }
+      ]
+    },
+    {
+      "id": "V1",
+      "title": "vivo｜博士27届暑期影像算法",
+      "application_status": "open",
+      "gates": [
+        {
+          "field": "graduation_year",
+          "level": "ambiguous",
+          "scope": "program",
+          "evidence": "博士27届暑期实习",
+          "evidence_source": "title",
+          "condition": {
+            "field": "graduation_year",
+            "op": "eq",
+            "value": 2027
+          }
+        },
+        {
+          "field": "education",
+          "level": "required",
+          "scope": "job",
+          "evidence": "博士及以上学历",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "education",
+            "op": "education_at_least",
+            "value": "phd"
+          }
+        },
+        {
+          "field": "major_requirement",
+          "level": "required",
+          "scope": "job",
+          "evidence": "计算机或相关专业",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "major_tags",
+            "op": "includes_any",
+            "value": [
+              "computer_science",
+              "ai",
+              "cv",
+              "ml"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "V2",
+      "title": "vivo｜品质工程师-27届暑期实习",
+      "application_status": "open",
+      "gates": [
+        {
+          "field": "graduation_year",
+          "level": "ambiguous",
+          "scope": "program",
+          "evidence": "27届暑期实习",
+          "evidence_source": "title",
+          "condition": {
+            "field": "graduation_year",
+            "op": "eq",
+            "value": 2027
+          }
+        },
+        {
+          "field": "education",
+          "level": "required",
+          "scope": "job",
+          "evidence": "本科及以上学历",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "education",
+            "op": "education_at_least",
+            "value": "bachelor"
+          }
+        },
+        {
+          "field": "major_requirement",
+          "level": "required",
+          "scope": "job",
+          "evidence": "电子类、机械类、光电、半导体专业",
+          "evidence_source": "requirements",
+          "condition": {
+            "field": "major_tags",
+            "op": "includes_any",
+            "value": [
+              "electronics",
+              "mechanical",
+              "optics",
+              "semiconductor"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "expected": {
+    "T1": {
+      "P1": "Blocked",
+      "P2": "Blocked",
+      "P3": "Eligible",
+      "P4": "Eligible"
+    },
+    "T2": {
+      "P1": "Eligible",
+      "P2": "Eligible",
+      "P3": "Eligible",
+      "P4": "Eligible"
+    },
+    "M1": {
+      "P1": "Blocked",
+      "P2": "Blocked",
+      "P3": "Blocked",
+      "P4": "Eligible"
+    },
+    "M2": {
+      "P1": "Eligible",
+      "P2": "Check",
+      "P3": "Blocked",
+      "P4": "Eligible"
+    },
+    "V1": {
+      "P1": "Blocked",
+      "P2": "Blocked",
+      "P3": "Blocked",
+      "P4": "Blocked"
+    },
+    "V2": {
+      "P1": "Blocked",
+      "P2": "Blocked",
+      "P3": "Eligible",
+      "P4": "Blocked"
+    }
+  }
+}

@@ -1,3 +1,2 @@
-export default function Home() {
-  return <main><h1>Job Radar</h1></main>;
-}
+import { redirect } from "next/navigation";
+export default function Home() { redirect("/profile"); }
