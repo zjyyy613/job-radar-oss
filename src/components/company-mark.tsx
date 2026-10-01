@@ -1,29 +1,24 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-const marks: Record<string, string> = {
-  腾讯: "tencent.png",
-  小米: "xiaomi.ico",
-  vivo: "vivo.ico",
-  中国银行股份有限公司: "boc.ico",
-};
+import { resolveCompanyBrand } from "@/lib/radar/company-brand";
 /** Presentation-only exact company mapping, never used for canonicalization. */
 export function CompanyMark({ company }: { company: string }) {
   const [failed, setFailed] = useState<string | null>(null);
-  const asset = Object.hasOwn(marks, company) ? marks[company] : null;
+  const { identity, asset, initial } = resolveCompanyBrand(company);
   return (
     <span className="company-mark" aria-hidden="true">
-      {asset && failed !== company ? (
+      {asset && failed !== identity ? (
         <Image
-          src={`/company-marks/${asset}`}
+          src={asset}
           alt=""
           width={18}
           height={18}
           unoptimized
-          onError={() => setFailed(company)}
+          onError={() => setFailed(identity)}
         />
       ) : (
-        <span>{Array.from(company.trim())[0]?.toLocaleUpperCase() || "·"}</span>
+        <span>{initial}</span>
       )}
     </span>
   );
