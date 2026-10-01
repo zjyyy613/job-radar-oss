@@ -14,7 +14,7 @@ export default function Onboarding() {
     {!snapshot.loaded ? <p role="status">正在读取本地资料…</p> : snapshot.error && !saveFailed ? <><p className="error" role="alert">{snapshot.error}</p><Link href="/profile">前往资料页处理本地数据</Link></> : <>
       {snapshot.error && <p className="error" role="alert">{snapshot.error}</p>}
       {snapshot.data && <p className="hint">已有本地资料，可在此更新，或<Link href="/profile">查看资料</Link>。</p>}
-      <ProfileForm initial={snapshot.data ?? emptyGuestProfile()} onboarding onSave={value => { if (!localProfile.write(value)) { setSaveFailed(true); return false; } router.push("/profile"); return true; }} />
+      <ProfileForm initial={snapshot.data ?? emptyGuestProfile()} onboarding onSave={value => { if (!localProfile.write(value)) { setSaveFailed(true); return false; } router.push("/radar"); return true; }} />
     </>}
   </main>;
 }

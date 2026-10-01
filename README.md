@@ -1,6 +1,6 @@
 # Job Radar
 
-当前已实现 **Task 1–6**：冻结契约、独立来源 ingestion、保守 canonicalization、source reliability、Gate Extraction、本地 Guest Profile 与确定性资格引擎。未进入 Task 7。
+当前已完成 **M0 / Task 1–7**：冻结契约、多来源 ingestion、保守 canonicalization、source reliability、Gate Extraction、本地 Guest Profile、确定性资格引擎和 Radar Browse / Inspect / Full Detail。Task 7 视觉与 Brand Direction 已由用户 Freeze；未进入 M1。最终验收见 [M0 Final Acceptance](docs/reports/2026-10-01-m0-final-acceptance.md)。
 
 冻结依据（按优先级）：
 - [Product Spec v1.0](docs/specs/job-radar-product-spec-v1.0.md)
@@ -22,7 +22,7 @@ npm test
 npm run build
 ```
 
-根路径进入 `/profile`，无资料时可进入 `/onboarding`；不是产品 Landing 或 Radar。Guest Profile 不需要环境变量或外部服务。
+根路径进入 `/radar`，Guest 可进入 `/onboarding` 填写资料，并在 `/profile` 查看、修改、清除。Profile 独立使用本地存储，不依赖外部服务；Radar 需要服务端 Supabase 配置及已归一化的真实 jobs。
 Task 2 固定安装 `@ha7ch/job-pro@1.2.1`，通过公开 CLI/process 边界使用；未引入其私有 API、ORM、Auth 或状态库。Supabase 写入使用原生 fetch 调用 PostgREST。
 
 ## Task 2 ingestion
@@ -195,7 +195,7 @@ PGlite 测试本身不代表真实部署；Task 2–5 已分别应用迁移并�
 - `createLocalProfileStore` 提供 read/write/clear；clear 仅删除 `job-radar:` 命名空间，不调用 `localStorage.clear()`。
   读到损坏或不支持版本时显示恢复入口，不自动覆盖。当前页同步发布更新，其他标签页通过 storage event 同步。
 - `useQualification(job)` 随本地资料更新同步调用纯函数 `evaluateQualification`，不触发 fetch、模型或 extraction。
-  Task 6 不显示岗位列表；Task 7 的岗位消费者可直接复用这个 hook。
+  Task 7 Radar 与详情复用同一 store 和纯函数，Profile 修改立即在本地重算。
 - 资格计算先 Closed→Excluded，再检查 Task 5 的 `extraction_status`、`raw_content_hash`、
   `extraction_input_hash`、`extraction_attempt_hash`、`extraction_error`。只有 success、非空且一致的三份 hash、无 error 才可消费。
   缺字段/未处理/失败/过期统一 Check，reason=`qualification_data_unavailable`；不能仅凭 gates=[] 得出 Eligible。
@@ -212,3 +212,19 @@ PGlite 测试本身不代表真实部署；Task 2–5 已分别应用迁移并�
 - `lint`、`typecheck`、69 项测试及生产构建通过。
 - 已自审字段/SQL 对齐、来源隔离、偏好隔离、OR 和证据校验、访问权限及范围；未发现阻塞问题。
 - Task 1 已由用户验收并提交为 `1f5f034`；没有修改全局 Git 配置。
+
+## Task 7 / M0 最终交付
+
+- `/radar` 默认 Browse，搜索、地点/资格筛选、资格优先/收录时间排序；Blocked 默认保留。
+- q/city/status/sort/job 使用 URL 状态；支持刷新、Back/Forward、选中岗位 deep link。
+- >=1280px 使用可调宽 Peek；中屏 overlay；移动端 full-screen detail；显式进入 `/jobs/[id]` 阅读完整原文和打开官网申请链接。
+- Gate → 原因 → verbatim Evidence → Context；readiness 保护和 preferred 非阻断语义不变。
+- 页面仅通过 server-only 模块读取 Supabase；浏览器不执行 ingestion、extraction 或模型请求。
+- 最终品牌为 `public/brand/` 三个纯 SVG；公司图标来自 `public/company-marks/`。设计历史图片不被生产代码引用。
+- 最终检查和桌面/移动复现入口见 [browser acceptance](tests/browser/README.md)。离线测试仍使用 `npm test`。
+
+### 文档时间与运行边界
+
+阶段报告、Implementation Plan 原始 checklist 及 DESIGN 中“本轮/当前只做 Pre-Task7”等文字保留其建立时的上下文，不代表当前交付仍停在旧阶段。当前完成状态以本节和 M0 Final Acceptance 为准；冻结语义和视觉规则不变。
+
+M1 未实现：Saved、Hide/Undo、Seen/New、inline profile completion 等。后续基础设施事项：当前未配置 Git remote、未 push/部署，GitHub Secrets/Actions 尚未远端验证；canonicalization 与 extraction 仍为显式串行后台命令，来源工作流不会自动串起整条更新流水线。接入 `supabase db push` 前须对齐历史初始 migration 版本，不能重复执行 DDL。以上不是新增产品功能或已完成的远端运行承诺。

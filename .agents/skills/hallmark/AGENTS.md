@@ -1,0 +1,3 @@
+# Job Radar scope: study only
+
+This project installation is authorized only for `hallmark study` reference diagnosis. Do not invoke default/build, audit, redesign, theme selection, UI generation, or portable design-system emission. Do not modify application code, frozen IA, product semantics, DESIGN.md, or M0/M1 boundaries. The user's active request and Product Spec > Technical Architecture > DESIGN.md outrank generic upstream suggestions. Study recommendations are proposals, not implementation authorization. Retain upstream files unmodified; do not execute scripts from the skill. No external generation service or API key is required for this study.

@@ -1,0 +1,110 @@
+import json
+from pathlib import Path
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(channel="chrome")
+    context = browser.new_context(viewport={"width":1280,"height":900})
+    page = context.new_page()
+    errors, requests = [], []
+    context.on("page", lambda tab: tab.on("pageerror", lambda error: errors.append(str(error))))
+    page.on("pageerror", lambda error: errors.append(str(error)))
+    context.on("request", lambda request: requests.append(request.url))
+    page.goto("http://127.0.0.1:3000/onboarding")
+    page.locator("#student_status").wait_for()
+    page.get_by_role("button",name="继续",exact=True).click()
+    expect(page.locator("#student_status")).to_be_visible()
+    assert page.evaluate("localStorage.getItem('job-radar:guest-profile:v1')") is None
+    page.locator("#student_status").select_option("enrolled")
+    page.locator("#graduation_year").fill("2027")
+    page.locator("#education").select_option("bachelor")
+    page.locator("#major").fill("机械工程")
+    page.get_by_role("button",name="继续",exact=True).click()
+    expect(page.locator("#days_per_week")).to_be_visible()
+    page.screenshot(path=".verification/m0-profile-onboarding-step2.png",full_page=True)
+    page.get_by_role("button",name="保存到此浏览器",exact=True).click()
+    page.wait_for_url("**/radar"); page.goto("http://127.0.0.1:3000/profile")
+    expect(page.get_by_role("button",name="修改资料",exact=True)).to_be_visible()
+    data=json.loads(page.evaluate("localStorage.getItem('job-radar:guest-profile:v1')"))
+    assert data["qualification"]["major"]=="mechanical"
+    assert data["qualification"]["days_per_week"] is None
+    assert data["qualification"]["duration_months"] is None
+    assert data["preferences"]["preferred_cities"]==[]
+    page.get_by_role("button",name="修改资料",exact=True).click()
+    page.locator("#days_per_week").fill("3")
+    page.locator("#duration_months").fill("2")
+    page.locator("#preferred_cities").fill("深圳")
+    page.locator("#preferred_roles").fill("算法工程师")
+    page.locator("#preferred_companies").fill("vivo")
+    page.get_by_role("checkbox",name="暂无研究方向",exact=True).check()
+    page.get_by_role("button",name="保存修改",exact=True).click()
+    expect(page.get_by_text("3 天",exact=True)).to_be_visible()
+    page.reload()
+    expect(page.get_by_text("3 天",exact=True)).to_be_visible()
+    expect(page.get_by_text("深圳",exact=True)).to_be_visible()
+    assert json.loads(page.evaluate("localStorage.getItem('job-radar:guest-profile:v1')"))["qualification"]["research_areas"]==[]
+    other=context.new_page()
+    other.goto("http://127.0.0.1:3000/profile")
+    expect(other.get_by_text("3 天",exact=True)).to_be_visible()
+    page.get_by_role("button",name="修改资料",exact=True).click()
+    expect(page.get_by_role("checkbox",name="暂无研究方向",exact=True)).to_be_checked()
+    page.locator("#days_per_week").fill("5")
+    page.get_by_role("button",name="保存修改",exact=True).click()
+    expect(other.get_by_text("5 天",exact=True)).to_be_visible()
+    page.screenshot(path=".verification/m0-profile-profile.png",full_page=True)
+    page.evaluate("localStorage.setItem('other-app','keep')")
+    page.get_by_role("button",name="清除本地 Job Radar 数据",exact=True).click()
+    page.get_by_role("button",name="取消清除",exact=True).click()
+    assert page.evaluate("localStorage.getItem('job-radar:guest-profile:v1')") is not None
+    page.get_by_role("button",name="清除本地 Job Radar 数据",exact=True).click()
+    page.get_by_role("button",name="确认清除",exact=True).click()
+    expect(page.get_by_role("heading",name="还没有本地资料")).to_be_visible()
+    expect(other.get_by_role("heading",name="还没有本地资料")).to_be_visible()
+    assert page.evaluate("localStorage.getItem('job-radar:guest-profile:v1')") is None
+    assert page.evaluate("localStorage.getItem('other-app')")=="keep"
+    page.reload()
+    expect(page.get_by_role("heading",name="还没有本地资料")).to_be_visible()
+    page.evaluate("localStorage.setItem('job-radar:guest-profile:v1','broken-json')")
+    page.reload()
+    expect(page.locator("main").get_by_role("alert")).to_be_visible()
+    assert page.evaluate("localStorage.getItem('job-radar:guest-profile:v1')")=="broken-json"
+    page.get_by_role("button",name="清除本地 Job Radar 数据",exact=True).click()
+    page.get_by_role("button",name="确认清除",exact=True).click()
+    expect(page.locator("main").get_by_role("alert")).to_have_count(0)
+    page.set_viewport_size({"width":390,"height":844})
+    page.goto("http://127.0.0.1:3000/onboarding")
+    page.locator("#student_status").wait_for()
+    assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
+    page.screenshot(path=".verification/m0-profile-mobile.png",full_page=True)
+    blocked=browser.new_context()
+    blocked.add_init_script("Object.defineProperty(window,'localStorage',{get(){throw new DOMException('blocked','SecurityError')}})")
+    restricted=blocked.new_page()
+    restricted.goto("http://127.0.0.1:3000/profile")
+    expect(restricted.locator("main").get_by_role("alert")).to_be_visible()
+    blocked.close()
+    quota=browser.new_context()
+    quota.add_init_script("window.failJobRadarWrites=true; const original=Storage.prototype.setItem; Storage.prototype.setItem=function(k,v){if(window.failJobRadarWrites && k==='job-radar:guest-profile:v1')throw new DOMException('full','QuotaExceededError');return original.call(this,k,v)}")
+    retry=quota.new_page()
+    retry.goto("http://127.0.0.1:3000/onboarding")
+    retry.locator("#student_status").select_option("enrolled")
+    retry.locator("#graduation_year").fill("2027")
+    retry.locator("#education").select_option("bachelor")
+    retry.locator("#major").fill("机械")
+    retry.get_by_role("button",name="继续",exact=True).click()
+    retry.locator("#days_per_week").fill("4")
+    retry.get_by_role("button",name="保存到此浏览器",exact=True).click()
+    expect(retry.locator("main").get_by_role("alert")).to_be_visible()
+    expect(retry.locator("#days_per_week")).to_have_value("4")
+    assert retry.evaluate("localStorage.getItem('job-radar:guest-profile:v1')") is None
+    retry.evaluate("window.failJobRadarWrites=false")
+    retry.get_by_role("button",name="保存到此浏览器",exact=True).click()
+    retry.wait_for_url("**/radar"); retry.goto("http://127.0.0.1:3000/profile")
+    expect(retry.get_by_text("4 天",exact=True)).to_be_visible()
+    quota.close()
+    external=[url for url in requests if not url.startswith("http://127.0.0.1:3000")]
+    assert not errors, errors
+    assert not external, external
+    result={"onboarding":True,"required_validation":True,"optional_null":True,"profile_edit":True,"reload":True,"cross_tab_update":True,"clear_cancel":True,"clear_reload":True,"unrelated_storage_preserved":True,"corrupt_storage_recovery":True,"storage_disabled_error":True,"quota_failure_preserves_draft_and_retries":True,"explicit_no_research_preserved":True,"mobile_no_overflow":True,"page_errors":errors,"external_requests":external}
+    Path(".verification/m0-profile-browser-results.json").write_text(json.dumps(result,indent=2),encoding="utf-8")
+    print(json.dumps(result))
+    browser.close()
