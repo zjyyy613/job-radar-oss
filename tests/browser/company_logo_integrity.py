@@ -12,18 +12,19 @@ with sync_playwright() as p:
  for row in tencent.all():
   expect(row.locator('.company-mark img')).to_have_count(0);expect(row.locator('.company-mark')).to_have_text('腾')
  for row in page.locator('.job-row').filter(has=page.locator('.row-company',has_text='vivo')).all():
-  expect(row.locator('.company-mark')).to_have_text('V');expect(row.locator('.company-mark img')).to_have_count(0)
- expect(page.locator('.job-row .company-mark img')).to_have_count(3)
+  expect(row.locator('.company-mark img')).to_have_attribute('src',BASE+'/company-marks/vivo.svg')
+ expect(page.locator('.job-row .company-mark img')).to_have_count(5)
  for img in page.locator('.job-row .company-mark img').all():
   expect(img).to_be_visible();assert img.evaluate('(e)=>e.complete&&e.naturalWidth>0')
   assert img.bounding_box()['width']==28
  assert tencent.first.locator('.company-mark').bounding_box()['width']==34
  assert page.locator('.row-signal.tone-blocked').count()==3
  assert not any('tencent.png' in u or 'vivo.ico' in u for u in requests)
- out=Path('docs/reports/assets/company-logo-integrity');out.mkdir(parents=True,exist_ok=True)
+ assert not any('/company-marks/'+name in u for u in requests for name in ['bytedance','baidu','huawei','meituan','jd','netease','alibaba'])
+ out=Path('docs/reports/assets/company-brand-asset-pack-v1');out.mkdir(parents=True,exist_ok=True)
  page.screenshot(path=str(out/'desktop-radar.png'))
  # Actual React image onError path, not a reimplementation in a unit stub.
- c.route('**/company-marks/xiaomi.ico',lambda route:route.abort())
+ c.route('**/company-marks/xiaomi.svg',lambda route:route.abort())
  page.reload();expect(page.locator('.job-list li')).to_have_count(8)
  for row in page.locator('.job-row').filter(has=page.locator('.row-company',has_text='小米')).all():
   expect(row.locator('.company-mark img')).to_have_count(0);expect(row.locator('.company-mark')).to_have_text('小')
@@ -31,5 +32,5 @@ with sync_playwright() as p:
  assert tencent.first.locator('.company-mark').bounding_box()['width']==24
  assert not page.evaluate('document.documentElement.scrollWidth>innerWidth')
  assert not errors
- print('PASS: 8 real jobs; Tencent/Vivo fallback; 3 curated images; load error fallback; unchanged desktop/mobile sizes; 0 page errors')
+ print('PASS: 8 real jobs; Tencent fallback; 5 curated images; no reserved asset requests; load error fallback; unchanged desktop/mobile sizes; 0 page errors')
  b.close()

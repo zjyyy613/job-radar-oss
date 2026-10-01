@@ -1,0 +1,197 @@
+{
+  "version": 1,
+  "priority": [
+    "official brand asset",
+    "trusted open-source brand SVG library",
+    "neutral fallback"
+  ],
+  "brands": [
+    {
+      "id": "vivo",
+      "brand_name": "vivo",
+      "identities": [
+        "vivo"
+      ],
+      "status": "active",
+      "asset": "/company-marks/vivo.svg",
+      "source": "Simple Icons",
+      "source_url": "https://raw.githubusercontent.com/simple-icons/simple-icons/e01988cc57a3aca39621023f9881e9b733ebcd77/icons/vivo.svg",
+      "brand_source_url": "https://www.vivo.com",
+      "upstream_version": "16.33.0",
+      "upstream_commit": "e01988cc57a3aca39621023f9881e9b733ebcd77",
+      "upstream_sha256": "1db247986bd07a7b7a1754fa285f61c445d4767037fda96b6e5d72a60d1e4f94",
+      "sha256": "a51642915344085261ade98d2b8e0372676fe75da00486de3d0ab6505498ef99",
+      "license": "CC0-1.0 library; individual trademark rights are not granted.",
+      "usage_note": "Company identification only; no endorsement. No individual license specified in upstream metadata. Upstream disclaimer retained. Geometry unchanged; root fill uses upstream brand hex. Official site establishes identity; no separate downloadable official SVG pack established in this bounded review.",
+      "reviewed_on": "2026-10-01"
+    },
+    {
+      "id": "xiaomi",
+      "brand_name": "Xiaomi",
+      "identities": [
+        "小米"
+      ],
+      "status": "active",
+      "asset": "/company-marks/xiaomi.svg",
+      "source": "Simple Icons",
+      "source_url": "https://raw.githubusercontent.com/simple-icons/simple-icons/e01988cc57a3aca39621023f9881e9b733ebcd77/icons/xiaomi.svg",
+      "brand_source_url": "https://www.mi.com/global",
+      "upstream_version": "16.33.0",
+      "upstream_commit": "e01988cc57a3aca39621023f9881e9b733ebcd77",
+      "upstream_sha256": "8866d12a70d85ab43acd3b9c80f1b37792d91160d8273efffdf817af5fd608cb",
+      "sha256": "20fb26a3565ed90895c0f29ad006301a5dd9cede687b3ff4a27a0758ad0f9ede",
+      "license": "CC0-1.0 library; individual trademark rights are not granted.",
+      "usage_note": "Company identification only; no endorsement. No individual license specified in upstream metadata. Upstream disclaimer retained. Geometry unchanged; root fill uses upstream brand hex. Official site establishes identity; no separate downloadable official SVG pack established in this bounded review.",
+      "reviewed_on": "2026-10-01"
+    },
+    {
+      "id": "boc",
+      "brand_name": "Bank of China",
+      "identities": [
+        "中国银行股份有限公司"
+      ],
+      "status": "active",
+      "asset": "/company-marks/boc.ico",
+      "source": "Official existing asset",
+      "source_url": "https://www.boc.cn/favicon.ico",
+      "brand_source_url": "https://www.boc.cn/english/thisisboc/ab3/brd/202601/t20260104_25638404.html",
+      "sha256": "d943ce00fb62c37509cbb07959cb941b6f85f9e6bfe7ce2f478c5317ed220467",
+      "license": "Trademark retained by Bank of China; no broad redistribution license asserted.",
+      "usage_note": "Previously reviewed corporate red coin/Zhong emblem retained unchanged. Explicit identity review, not domain inference. No reliable official SVG established; do not trace or substitute a third-party icon.",
+      "reviewed_on": "2026-10-01"
+    },
+    {
+      "id": "tencent",
+      "brand_name": "Tencent",
+      "identities": [
+        "腾讯"
+      ],
+      "status": "fallback",
+      "asset": null,
+      "source": "Official identity reference",
+      "source_url": "https://www.tencent.com/zh-hk/newsroom/media-resources/",
+      "license": "Not cleared for asset admission",
+      "usage_note": "Official media assets limited to editorial/media reporting. Job Radar permission not established. Tencent Hy is a product, not the corporate mark.",
+      "reviewed_on": "2026-10-01"
+    },
+    {
+      "id": "bytedance",
+      "brand_name": "ByteDance",
+      "identities": [
+        "字节跳动",
+        "bytedance"
+      ],
+      "status": "reserved",
+      "asset": null,
+      "source": "Official identity reference",
+      "source_url": "https://www.bytedance.com/",
+      "license": "Not cleared for asset admission",
+      "usage_note": "Reserved only: company SVG exists in Simple Icons 16.33.0. Review and download when actual jobs appear; no asset preloaded.",
+      "reviewed_on": "2026-10-01"
+    },
+    {
+      "id": "baidu",
+      "brand_name": "Baidu",
+      "identities": [
+        "百度",
+        "baidu"
+      ],
+      "status": "reserved",
+      "asset": null,
+      "source": "Official identity reference",
+      "source_url": "https://www.baidu.com/",
+      "license": "Not cleared for asset admission",
+      "usage_note": "Reserved only: company SVG exists in Simple Icons 16.33.0. Review and download when actual jobs appear; no asset preloaded.",
+      "reviewed_on": "2026-10-01"
+    },
+    {
+      "id": "alibaba",
+      "brand_name": "Alibaba",
+      "identities": [
+        "阿里巴巴",
+        "alibaba"
+      ],
+      "status": "reserved",
+      "asset": null,
+      "source": "Official identity reference",
+      "source_url": "https://home.alibabagroup.com/en-US/resource-logos",
+      "license": "Not cleared for asset admission",
+      "usage_note": "Official media library limits use to accredited media/editorial; other uses require written permission. Alibaba.com and Alibaba Cloud are not substitutes.",
+      "reviewed_on": "2026-10-01"
+    },
+    {
+      "id": "meituan",
+      "brand_name": "Meituan",
+      "identities": [
+        "美团",
+        "meituan"
+      ],
+      "status": "reserved",
+      "asset": null,
+      "source": "Official identity reference",
+      "source_url": "https://www.meituan.com/media",
+      "license": "Not cleared for asset admission",
+      "usage_note": "Official media images limited to personal/editorial use. Simple Icons cites this page; its library license must not bypass this restriction.",
+      "reviewed_on": "2026-10-01"
+    },
+    {
+      "id": "huawei",
+      "brand_name": "Huawei",
+      "identities": [
+        "华为",
+        "huawei"
+      ],
+      "status": "reserved",
+      "asset": null,
+      "source": "Official identity reference",
+      "source_url": "https://e.huawei.com/ph/material/partner/0a72728b864949c48b22106454352483",
+      "license": "Not cleared for asset admission",
+      "usage_note": "Simple Icons corporate SVG exists but linked official partner guidelines could not be read in this review; reserved pending usage review.",
+      "reviewed_on": "2026-10-01"
+    },
+    {
+      "id": "jd",
+      "brand_name": "JD",
+      "identities": [
+        "京东",
+        "jd"
+      ],
+      "status": "reserved",
+      "asset": null,
+      "source": "Official identity reference",
+      "source_url": "https://jdrdl.jd.com/Brand-Logo.html",
+      "license": "Not cleared for asset admission",
+      "usage_note": "Official brand identity reference located; no approved corporate SVG in the pinned library. Pending asset review.",
+      "reviewed_on": "2026-10-01"
+    },
+    {
+      "id": "netease",
+      "brand_name": "NetEase",
+      "identities": [
+        "网易",
+        "netease"
+      ],
+      "status": "reserved",
+      "asset": null,
+      "source": "Official identity reference",
+      "source_url": "https://www.netease.com/",
+      "license": "Not cleared for asset admission",
+      "usage_note": "No corporate SVG in pinned library; NetEase Cloud Music is a product, not a substitute. Pending asset review.",
+      "reviewed_on": "2026-10-01"
+    },
+    {
+      "id": "baolu",
+      "brand_name": "保禄翊腾（浙江）包装新材料有限公司",
+      "identities": [
+        "保禄翊腾(浙江)包装新材料有限公司"
+      ],
+      "status": "fallback",
+      "asset": null,
+      "source": "Not established",
+      "source_url": null,
+      "license": "Not cleared for asset admission",
+      "usage_note": "No verified corporate brand asset/source established for the actual canonical company. No fuzzy matching.",
+      "reviewed_on": "2026-10-01"
+    }
+  ]
+}

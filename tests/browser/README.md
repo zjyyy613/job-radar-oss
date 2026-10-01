@@ -29,3 +29,7 @@ Offline, network-free tests remain `npm test` (including `tests/radar/` and the 
 `m0_profile.py` verifies local create/edit/reload, cross-tab changes, clear/cancel, unrelated storage preservation, corrupt/disabled storage and failed-write draft retention/retry. It uses isolated browser contexts.
 
 `m0_boundaries.py` reads configured secret values in memory solely to check browser request/response exposure (never prints them). It then simulates an empty inventory and long evidence/JD **only in browser RSC responses**; those stress cases are not real upstream facts, are not final screenshots, and are never persisted. Production data and model pipelines are untouched. Live scripts require the existing local `.env.local`, Chrome and Python Playwright environment; they are not part of offline unit tests.
+
+## Company brand asset pack
+
+Run `.venv-ncss/Scripts/python.exe tests/browser/company_logo_integrity.py` against the production app. It verifies the same eight real jobs, five local brand images, Tencent fallback, failed-image fallback, no reserved brand requests, unchanged desktop/mobile sizes, and saves `docs/reports/assets/company-brand-asset-pack-v1/desktop-radar.png`. No production data is changed.
