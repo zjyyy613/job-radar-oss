@@ -1,0 +1,24 @@
+{
+  "ok": true,
+  "source": "hrcareersweb.antgroup.com",
+  "post_id": "260813011416487",
+  "title": "【Plan A】医疗健康前沿智能体-蚂蚁健康-27届",
+  "project": "技术类",
+  "recruit_label": "校招",
+  "department": "",
+  "work_cities": [
+    "北京",
+    "杭州"
+  ],
+  "publish_time": "2026-08-13T07:50:34.000+00:00",
+  "graduation_time": {
+    "from": "2026-10-31T16:00:00.000+00:00",
+    "to": "2027-10-30T16:00:00.000+00:00"
+  },
+  "experience": "",
+  "degree": "",
+  "description": "业务场景：\n随着pretrain scaling、RL scaling、RSI(recursive self-improvement)等技术的发展，当前前沿大模型已经能够胜任coding(swe-bench)、办公(gdpval)等场景的复杂长程任务，实现了生产力的跃迁。这样的long-horizon agentic task能力在医疗健康场景目前还处在早期阶段，我们希望结合自进化、持续学习方向的研究和探索，加速医疗大模型在医疗long horizion agentic task场景的生产力提升，解决之前模型无法应对的长程复杂流程类问题，提升模型和harness在医疗领域的自我迭代能力，将阿福医疗智能推向前沿水平，从而更好的服务于用户和合作机构。\n\n职位描述：\n1. 思考当前大模型训练范式存在的不足，结合业界最新成果进行调研和实验，尝试提出自己的方法，在医疗场景验证方法的有效性；\n2. 进行自进化、持续学习算法和工程架构的设计、研发、以及与infra、environment等团队的协同推动方案的落地；\n3. 通过探索RSI、self-evolve、auto research等相关方向的技术，加速医疗智能的迭代效率，提升医疗大模型在long-horizon agentic task场景的效果。\n",
+  "requirements": "1. 硕士及以上学历，计算机科学或相关专业背景；\n2. 具备大模型研发经验，在 RSI、self-evolve、auto research某一方向上有实践和积累；\n3. 算法与工程兼备，熟悉数据与训练策略，也了解主流训练和推理框架（如 Megatron、SGLang、vLLM等）；\n4. 具有良好的学习和沟通能力，有好奇心和责任心，具有钻研精神，能够与算法团队、工程团队及其他技术团队紧密配合；\n5. 在大模型领域有科研或实践经验，在AI领域国际顶级会议/期刊发表过高质量论文优先；\n6. 具备算法和infra co-design经验, 对sglang/vllm/megatron有开发优化经验优先。",
+  "team_description": "",
+  "apply_url": "https://talent.antgroup.com/campus-position?positionId=260813011416487"
+}

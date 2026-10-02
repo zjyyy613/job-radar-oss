@@ -19,10 +19,10 @@ describe("bounded job-pro runner (offline)", () => {
     expect(persistence.writeRun).toHaveBeenCalledTimes(3);
     expect(persistence.upsertRecord.mock.calls.map(([record]) => record.source)).toEqual(["job-pro:tencent", "job-pro:xiaomi", "job-pro:vivo"]);
     expect(cli.mock.calls.filter(([args]) => args[1] === "search").map(([args]) => args)).toEqual(
-      options.sources.map((source) => [source, "search", "", "--scope", "campus", "--page-size", "1", "--compact"]),
+      options.sources.map((source) => [source, "search", "", "--scope", "campus", "--page-size", "1", "--page", "1", "--compact"]),
     );
     for (const [run] of persistence.writeRun.mock.calls) {
-      expect(run).toMatchObject({ full_list: false, status: "success", records_seen: 1, records_new: 1, records_updated: 0, adapter_version: "job-pro-1.2.1/adapter-1" });
+      expect(run).toMatchObject({ full_list: false, status: "success", records_seen: 1, records_new: 1, records_updated: 0, adapter_version: "job-pro-1.2.1/adapter-2" });
     }
   });
 
@@ -124,7 +124,7 @@ describe("bounded job-pro runner (offline)", () => {
   });
 
   it("requires explicit dry-run or write mode and supports a bounded manual subset", () => {
-    expect(parseOptions(["--dry-run", "--sources", "tencent,vivo", "--limit", "2"])).toEqual({ sources: ["tencent", "vivo"], scope: "campus", limit: 2, dryRun: true });
+    expect(parseOptions(["--dry-run", "--sources", "tencent,vivo", "--limit", "2"])).toEqual({ sources: ["tencent", "vivo"], scope: "campus", limit: 2, maxPages: 1, maxJobs: 5, globalMaxJobs: 15, dryRun: true });
     expect(parseOptions(["--write"]).dryRun).toBe(false);
     expect(() => parseOptions(["--write", "--dry-run"])).toThrow();
   });

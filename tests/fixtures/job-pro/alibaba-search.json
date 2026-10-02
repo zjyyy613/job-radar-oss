@@ -1,0 +1,62 @@
+{
+  "ok": true,
+  "source": "campus-talent.alibaba.com",
+  "query": {
+    "scope": "intern",
+    "pageIndex": 1,
+    "pageSize": 3,
+    "batchIds": [
+      100000560002,
+      100000560001
+    ]
+  },
+  "page": 1,
+  "page_size": 3,
+  "total": 615,
+  "batches": [
+    {
+      "batch_id": 100000560002,
+      "batch_name": "阿里巴巴日常实习生",
+      "category": "internship",
+      "total": 367
+    },
+    {
+      "batch_id": 100000560001,
+      "batch_name": "阿里巴巴研究型实习生",
+      "category": "internship",
+      "total": 248
+    }
+  ],
+  "positions": [
+    {
+      "post_id": "199903920069",
+      "title": "日常实习生-AI产品经理-未来生活实验室",
+      "project": "产品类",
+      "recruit_label": "project",
+      "bgs": "Token Foundry",
+      "work_cities": "北京 / 杭州",
+      "batch_name": "阿里巴巴日常实习生",
+      "apply_url": "https://campus-talent.alibaba.com/campus/position/199903920069"
+    },
+    {
+      "post_id": "199907880005",
+      "title": "Happy Horse & Happy Oyster 产品设计实习生",
+      "project": "设计类",
+      "recruit_label": "project",
+      "bgs": "Token Foundry",
+      "work_cities": "北京 / 杭州",
+      "batch_name": "阿里巴巴日常实习生",
+      "apply_url": "https://campus-talent.alibaba.com/campus/position/199907880005"
+    },
+    {
+      "post_id": "199907840001",
+      "title": "日常实习-原画设计实习生",
+      "project": "设计类",
+      "recruit_label": "project",
+      "bgs": "虎鲸文娱集团",
+      "work_cities": "北京",
+      "batch_name": "阿里巴巴日常实习生",
+      "apply_url": "https://campus-talent.alibaba.com/campus/position/199907840001"
+    }
+  ]
+}

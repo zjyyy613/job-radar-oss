@@ -10,7 +10,7 @@ describe("pinned public CLI process boundary", () => {
     expect(invocation.command).toBe(process.execPath);
     expect(invocation.args[0].replaceAll("\\", "/")).toMatch(/node_modules\/@ha7ch\/job-pro\/dist\/index\.js$/);
     expect(invocation.args.slice(1)).toEqual(args);
-    expect(Object.keys(JOB_PRO_SOURCES)).toEqual(["tencent", "xiaomi", "vivo"]);
+    expect(Object.keys(JOB_PRO_SOURCES)).toEqual(["tencent", "xiaomi", "vivo", "alibaba", "meituan", "jd", "netease", "kuaishou", "oppo", "liauto", "antgroup"]);
   });
 
   it.each([["tencent", "apply"], ["tencent", "all"], ["find", "search"], ["bytedance", "search"]])("refuses unapproved source/verb %s %s", (source, verb) => {

@@ -27,8 +27,39 @@ export async function invokeJobPro(args: readonly string[]): Promise<unknown> {
     "PATH", "Path", "SystemRoot", "WINDIR", "TEMP", "TMP", "HOME", "USERPROFILE",
     "HTTP_PROXY", "HTTPS_PROXY", "NO_PROXY", "NODE_EXTRA_CA_CERTS",
   ].flatMap((key) => process.env[key] ? [[key, process.env[key]!]] : [])) };
-  const { stdout } = await exec(invocation.command, invocation.args, {
-    timeout: 45_000, maxBuffer: 4 * 1024 * 1024, windowsHide: true, env,
+  return readWithRetry(async () => {
+    const { stdout } = await exec(invocation.command, invocation.args, {
+      timeout: 45_000, maxBuffer: 4 * 1024 * 1024, windowsHide: true, env,
+    });
+    return JSON.parse(stdout.trim());
   });
-  return JSON.parse(stdout.trim());
+}
+
+export class JobProFailure extends Error {
+  constructor(public readonly kind: "rate_limited" | "access_denied" | "network_failed" | "upstream_rejected") { super(kind); }
+}
+const wait = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms));
+/** Serial reads, one retry for transport/5xx only. Never retry access control or rate limits. */
+export async function readWithRetry(operation: () => Promise<unknown>, pause = wait): Promise<unknown> {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    await pause(attempt ? 1500 : 350);
+    try {
+      const value = await operation();
+      if (value && typeof value === "object" && "ok" in value && value.ok === false) {
+        const message = JSON.stringify(value);
+        throw new JobProFailure(/429|too many requests/i.test(message) ? "rate_limited"
+          : /403|captcha|access denied/i.test(message) ? "access_denied"
+          : /network|fetch failed|timeout|HTTP 5\d\d/i.test(message) ? "network_failed" : "upstream_rejected");
+      }
+      return value;
+    } catch (error) {
+      // CLI may exit nonzero for access errors; inspect locally, never emit diagnostics.
+      const diagnostic = error instanceof Error ? error.message + " " + String((error as Error & { stderr?: string }).stderr ?? "") : "";
+      const failure = error instanceof JobProFailure ? error : new JobProFailure(
+        /429|too many requests/i.test(diagnostic) ? "rate_limited"
+          : /403|captcha|access denied/i.test(diagnostic) ? "access_denied" : "network_failed");
+      if (attempt === 1 || failure.kind !== "network_failed") throw failure;
+    }
+  }
+  throw new JobProFailure("network_failed");
 }

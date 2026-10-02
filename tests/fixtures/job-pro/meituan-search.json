@@ -1,0 +1,53 @@
+{
+  "ok": true,
+  "source": "zhaopin.meituan.com",
+  "query": {
+    "page": {
+      "pageNo": 1,
+      "pageSize": 3
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jobType": [
+      {
+        "code": "2",
+        "subCode": []
+      }
+    ]
+  },
+  "page": 1,
+  "page_size": 3,
+  "total": 377,
+  "total_pages": 126,
+  "positions": [
+    {
+      "post_id": "4241222974",
+      "title": "大模型应用实习生（服务智能）",
+      "project": "核心本地商业-基础研发平台",
+      "recruit_label": "实习",
+      "bgs": "算法 · 技术类",
+      "work_cities": "北京市 / 上海市",
+      "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=4241222974&jobShareType=1&highlightType=campus"
+    },
+    {
+      "post_id": "3536120742",
+      "title": "招聘实习生",
+      "project": "人力资源平台",
+      "recruit_label": "实习",
+      "bgs": "人力资源 · 职能类",
+      "work_cities": "北京市",
+      "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=3536120742&jobShareType=1&highlightType=campus"
+    },
+    {
+      "post_id": "3383858111",
+      "title": "大模型算法工程师（实习生）",
+      "project": "核心本地商业-基础研发平台",
+      "recruit_label": "实习",
+      "bgs": "算法 · 技术类",
+      "work_cities": "北京市",
+      "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=3383858111&jobShareType=1&highlightType=campus"
+    }
+  ]
+}

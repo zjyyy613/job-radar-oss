@@ -1,0 +1,2732 @@
+{
+  "date": "2026-10-02",
+  "timezone": "Asia/Shanghai",
+  "production_writes": 0,
+  "model_calls": 0,
+  "npm_latest": "1.2.1",
+  "repositories": [
+    {
+      "repo": "HA7CH/job-pro",
+      "commit": "e70a97ce1cfbdd1aa3dd9a2f3b1b120138a0b15e",
+      "commit_date": "2026-07-13T16:40:28Z",
+      "pushed_at": "2026-07-13T16:40:28Z",
+      "license": {
+        "key": "mit",
+        "name": "MIT License",
+        "spdx_id": "MIT",
+        "url": "https://api.github.com/licenses/mit",
+        "node_id": "MDc6TGljZW5zZTEz"
+      },
+      "archived": false,
+      "open_issues": 6
+    },
+    {
+      "repo": "Bynlk/JobHunter",
+      "commit": "4b5a69010a98b3d80b408fd983c1c2dfa60788e4",
+      "commit_date": "2026-05-07T13:25:23Z",
+      "pushed_at": "2026-05-07T13:25:29Z",
+      "license": {
+        "key": "mit",
+        "name": "MIT License",
+        "spdx_id": "MIT",
+        "url": "https://api.github.com/licenses/mit",
+        "node_id": "MDc6TGljZW5zZTEz"
+      },
+      "archived": false,
+      "open_issues": 0
+    },
+    {
+      "repo": "mengxi111/career-agent",
+      "commit": "13e3ace4e8a94b970c41cda7f306cfc0da312c98",
+      "commit_date": "2026-10-01T03:58:44Z",
+      "pushed_at": "2026-10-01T03:58:57Z",
+      "license": {
+        "key": "mit",
+        "name": "MIT License",
+        "spdx_id": "MIT",
+        "url": "https://api.github.com/licenses/mit",
+        "node_id": "MDc6TGljZW5zZTEz"
+      },
+      "archived": false,
+      "open_issues": 0
+    }
+  ],
+  "method": "CLI search page1 size3; selected page2 size5, detail at most1+2; no all/apply. NCSS 2x10 default +2x10 intern; SXS1x20. Internal CLI detail may make fallback search requests.",
+  "job_pro": [
+    {
+      "company": "alibaba",
+      "scope": "intern",
+      "probe": "alibaba-extended",
+      "seconds": 4.09,
+      "ok": true,
+      "reported_total": 615,
+      "error": null,
+      "query": {
+        "scope": "intern",
+        "pageIndex": 2,
+        "pageSize": 5,
+        "batchIds": [
+          100000560002,
+          100000560001
+        ]
+      },
+      "source": "campus-talent.alibaba.com",
+      "positions": [
+        {
+          "post_id": "199909980001",
+          "title": "入境游项目实习生",
+          "work_cities": "上海",
+          "recruit_label": "project",
+          "project": "产品类",
+          "apply_url": "https://campus-talent.alibaba.com/campus/position/199909980001"
+        },
+        {
+          "post_id": "199909940001",
+          "title": "千问办公-AI产品运营实习生",
+          "work_cities": "杭州",
+          "recruit_label": "project",
+          "project": "产品类",
+          "apply_url": "https://campus-talent.alibaba.com/campus/position/199909940001"
+        },
+        {
+          "post_id": "199909820002",
+          "title": "千问办公-内容运营实习生",
+          "work_cities": "杭州 / 上海",
+          "recruit_label": "project",
+          "project": "运营类",
+          "apply_url": "https://campus-talent.alibaba.com/campus/position/199909820002"
+        },
+        {
+          "post_id": "199909800003",
+          "title": "AIDC供应链产技团队-供应链物流大模型算法工程师-日常实习生",
+          "work_cities": "杭州",
+          "recruit_label": "project",
+          "project": "技术类",
+          "apply_url": "https://campus-talent.alibaba.com/campus/position/199909800003"
+        },
+        {
+          "post_id": "199909760003",
+          "title": "运动健康算法实习生",
+          "work_cities": "杭州",
+          "recruit_label": "project",
+          "project": "技术类",
+          "apply_url": "https://campus-talent.alibaba.com/campus/position/199909760003"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "199909980001",
+          "title": "入境游项目实习生",
+          "source": "campus-talent.alibaba.com",
+          "apply_url": "https://campus-talent.alibaba.com/campus/position/199909980001",
+          "seconds": 1.2,
+          "error": null,
+          "text_lengths": {
+            "description": 427,
+            "requirements": 455,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "df660babc231281387283911b97c878c5969e29f20542055d48d82a05874c7e5"
+        },
+        {
+          "ok": true,
+          "post_id": "199909940001",
+          "title": "千问办公-AI产品运营实习生",
+          "source": "campus-talent.alibaba.com",
+          "apply_url": "https://campus-talent.alibaba.com/campus/position/199909940001",
+          "seconds": 1.54,
+          "error": null,
+          "text_lengths": {
+            "description": 180,
+            "requirements": 196,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "2c047342f1c4f754a021443d5521e3ee6a57e9b7959dca572167666e5542dbb3"
+        }
+      ]
+    },
+    {
+      "company": "alibaba",
+      "scope": "intern",
+      "probe": "alibaba",
+      "seconds": 4.68,
+      "ok": true,
+      "reported_total": 615,
+      "error": null,
+      "query": {
+        "scope": "intern",
+        "pageIndex": 1,
+        "pageSize": 3,
+        "batchIds": [
+          100000560002,
+          100000560001
+        ]
+      },
+      "source": "campus-talent.alibaba.com",
+      "positions": [
+        {
+          "post_id": "199903920069",
+          "title": "日常实习生-AI产品经理-未来生活实验室",
+          "work_cities": "北京 / 杭州",
+          "recruit_label": "project",
+          "project": "产品类",
+          "apply_url": "https://campus-talent.alibaba.com/campus/position/199903920069"
+        },
+        {
+          "post_id": "199907880005",
+          "title": "Happy Horse & Happy Oyster 产品设计实习生",
+          "work_cities": "北京 / 杭州",
+          "recruit_label": "project",
+          "project": "设计类",
+          "apply_url": "https://campus-talent.alibaba.com/campus/position/199907880005"
+        },
+        {
+          "post_id": "199907840001",
+          "title": "日常实习-原画设计实习生",
+          "work_cities": "北京",
+          "recruit_label": "project",
+          "project": "设计类",
+          "apply_url": "https://campus-talent.alibaba.com/campus/position/199907840001"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "199903920069",
+          "title": "日常实习生-AI产品经理-未来生活实验室",
+          "source": "campus-talent.alibaba.com",
+          "apply_url": "https://campus-talent.alibaba.com/campus/position/199903920069",
+          "seconds": 1.22,
+          "error": null,
+          "text_lengths": {
+            "description": 185,
+            "requirements": 212,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "388c2dbe6d4fda539b1ecc12853defd7a9d08d1c646ae0044a56f68af0f8ef24"
+        }
+      ]
+    },
+    {
+      "company": "antgroup",
+      "scope": "intern",
+      "probe": "antgroup-extended",
+      "seconds": 1.35,
+      "ok": true,
+      "reported_total": 461,
+      "error": null,
+      "query": {
+        "recruitType": "campus",
+        "page": 2,
+        "pageSize": 5,
+        "keyword": ""
+      },
+      "source": "hrcareersweb.antgroup.com",
+      "positions": [
+        {
+          "post_id": "260903011890140",
+          "title": "【Plan A】递归自我改进（RSI）方向-27届",
+          "work_cities": "北京 / 上海 / 杭州",
+          "recruit_label": "校招",
+          "project": "技术类",
+          "apply_url": "https://talent.antgroup.com/campus-position?positionId=260903011890140"
+        },
+        {
+          "post_id": "260903011892077",
+          "title": "【Plan A】超大规模复杂训推系统方向-27届",
+          "work_cities": "北京 / 上海 / 杭州",
+          "recruit_label": "校招",
+          "project": "技术类",
+          "apply_url": "https://talent.antgroup.com/campus-position?positionId=260903011892077"
+        },
+        {
+          "post_id": "260721010991745",
+          "title": "大模型智能体优化算法",
+          "work_cities": "北京 / 上海 / 杭州 / 广州 / 重庆",
+          "recruit_label": "校招",
+          "project": "技术类",
+          "apply_url": "https://talent.antgroup.com/campus-position?positionId=260721010991745"
+        },
+        {
+          "post_id": "260721011006030",
+          "title": "智能体与大模型应用工程",
+          "work_cities": "北京 / 上海 / 杭州 / 广州 / 深圳 / 重庆 / 成都",
+          "recruit_label": "校招",
+          "project": "技术类",
+          "apply_url": "https://talent.antgroup.com/campus-position?positionId=260721011006030"
+        },
+        {
+          "post_id": "260721010993684",
+          "title": "模型基准和评估",
+          "work_cities": "北京 / 上海 / 杭州 / 重庆 / 成都",
+          "recruit_label": "校招",
+          "project": "技术类",
+          "apply_url": "https://talent.antgroup.com/campus-position?positionId=260721010993684"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "260903011890140",
+          "title": "【Plan A】递归自我改进（RSI）方向-27届",
+          "source": "hrcareersweb.antgroup.com",
+          "apply_url": "https://talent.antgroup.com/campus-position?positionId=260903011890140",
+          "seconds": 1.26,
+          "error": null,
+          "text_lengths": {
+            "description": 153,
+            "requirements": 361,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "0684057a352662b46ab9f57abbd3eb8c3ac5f386208f6a8d05319f6538ebe8fa"
+        },
+        {
+          "ok": true,
+          "post_id": "260903011892077",
+          "title": "【Plan A】超大规模复杂训推系统方向-27届",
+          "source": "hrcareersweb.antgroup.com",
+          "apply_url": "https://talent.antgroup.com/campus-position?positionId=260903011892077",
+          "seconds": 1.33,
+          "error": null,
+          "text_lengths": {
+            "description": 163,
+            "requirements": 596,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "b91efd38e7a4cfa4719e83bc2be6672149cf8f2545cc336517c58058c7f66091"
+        }
+      ]
+    },
+    {
+      "company": "antgroup",
+      "scope": "intern",
+      "probe": "antgroup",
+      "seconds": 1.11,
+      "ok": true,
+      "reported_total": 461,
+      "error": null,
+      "query": {
+        "recruitType": "campus",
+        "page": 1,
+        "pageSize": 3,
+        "keyword": ""
+      },
+      "source": "hrcareersweb.antgroup.com",
+      "positions": [
+        {
+          "post_id": "260813011416487",
+          "title": "【Plan A】医疗健康前沿智能体-蚂蚁健康-27届",
+          "work_cities": "北京 / 杭州",
+          "recruit_label": "校招",
+          "project": "技术类",
+          "apply_url": "https://talent.antgroup.com/campus-position?positionId=260813011416487"
+        },
+        {
+          "post_id": "260813011403184",
+          "title": "【Plan A】医学世界模型-蚂蚁健康-27届",
+          "work_cities": "北京 / 上海 / 杭州",
+          "recruit_label": "校招",
+          "project": "技术类",
+          "apply_url": "https://talent.antgroup.com/campus-position?positionId=260813011403184"
+        },
+        {
+          "post_id": "25062405364658",
+          "title": "【蚂蚁星】具身智能算法工程师-灵波（实习）",
+          "work_cities": "北京 / 上海 / 杭州",
+          "recruit_label": "校招",
+          "project": "技术类",
+          "apply_url": "https://talent.antgroup.com/campus-position?positionId=25062405364658"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "260813011416487",
+          "title": "【Plan A】医疗健康前沿智能体-蚂蚁健康-27届",
+          "source": "hrcareersweb.antgroup.com",
+          "apply_url": "https://talent.antgroup.com/campus-position?positionId=260813011416487",
+          "seconds": 1.31,
+          "error": null,
+          "text_lengths": {
+            "description": 555,
+            "requirements": 301,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "a7336884c029e27040e0887368ed9fc60b2daaa0d03959980fe65b77fa4a4d06"
+        }
+      ]
+    },
+    {
+      "company": "baidu",
+      "scope": "intern",
+      "probe": "baidu-extended",
+      "seconds": 0.99,
+      "ok": true,
+      "reported_total": 484,
+      "error": null,
+      "query": {
+        "recruitType": "INTERN",
+        "keyWord": "",
+        "curPage": "2",
+        "pageSize": "5"
+      },
+      "source": "talent.baidu.com",
+      "positions": [
+        {
+          "post_id": "275a1b63-47ac-4afd-82f7-8cf1c4318a18",
+          "title": "MaaS产品经理实习生（J105157）",
+          "work_cities": "北京市",
+          "recruit_label": "产品",
+          "project": "日常实习项目",
+          "apply_url": "https://talent.baidu.com/jobs/detail/INTERN/275a1b63-47ac-4afd-82f7-8cf1c4318a18"
+        },
+        {
+          "post_id": "ff005250-d184-43d1-9454-5760f868d842",
+          "title": "大模型项目经理PMO（J105160）",
+          "work_cities": "北京市",
+          "recruit_label": "综合",
+          "project": "日常实习项目",
+          "apply_url": "https://talent.baidu.com/jobs/detail/INTERN/ff005250-d184-43d1-9454-5760f868d842"
+        },
+        {
+          "post_id": "9463a5ea-b9e5-46ec-b112-be5807a9463e",
+          "title": "Dumate Agent研发实习生（J105734）",
+          "work_cities": "成都市",
+          "recruit_label": "技术",
+          "project": "日常实习项目",
+          "apply_url": "https://talent.baidu.com/jobs/detail/INTERN/9463a5ea-b9e5-46ec-b112-be5807a9463e"
+        },
+        {
+          "post_id": "22af15e9-82c2-4599-857f-a698be40a364",
+          "title": "大模型推理工程实习生（J105856）",
+          "work_cities": "北京市,上海市",
+          "recruit_label": "技术",
+          "project": "日常实习项目",
+          "apply_url": "https://talent.baidu.com/jobs/detail/INTERN/22af15e9-82c2-4599-857f-a698be40a364"
+        },
+        {
+          "post_id": "ff35b89b-4c11-458f-8e38-07ca79188ae6",
+          "title": "大模型评估PM实习生（J105729）",
+          "work_cities": "北京市",
+          "recruit_label": "产品",
+          "project": "日常实习项目",
+          "apply_url": "https://talent.baidu.com/jobs/detail/INTERN/ff35b89b-4c11-458f-8e38-07ca79188ae6"
+        }
+      ],
+      "details": [
+        {
+          "ok": false,
+          "post_id": "275a1b63-47ac-4afd-82f7-8cf1c4318a18",
+          "title": null,
+          "source": "talent.baidu.com",
+          "apply_url": null,
+          "seconds": 0.95,
+          "error": "当前职位正在发布中，请5分钟后重试哦。",
+          "text_lengths": {
+            "description": 0,
+            "requirements": 0,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "a74dbf0c1d258dba3c36beba700c8ad9bc90c68ceb89b64ff01db07de7ed03a2"
+        },
+        {
+          "ok": false,
+          "post_id": "ff005250-d184-43d1-9454-5760f868d842",
+          "title": null,
+          "source": "talent.baidu.com",
+          "apply_url": null,
+          "seconds": 1.01,
+          "error": "当前职位正在发布中，请5分钟后重试哦。",
+          "text_lengths": {
+            "description": 0,
+            "requirements": 0,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "a74dbf0c1d258dba3c36beba700c8ad9bc90c68ceb89b64ff01db07de7ed03a2"
+        }
+      ]
+    },
+    {
+      "company": "baidu",
+      "scope": "intern",
+      "probe": "baidu",
+      "seconds": 2.52,
+      "ok": true,
+      "reported_total": 484,
+      "error": null,
+      "query": {
+        "recruitType": "INTERN",
+        "keyWord": "",
+        "curPage": "1",
+        "pageSize": "3"
+      },
+      "source": "talent.baidu.com",
+      "positions": [
+        {
+          "post_id": "ef7bf24d-667d-4bec-bdfc-a7cae4dd7bb8",
+          "title": "DuMate生态运营实习生（J106312）",
+          "work_cities": "北京市",
+          "recruit_label": "产品",
+          "project": "日常实习项目",
+          "apply_url": "https://talent.baidu.com/jobs/detail/INTERN/ef7bf24d-667d-4bec-bdfc-a7cae4dd7bb8"
+        },
+        {
+          "post_id": "9ba0eeb1-990b-4099-abb4-1856124f9751",
+          "title": "SQC业务运营实习生（J106295）",
+          "work_cities": "北京市",
+          "recruit_label": "综合",
+          "project": "日常实习项目",
+          "apply_url": "https://talent.baidu.com/jobs/detail/INTERN/9ba0eeb1-990b-4099-abb4-1856124f9751"
+        },
+        {
+          "post_id": "23157d0b-b51b-436a-8e94-17100c9fabdd",
+          "title": "全栈开发实习生（J106272）",
+          "work_cities": "北京市",
+          "recruit_label": "技术",
+          "project": "日常实习项目",
+          "apply_url": "https://talent.baidu.com/jobs/detail/INTERN/23157d0b-b51b-436a-8e94-17100c9fabdd"
+        }
+      ],
+      "details": [
+        {
+          "ok": false,
+          "post_id": "ef7bf24d-667d-4bec-bdfc-a7cae4dd7bb8",
+          "title": null,
+          "source": "talent.baidu.com",
+          "apply_url": null,
+          "seconds": 0.85,
+          "error": "当前职位正在发布中，请5分钟后重试哦。",
+          "text_lengths": {
+            "description": 0,
+            "requirements": 0,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "a74dbf0c1d258dba3c36beba700c8ad9bc90c68ceb89b64ff01db07de7ed03a2"
+        }
+      ]
+    },
+    {
+      "company": "bilibili",
+      "scope": "intern",
+      "probe": "bilibili",
+      "seconds": 10.89,
+      "ok": false,
+      "reported_total": null,
+      "error": "network error fetching CSRF: fetch failed",
+      "query": {
+        "pageNum": 1,
+        "pageSize": 3,
+        "positionName": "",
+        "deptCodeList": [],
+        "workTypeList": [
+          0
+        ],
+        "positionTypeList": [],
+        "workLocationList": [],
+        "_path": "/api/campus/position/positionList"
+      },
+      "source": "jobs.bilibili.com",
+      "positions": [],
+      "details": []
+    },
+    {
+      "company": "byd",
+      "scope": "intern",
+      "probe": "byd",
+      "seconds": 0.12,
+      "ok": false,
+      "reported_total": null,
+      "error": "Error: byd does not support --scope intern. Supported: social, all.\n",
+      "query": null,
+      "source": null,
+      "positions": [],
+      "details": []
+    },
+    {
+      "company": "bytedance",
+      "scope": "intern",
+      "probe": "bytedance",
+      "seconds": 1.65,
+      "ok": false,
+      "reported_total": null,
+      "error": "HTTP 429: Too Many Requests",
+      "query": {
+        "keyword": "",
+        "limit": 3,
+        "offset": 0,
+        "portal_type": 3,
+        "portal_entrance": 1,
+        "language": "zh",
+        "recruitment_id_list": [
+          "202"
+        ]
+      },
+      "source": "jobs.bytedance.com",
+      "positions": [],
+      "details": []
+    },
+    {
+      "company": "deepseek",
+      "scope": "intern",
+      "probe": "deepseek",
+      "seconds": 0.15,
+      "ok": false,
+      "reported_total": null,
+      "error": "Error: deepseek does not support --scope intern. Supported: social, all.\n",
+      "query": null,
+      "source": null,
+      "positions": [],
+      "details": []
+    },
+    {
+      "company": "didi",
+      "scope": "intern",
+      "probe": "didi",
+      "seconds": 1.5,
+      "ok": true,
+      "reported_total": 1158,
+      "error": null,
+      "query": {
+        "page": 1,
+        "size": 16
+      },
+      "source": "talent.didiglobal.com",
+      "positions": [
+        {
+          "post_id": "66615",
+          "title": "Operations Manager",
+          "work_cities": "北京市",
+          "recruit_label": "",
+          "project": "Brazil Mobility",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/66615/detail"
+        },
+        {
+          "post_id": "61414",
+          "title": "城市经理",
+          "work_cities": "成都市",
+          "recruit_label": "",
+          "project": "网约车区域",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/61414/detail"
+        },
+        {
+          "post_id": "64655",
+          "title": "市场营销专家",
+          "work_cities": "东莞市",
+          "recruit_label": "",
+          "project": "网约车区域",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/64655/detail"
+        },
+        {
+          "post_id": "66454",
+          "title": "市场营销专家",
+          "work_cities": "东莞市",
+          "recruit_label": "",
+          "project": "网约车区域",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/66454/detail"
+        },
+        {
+          "post_id": "66363",
+          "title": "市场营销顾问",
+          "work_cities": "深圳市",
+          "recruit_label": "",
+          "project": "网约车区域",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/66363/detail"
+        },
+        {
+          "post_id": "66470",
+          "title": "市场营销顾问",
+          "work_cities": "珠海市",
+          "recruit_label": "",
+          "project": "网约车区域",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/66470/detail"
+        },
+        {
+          "post_id": "65861",
+          "title": "运营分析专家",
+          "work_cities": "北京市",
+          "recruit_label": "",
+          "project": "网约车区域",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/65861/detail"
+        },
+        {
+          "post_id": "65258",
+          "title": "渠道管理专家",
+          "work_cities": "珠海市",
+          "recruit_label": "",
+          "project": "网约车区域",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/65258/detail"
+        },
+        {
+          "post_id": "65917",
+          "title": "渠道运营顾问",
+          "work_cities": "成都市",
+          "recruit_label": "",
+          "project": "网约车区域",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/65917/detail"
+        },
+        {
+          "post_id": "66320",
+          "title": "渠道运营专家",
+          "work_cities": "北京市",
+          "recruit_label": "",
+          "project": "网约车区域",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/66320/detail"
+        },
+        {
+          "post_id": "66552",
+          "title": "渠道运营顾问",
+          "work_cities": "东莞市",
+          "recruit_label": "",
+          "project": "网约车区域",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/66552/detail"
+        },
+        {
+          "post_id": "61562",
+          "title": "业务规划运营专家",
+          "work_cities": "深圳市",
+          "recruit_label": "",
+          "project": "网约车区域",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/61562/detail"
+        },
+        {
+          "post_id": "65987",
+          "title": "业务运营顾问",
+          "work_cities": "北京市",
+          "recruit_label": "",
+          "project": "车辆租售事业部",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/65987/detail"
+        },
+        {
+          "post_id": "64383",
+          "title": "产品与用户运营专家",
+          "work_cities": "北京市",
+          "recruit_label": "",
+          "project": "网约车区域",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/64383/detail"
+        },
+        {
+          "post_id": "66517",
+          "title": "商旅结算产品专家",
+          "work_cities": "北京市",
+          "recruit_label": "",
+          "project": "效能平台部",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/66517/detail"
+        },
+        {
+          "post_id": "66626",
+          "title": "运力运营专家",
+          "work_cities": "石家庄市",
+          "recruit_label": "",
+          "project": "网约车区域",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/66626/detail"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "66615",
+          "title": "Operations Manager",
+          "source": "talent.didiglobal.com",
+          "apply_url": "https://talent.didiglobal.com/campus#/position/66615/detail",
+          "seconds": 0.85,
+          "error": null,
+          "text_lengths": {
+            "description": 479,
+            "requirements": 269,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "fb25a372e4861b0604173473b71516bee30c29c4d0e122b4842985db04439ad8"
+        }
+      ]
+    },
+    {
+      "company": "horizonrobotics",
+      "scope": "campus",
+      "probe": "horizonrobotics-extended",
+      "seconds": 0.62,
+      "ok": true,
+      "reported_total": 97,
+      "error": null,
+      "query": {
+        "keyword": "",
+        "scope": "campus",
+        "pageSize": 5,
+        "page": 2
+      },
+      "source": "wecruit.hotjob.cn",
+      "positions": [
+        {
+          "post_id": "6a7933e94315481304953a88",
+          "title": "【2027届校招】AI芯片计算架构研究员（应届博士）",
+          "work_cities": "上海市-浦东新区、深圳市",
+          "recruit_label": "正式",
+          "project": "芯片序列",
+          "apply_url": "https://wecruit.hotjob.cn/SU6409ef49bef57c635fd390a6/pb/school.html#/postDetail?postId=6a7933e94315481304953a88"
+        },
+        {
+          "post_id": "6a7933ea4315481304953a8b",
+          "title": "【2027届校招】大模型Data Infra工程师",
+          "work_cities": "北京市、上海市-嘉定区、上海市-浦东新区",
+          "recruit_label": "正式",
+          "project": "算法序列",
+          "apply_url": "https://wecruit.hotjob.cn/SU6409ef49bef57c635fd390a6/pb/school.html#/postDetail?postId=6a7933ea4315481304953a8b"
+        },
+        {
+          "post_id": "6a7933ea1ad6db7cf8fbb975",
+          "title": "【2027届校招】嵌入式系统软件工程师（感知通路）",
+          "work_cities": "杭州市",
+          "recruit_label": "正式",
+          "project": "软件序列",
+          "apply_url": "https://wecruit.hotjob.cn/SU6409ef49bef57c635fd390a6/pb/school.html#/postDetail?postId=6a7933ea1ad6db7cf8fbb975"
+        },
+        {
+          "post_id": "6a7933ea68cc6f624f37716f",
+          "title": "【2027届校招】深度学习模型开发工程师-mono",
+          "work_cities": "南京市",
+          "recruit_label": "正式",
+          "project": "算法序列",
+          "apply_url": "https://wecruit.hotjob.cn/SU6409ef49bef57c635fd390a6/pb/school.html#/postDetail?postId=6a7933ea68cc6f624f37716f"
+        },
+        {
+          "post_id": "6a7933eb1ad6db7cf8fbb977",
+          "title": "【2027届校招】自动驾驶测试开发工程师（算法方向）",
+          "work_cities": "北京市、南京市、上海市-嘉定区、上海市-浦东新区",
+          "recruit_label": "正式",
+          "project": "测试序列",
+          "apply_url": "https://wecruit.hotjob.cn/SU6409ef49bef57c635fd390a6/pb/school.html#/postDetail?postId=6a7933eb1ad6db7cf8fbb977"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "6a7933e94315481304953a88",
+          "title": "【2027届校招】AI芯片计算架构研究员（应届博士）",
+          "source": "wecruit.hotjob.cn",
+          "apply_url": "https://wecruit.hotjob.cn/SU6409ef49bef57c635fd390a6/pb/school.html#/postDetail?postId=6a7933e94315481304953a88",
+          "seconds": 0.46,
+          "error": null,
+          "text_lengths": {
+            "description": 665,
+            "requirements": 0,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "fe259b8473cc8ee785d772f1f8a47f5ba8e42964204c989016b4568258b567e7"
+        },
+        {
+          "ok": true,
+          "post_id": "6a7933ea4315481304953a8b",
+          "title": "【2027届校招】大模型Data Infra工程师",
+          "source": "wecruit.hotjob.cn",
+          "apply_url": "https://wecruit.hotjob.cn/SU6409ef49bef57c635fd390a6/pb/school.html#/postDetail?postId=6a7933ea4315481304953a8b",
+          "seconds": 0.47,
+          "error": null,
+          "text_lengths": {
+            "description": 220,
+            "requirements": 0,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "ee32200bea31251f282c4ffdded9c48b565dddc306e6e09b008f311d6a7f2b8d"
+        }
+      ]
+    },
+    {
+      "company": "horizonrobotics",
+      "scope": "intern",
+      "probe": "horizonrobotics",
+      "seconds": 0.14,
+      "ok": false,
+      "reported_total": null,
+      "error": "Error: horizonrobotics does not support --scope intern. Supported: campus, social, all.\n",
+      "query": null,
+      "source": null,
+      "positions": [],
+      "details": []
+    },
+    {
+      "company": "huawei",
+      "scope": "campus",
+      "probe": "huawei-extended",
+      "seconds": 2.83,
+      "ok": true,
+      "reported_total": 0,
+      "error": null,
+      "query": {
+        "jobType": "0",
+        "language": "zh_CN",
+        "reqTime": 1790879485640,
+        "orderBy": "ISS_STARTDATE_DESC_AND_IS_HOT_JOB",
+        "pageSize": 5,
+        "curPage": 2,
+        "jobTypes": "2"
+      },
+      "source": "career.huawei.com",
+      "positions": [],
+      "details": []
+    },
+    {
+      "company": "huawei",
+      "scope": "intern",
+      "probe": "huawei",
+      "seconds": 2.59,
+      "ok": true,
+      "reported_total": 0,
+      "error": null,
+      "query": {
+        "jobType": "0",
+        "language": "zh_CN",
+        "reqTime": 1790879253082,
+        "orderBy": "ISS_STARTDATE_DESC_AND_IS_HOT_JOB",
+        "pageSize": 3,
+        "curPage": 1,
+        "jobTypes": "0"
+      },
+      "source": "career.huawei.com",
+      "positions": [],
+      "details": []
+    },
+    {
+      "company": "jd",
+      "scope": "intern",
+      "probe": "jd-extended",
+      "seconds": 1.5,
+      "ok": true,
+      "reported_total": 104,
+      "error": null,
+      "query": {
+        "pageSize": 5,
+        "pageIndex": 1,
+        "parameter": {
+          "positionName": "",
+          "planIdList": [],
+          "positionDeptList": [],
+          "jobDirectionCodeList": [],
+          "workCityCodeList": []
+        }
+      },
+      "source": "campus.jd.com",
+      "positions": [
+        {
+          "post_id": "5835",
+          "title": "客服管理储备",
+          "work_cities": "四川省-成都市 / 江苏省-宿迁市 / 湖北省-武汉市 / 广东省-广州市",
+          "recruit_label": "实习生",
+          "project": "基层管理方向",
+          "apply_url": "https://campus.jd.com/#/newDetails?publishId=5835"
+        },
+        {
+          "post_id": "9385",
+          "title": "门店督导",
+          "work_cities": "湖北省-武汉市 / 河南省-郑州市 / 江西省-南昌市 / 内蒙古自治区-呼和浩特市 / 云南省-昆明市",
+          "recruit_label": "实习生",
+          "project": "基层管理方向",
+          "apply_url": "https://campus.jd.com/#/newDetails?publishId=9385"
+        },
+        {
+          "post_id": "9383",
+          "title": "保险服务",
+          "work_cities": "北京市-北京市",
+          "recruit_label": "实习生",
+          "project": "职能方向",
+          "apply_url": "https://campus.jd.com/#/newDetails?publishId=9383"
+        },
+        {
+          "post_id": "4964",
+          "title": "人力资源（专业方向）",
+          "work_cities": "北京市-北京市 / 湖北省-武汉市 / 甘肃省-兰州市 / 河北省-石家庄市 / 辽宁省-沈阳市 / 广东省-广州市 / 湖南省-长沙市 / 江苏省-苏州市-昆山市 / 海南省-海口市 / 河南省-郑州市 / 山东省-济南市 / 上海市-上海市 / 江苏省-宿迁市 / 广东省-深圳市 / 陕西省-西安市",
+          "recruit_label": "实习生",
+          "project": "职能方向",
+          "apply_url": "https://campus.jd.com/#/newDetails?publishId=4964"
+        },
+        {
+          "post_id": "9378",
+          "title": "仓/场地经理",
+          "work_cities": "天津市-天津市",
+          "recruit_label": "实习生",
+          "project": "基层管理方向",
+          "apply_url": "https://campus.jd.com/#/newDetails?publishId=9378"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "5835",
+          "title": "客服管理储备",
+          "source": "campus.jd.com",
+          "apply_url": "https://campus.jd.com/#/newDetails?publishId=5835",
+          "seconds": 0.49,
+          "error": null,
+          "text_lengths": {
+            "description": 150,
+            "requirements": 221,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "01780fabf13a8092e20808868a1e6aadbf657b5599b79c88fbccdf4fbd08ef17"
+        },
+        {
+          "ok": true,
+          "post_id": "9385",
+          "title": "门店督导",
+          "source": "campus.jd.com",
+          "apply_url": "https://campus.jd.com/#/newDetails?publishId=9385",
+          "seconds": 0.5,
+          "error": null,
+          "text_lengths": {
+            "description": 189,
+            "requirements": 172,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "10d8a3822f27af9c09d62021d014f4116809f2c9a59c94dbb25b3864d506013b"
+        }
+      ]
+    },
+    {
+      "company": "jd",
+      "scope": "intern",
+      "probe": "jd",
+      "seconds": 1.03,
+      "ok": true,
+      "reported_total": 104,
+      "error": null,
+      "query": {
+        "pageSize": 3,
+        "pageIndex": 0,
+        "parameter": {
+          "positionName": "",
+          "planIdList": [],
+          "positionDeptList": [],
+          "jobDirectionCodeList": [],
+          "workCityCodeList": []
+        }
+      },
+      "source": "campus.jd.com",
+      "positions": [
+        {
+          "post_id": "9364",
+          "title": "技术支持工程师",
+          "work_cities": "北京市-北京市 / 四川省-成都市",
+          "recruit_label": "实习生",
+          "project": "一线专业方向",
+          "apply_url": "https://campus.jd.com/#/newDetails?publishId=9364"
+        },
+        {
+          "post_id": "5873",
+          "title": "人事运营",
+          "work_cities": "北京市-北京市 / 江苏省-宿迁市 / 陕西省-西安市 / 山东省-济南市 / 辽宁省-沈阳市 / 天津市-天津市 / 江西省-南昌市 / 湖北省-武汉市 / 云南省-昆明市 / 四川省-成都市 / 福建省-泉州市 / 湖南省-长沙市 / 广西壮族自治区-柳州市 / 海南省-海口市 / 广东省-东莞市 / 广东省-广州市",
+          "recruit_label": "实习生",
+          "project": "职能方向",
+          "apply_url": "https://campus.jd.com/#/newDetails?publishId=5873"
+        },
+        {
+          "post_id": "4864",
+          "title": "物流运营",
+          "work_cities": "广东省-广州市 / 北京市-北京市 / 四川省-成都市 / 湖北省-武汉市 / 新疆维吾尔自治区-乌鲁木齐市 / 辽宁省-沈阳市 / 江西省-南昌市 / 浙江省-杭州市 / 山西省-太原市 / 上海市-上海市 / 上海市-上海市-嘉定区 / 山东省-德州市 / 江苏省-镇江市 / 黑龙江省-哈尔滨市 / 安徽省-合肥市 / 江苏省-苏州市-昆山市 / 江苏省-南京市 / 江苏省-宿迁市 / 河北省-廊坊市-广阳区 / 河北省-廊坊市 / 广东省-深圳市 / 山东省-济南市 / 海南省-澄迈县 / 海南省-海口市",
+          "recruit_label": "实习生",
+          "project": "采销与物流方向",
+          "apply_url": "https://campus.jd.com/#/newDetails?publishId=4864"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "9364",
+          "title": "技术支持工程师",
+          "source": "campus.jd.com",
+          "apply_url": "https://campus.jd.com/#/newDetails?publishId=9364",
+          "seconds": 0.49,
+          "error": null,
+          "text_lengths": {
+            "description": 214,
+            "requirements": 351,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "3b878d6054fdc0850aee1985fd9cccf2d4fc5bcb7113e3e14e119cb25a19b938"
+        }
+      ]
+    },
+    {
+      "company": "kuaishou",
+      "scope": "intern",
+      "probe": "kuaishou-extended",
+      "seconds": 1.13,
+      "ok": true,
+      "reported_total": 228,
+      "error": null,
+      "query": {
+        "pageNum": 2,
+        "pageSize": 5,
+        "positionNatureCode": "intern"
+      },
+      "source": "campus.kuaishou.cn",
+      "positions": [
+        {
+          "post_id": "a2e17dc8104a49a194d0f964325a3393",
+          "title": "【留用实习】创意设计师",
+          "work_cities": "北京",
+          "recruit_label": "intern",
+          "project": "design",
+          "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=a2e17dc8104a49a194d0f964325a3393"
+        },
+        {
+          "post_id": "68b3c47254284b38b28a5d1c9d432dd3",
+          "title": "【留用实习】多模态推理平台工程师",
+          "work_cities": "北京",
+          "recruit_label": "intern",
+          "project": "J1013",
+          "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=68b3c47254284b38b28a5d1c9d432dd3"
+        },
+        {
+          "post_id": "940b1007ede749feba0b09a5d41fc786",
+          "title": "【留用实习】市场营销与策划",
+          "work_cities": "北京",
+          "recruit_label": "intern",
+          "project": "marketing",
+          "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=940b1007ede749feba0b09a5d41fc786"
+        },
+        {
+          "post_id": "c956e24344e646559584f94885f9e0ad",
+          "title": "【快Star实习】推荐算法工程师-冷启",
+          "work_cities": "北京",
+          "recruit_label": "intern",
+          "project": "J1005",
+          "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=c956e24344e646559584f94885f9e0ad"
+        },
+        {
+          "post_id": "e7a60f0011c84a8d844549b7d5603f87",
+          "title": "【留用实习】数据分析师",
+          "work_cities": "北京",
+          "recruit_label": "intern",
+          "project": "analysis",
+          "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=e7a60f0011c84a8d844549b7d5603f87"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "a2e17dc8104a49a194d0f964325a3393",
+          "title": "【留用实习】创意设计师",
+          "source": "campus.kuaishou.cn",
+          "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=a2e17dc8104a49a194d0f964325a3393",
+          "seconds": 1.17,
+          "error": null,
+          "text_lengths": {
+            "description": 101,
+            "requirements": 157,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "310f4a5cd6f45400450817b1a09f6c0b06ef97b80f4646e49736643ed3eacec0"
+        },
+        {
+          "ok": true,
+          "post_id": "68b3c47254284b38b28a5d1c9d432dd3",
+          "title": "【留用实习】多模态推理平台工程师",
+          "source": "campus.kuaishou.cn",
+          "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=68b3c47254284b38b28a5d1c9d432dd3",
+          "seconds": 1.2,
+          "error": null,
+          "text_lengths": {
+            "description": 240,
+            "requirements": 163,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "20fb43c80f5b3904a166139d9288a0d66e827b6282f46203f89c5112e4ed3478"
+        }
+      ]
+    },
+    {
+      "company": "kuaishou",
+      "scope": "intern",
+      "probe": "kuaishou",
+      "seconds": 0.91,
+      "ok": true,
+      "reported_total": 228,
+      "error": null,
+      "query": {
+        "pageNum": 1,
+        "pageSize": 3,
+        "positionNatureCode": "intern"
+      },
+      "source": "campus.kuaishou.cn",
+      "positions": [
+        {
+          "post_id": "27ab82998e5a4ba3aad7a9b7ed75979d",
+          "title": "【留用实习】策略产品经理-商业化方向",
+          "work_cities": "北京",
+          "recruit_label": "intern",
+          "project": "J1021",
+          "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=27ab82998e5a4ba3aad7a9b7ed75979d"
+        },
+        {
+          "post_id": "9842a9e0d3354e2fbd0c809085d7d68e",
+          "title": "【留用实习】策略运营-分析",
+          "work_cities": "北京",
+          "recruit_label": "intern",
+          "project": "J1030",
+          "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=9842a9e0d3354e2fbd0c809085d7d68e"
+        },
+        {
+          "post_id": "9e2a9fc2ace441e9b2e0d6a202a62108",
+          "title": "【留用实习】交互设计师",
+          "work_cities": "北京",
+          "recruit_label": "intern",
+          "project": "design",
+          "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=9e2a9fc2ace441e9b2e0d6a202a62108"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "27ab82998e5a4ba3aad7a9b7ed75979d",
+          "title": "【留用实习】策略产品经理-商业化方向",
+          "source": "campus.kuaishou.cn",
+          "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=27ab82998e5a4ba3aad7a9b7ed75979d",
+          "seconds": 1.29,
+          "error": null,
+          "text_lengths": {
+            "description": 116,
+            "requirements": 67,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "738a2533147d412f51f8a77ee8a92b4b45fb08fc719b6f7ea8b680d610d3761a"
+        }
+      ]
+    },
+    {
+      "company": "liauto",
+      "scope": "intern",
+      "probe": "liauto-extended",
+      "seconds": 0.71,
+      "ok": true,
+      "reported_total": 1027,
+      "error": null,
+      "query": {
+        "page": 2,
+        "page_size": 5
+      },
+      "source": "www.lixiang.com",
+      "positions": [
+        {
+          "post_id": "19152",
+          "title": "间接采购实习生（深圳）",
+          "work_cities": "深圳福田区",
+          "recruit_label": "实习",
+          "project": "供应链与智能制造",
+          "apply_url": "https://www.lixiang.com/job/detail/19152.html"
+        },
+        {
+          "post_id": "19430",
+          "title": "间接采购实习生（上海）",
+          "work_cities": "上海嘉定区",
+          "recruit_label": "实习",
+          "project": "供应链与智能制造",
+          "apply_url": "https://www.lixiang.com/job/detail/19430.html"
+        },
+        {
+          "post_id": "18432",
+          "title": "对外事务专员-上海政务",
+          "work_cities": "上海闵行区",
+          "recruit_label": "正式",
+          "project": "职能与综合管理",
+          "apply_url": "https://www.lixiang.com/job/detail/18432.html"
+        },
+        {
+          "post_id": "19200",
+          "title": "品牌运营实习生",
+          "work_cities": "北京顺义区",
+          "recruit_label": "实习",
+          "project": "职能与综合管理",
+          "apply_url": "https://www.lixiang.com/job/detail/19200.html"
+        },
+        {
+          "post_id": "19712",
+          "title": "视觉策略设计师",
+          "work_cities": "北京",
+          "recruit_label": "正式",
+          "project": "设计",
+          "apply_url": "https://www.lixiang.com/job/detail/19712.html"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "19152",
+          "title": "间接采购实习生（深圳）",
+          "source": "www.lixiang.com",
+          "apply_url": "https://www.lixiang.com/job/detail/19152.html",
+          "seconds": 0.24,
+          "error": null,
+          "text_lengths": {
+            "description": 0,
+            "requirements": 0,
+            "description_html": 64,
+            "requirements_html": 97
+          },
+          "text_sha256": "48671e4c35a990f72e5cc642efa423aaf0cade3390783ec6bcba651bb27a5dc8"
+        },
+        {
+          "ok": true,
+          "post_id": "19430",
+          "title": "间接采购实习生（上海）",
+          "source": "www.lixiang.com",
+          "apply_url": "https://www.lixiang.com/job/detail/19430.html",
+          "seconds": 0.27,
+          "error": null,
+          "text_lengths": {
+            "description": 0,
+            "requirements": 0,
+            "description_html": 64,
+            "requirements_html": 100
+          },
+          "text_sha256": "70cf5ed88c0efe1dc406bbf5ea419a59f21c2a9ff73390453393aac93cbb79ab"
+        }
+      ]
+    },
+    {
+      "company": "liauto",
+      "scope": "intern",
+      "probe": "liauto",
+      "seconds": 0.78,
+      "ok": true,
+      "reported_total": 1027,
+      "error": null,
+      "query": {
+        "page": 1,
+        "page_size": 3
+      },
+      "source": "www.lixiang.com",
+      "positions": [
+        {
+          "post_id": "18450",
+          "title": "高速选址运营实习生",
+          "work_cities": "北京",
+          "recruit_label": "实习",
+          "project": "充电网络",
+          "apply_url": "https://www.lixiang.com/job/detail/18450.html"
+        },
+        {
+          "post_id": "18451",
+          "title": "充电网络工程供应管理实习生",
+          "work_cities": "上海",
+          "recruit_label": "实习",
+          "project": "充电网络",
+          "apply_url": "https://www.lixiang.com/job/detail/18451.html"
+        },
+        {
+          "post_id": "18452",
+          "title": "电力大客户实习生",
+          "work_cities": "北京",
+          "recruit_label": "实习",
+          "project": "充电网络",
+          "apply_url": "https://www.lixiang.com/job/detail/18452.html"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "18450",
+          "title": "高速选址运营实习生",
+          "source": "www.lixiang.com",
+          "apply_url": "https://www.lixiang.com/job/detail/18450.html",
+          "seconds": 0.23,
+          "error": null,
+          "text_lengths": {
+            "description": 0,
+            "requirements": 0,
+            "description_html": 92,
+            "requirements_html": 99
+          },
+          "text_sha256": "de68f7760f5dd9e4c4094498a05d69679c2ee8c6cc8af9182fccbb567d74ba91"
+        }
+      ]
+    },
+    {
+      "company": "meituan",
+      "scope": "intern",
+      "probe": "meituan-extended",
+      "seconds": 1.77,
+      "ok": true,
+      "reported_total": 377,
+      "error": null,
+      "query": {
+        "page": {
+          "pageNo": 2,
+          "pageSize": 5
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ]
+      },
+      "source": "zhaopin.meituan.com",
+      "positions": [
+        {
+          "post_id": "4777532857",
+          "title": "AI 全栈开发工程师（实习生）",
+          "work_cities": "北京市",
+          "recruit_label": "实习",
+          "project": "核心本地商业-基础研发平台",
+          "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=4777532857&jobShareType=1&highlightType=campus"
+        },
+        {
+          "post_id": "4691986310",
+          "title": "【2027】Keeta-产品实习生",
+          "work_cities": "北京市 / 深圳市",
+          "recruit_label": "实习",
+          "project": "Keeta",
+          "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=4691986310&jobShareType=1&highlightType=campus"
+        },
+        {
+          "post_id": "2927053230",
+          "title": "HR招聘实习生",
+          "work_cities": "北京市 / 上海市",
+          "recruit_label": "实习",
+          "project": "人力资源平台",
+          "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=2927053230&jobShareType=1&highlightType=campus"
+        },
+        {
+          "post_id": "4771790802",
+          "title": "招聘实习生",
+          "work_cities": "北京市",
+          "recruit_label": "实习",
+          "project": "人力资源平台",
+          "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=4771790802&jobShareType=1&highlightType=campus"
+        },
+        {
+          "post_id": "4770380293",
+          "title": "绩效策略",
+          "work_cities": "北京市 / 上海市 / 杭州市 / 深圳市",
+          "recruit_label": "实习",
+          "project": "Keeta",
+          "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=4770380293&jobShareType=1&highlightType=campus"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "4777532857",
+          "title": "AI 全栈开发工程师（实习生）",
+          "source": "zhaopin.meituan.com",
+          "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=4777532857&jobShareType=1&highlightType=campus",
+          "seconds": 1.45,
+          "error": null,
+          "text_lengths": {
+            "description": 218,
+            "requirements": 258,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "77007562cfe51e1d1b074f140f727ca0c9069a7b23d744f34a917c1664478488"
+        },
+        {
+          "ok": true,
+          "post_id": "4691986310",
+          "title": "【2027】Keeta-产品实习生",
+          "source": "zhaopin.meituan.com",
+          "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=4691986310&jobShareType=1&highlightType=campus",
+          "seconds": 1.38,
+          "error": null,
+          "text_lengths": {
+            "description": 209,
+            "requirements": 192,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "480710c87927b4d0a3aa16ef413d15eb27920b1402b53fa087b17d56a24779ef"
+        }
+      ]
+    },
+    {
+      "company": "meituan",
+      "scope": "intern",
+      "probe": "meituan",
+      "seconds": 1.69,
+      "ok": true,
+      "reported_total": 377,
+      "error": null,
+      "query": {
+        "page": {
+          "pageNo": 1,
+          "pageSize": 3
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ]
+      },
+      "source": "zhaopin.meituan.com",
+      "positions": [
+        {
+          "post_id": "4241222974",
+          "title": "大模型应用实习生（服务智能）",
+          "work_cities": "北京市 / 上海市",
+          "recruit_label": "实习",
+          "project": "核心本地商业-基础研发平台",
+          "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=4241222974&jobShareType=1&highlightType=campus"
+        },
+        {
+          "post_id": "3536120742",
+          "title": "招聘实习生",
+          "work_cities": "北京市",
+          "recruit_label": "实习",
+          "project": "人力资源平台",
+          "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=3536120742&jobShareType=1&highlightType=campus"
+        },
+        {
+          "post_id": "3383858111",
+          "title": "大模型算法工程师（实习生）",
+          "work_cities": "北京市",
+          "recruit_label": "实习",
+          "project": "核心本地商业-基础研发平台",
+          "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=3383858111&jobShareType=1&highlightType=campus"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "4241222974",
+          "title": "大模型应用实习生（服务智能）",
+          "source": "zhaopin.meituan.com",
+          "apply_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=4241222974&jobShareType=1&highlightType=campus",
+          "seconds": 1.48,
+          "error": null,
+          "text_lengths": {
+            "description": 666,
+            "requirements": 260,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "cfc2c1e50a5b69868007d4a438bf6bde1785b1c477c4da21269d684ad817e330"
+        }
+      ]
+    },
+    {
+      "company": "moonshot",
+      "scope": "intern",
+      "probe": "moonshot",
+      "seconds": 0.13,
+      "ok": false,
+      "reported_total": null,
+      "error": "Error: moonshot does not support --scope intern. Supported: social, all.\n",
+      "query": null,
+      "source": null,
+      "positions": [],
+      "details": []
+    },
+    {
+      "company": "netease",
+      "scope": "intern",
+      "probe": "netease-extended",
+      "seconds": 2.17,
+      "ok": true,
+      "reported_total": 563,
+      "error": null,
+      "query": {
+        "currentPage": 2,
+        "pageSize": 5,
+        "workType": "1",
+        "keyword": ""
+      },
+      "source": "hr.163.com",
+      "positions": [
+        {
+          "post_id": "79037",
+          "title": "内容素材营销（王牌竞速）",
+          "work_cities": "杭州市",
+          "recruit_label": "校园/实习",
+          "project": "市场",
+          "apply_url": "https://hr.163.com/job-detail.html?id=79037"
+        },
+        {
+          "post_id": "79038",
+          "title": "自媒体运营（王牌竞速）",
+          "work_cities": "杭州市",
+          "recruit_label": "校园/实习",
+          "project": "市场",
+          "apply_url": "https://hr.163.com/job-detail.html?id=79038"
+        },
+        {
+          "post_id": "78704",
+          "title": "游戏市场营销实习生（光遇）",
+          "work_cities": "广州市",
+          "recruit_label": "校园/实习",
+          "project": "市场",
+          "apply_url": "https://hr.163.com/job-detail.html?id=78704"
+        },
+        {
+          "post_id": "76416",
+          "title": "内容运营实习生",
+          "work_cities": "杭州市",
+          "recruit_label": "校园/实习",
+          "project": "市场",
+          "apply_url": "https://hr.163.com/job-detail.html?id=76416"
+        },
+        {
+          "post_id": "78897",
+          "title": "新媒体实习生（天下）",
+          "work_cities": "广州市",
+          "recruit_label": "校园/实习",
+          "project": "市场",
+          "apply_url": "https://hr.163.com/job-detail.html?id=78897"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "79037",
+          "title": "内容素材营销（王牌竞速）",
+          "source": "hr.163.com",
+          "apply_url": "https://hr.163.com/job-detail.html?id=79037",
+          "seconds": 6.37,
+          "error": null,
+          "text_lengths": {
+            "description": 104,
+            "requirements": 149,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "b8a770b40bc4f71a72138868b98d1ccd659708f2c1694f8cf180da26b5ccca3f"
+        },
+        {
+          "ok": true,
+          "post_id": "79038",
+          "title": "自媒体运营（王牌竞速）",
+          "source": "hr.163.com",
+          "apply_url": "https://hr.163.com/job-detail.html?id=79038",
+          "seconds": 1.33,
+          "error": null,
+          "text_lengths": {
+            "description": 106,
+            "requirements": 149,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "7c7c848347c55df61a0c77572be95d74e2aa7ed4e1683a5869925d753bee5b99"
+        }
+      ]
+    },
+    {
+      "company": "netease",
+      "scope": "intern",
+      "probe": "netease",
+      "seconds": 3.78,
+      "ok": true,
+      "reported_total": 563,
+      "error": null,
+      "query": {
+        "currentPage": 1,
+        "pageSize": 3,
+        "workType": "1",
+        "keyword": ""
+      },
+      "source": "hr.163.com",
+      "positions": [
+        {
+          "post_id": "79036",
+          "title": "游戏图形算法工程师（实习生）",
+          "work_cities": "杭州市",
+          "recruit_label": "校园/实习",
+          "project": "人工智能",
+          "apply_url": "https://hr.163.com/job-detail.html?id=79036"
+        },
+        {
+          "post_id": "78936",
+          "title": "海外商务实习生",
+          "work_cities": "广州市",
+          "recruit_label": "校园/实习",
+          "project": "市场",
+          "apply_url": "https://hr.163.com/job-detail.html?id=78936"
+        },
+        {
+          "post_id": "78552",
+          "title": "市场营销实习生（活动方向）",
+          "work_cities": "上海市",
+          "recruit_label": "校园/实习",
+          "project": "市场",
+          "apply_url": "https://hr.163.com/job-detail.html?id=78552"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "79036",
+          "title": "游戏图形算法工程师（实习生）",
+          "source": "hr.163.com",
+          "apply_url": "https://hr.163.com/job-detail.html?id=79036",
+          "seconds": 1.06,
+          "error": null,
+          "text_lengths": {
+            "description": 304,
+            "requirements": 771,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "c94b9e16affd91c3ec6e4083af572931ddb149b9d8f09331af80746ecc0bef28"
+        }
+      ]
+    },
+    {
+      "company": "nio",
+      "scope": "intern",
+      "probe": "nio-extended",
+      "seconds": 2.14,
+      "ok": true,
+      "reported_total": 423,
+      "error": null,
+      "query": {
+        "keyword": "",
+        "limit": 5,
+        "offset": 5,
+        "portal_type": 3,
+        "portal_entrance": 1,
+        "language": "zh",
+        "recruitment_id_list": [
+          "202"
+        ]
+      },
+      "source": "nio.jobs.feishu.cn",
+      "positions": [
+        {
+          "post_id": "7676071979984914729",
+          "title": "校招-蔚来顾问-茂名",
+          "work_cities": "茂名",
+          "recruit_label": "实习",
+          "project": "蔚来顾问",
+          "apply_url": "https://nio.jobs.feishu.cn/campus/position/7676071979984914729/detail"
+        },
+        {
+          "post_id": "7676071979984619817",
+          "title": "校招-蔚来顾问-阳江",
+          "work_cities": "阳江",
+          "recruit_label": "实习",
+          "project": "蔚来顾问",
+          "apply_url": "https://nio.jobs.feishu.cn/campus/position/7676071979984619817/detail"
+        },
+        {
+          "post_id": "7676071979984324905",
+          "title": "校招-蔚来顾问-湛江",
+          "work_cities": "湛江",
+          "recruit_label": "实习",
+          "project": "蔚来顾问",
+          "apply_url": "https://nio.jobs.feishu.cn/campus/position/7676071979984324905/detail"
+        },
+        {
+          "post_id": "7676071979984029993",
+          "title": "校招-蔚来顾问-肇庆",
+          "work_cities": "肇庆",
+          "recruit_label": "实习",
+          "project": "蔚来顾问",
+          "apply_url": "https://nio.jobs.feishu.cn/campus/position/7676071979984029993/detail"
+        },
+        {
+          "post_id": "7676071979983735081",
+          "title": "校招-蔚来顾问-佛山",
+          "work_cities": "佛山",
+          "recruit_label": "实习",
+          "project": "蔚来顾问",
+          "apply_url": "https://nio.jobs.feishu.cn/campus/position/7676071979983735081/detail"
+        }
+      ],
+      "details": [
+        {
+          "ok": false,
+          "post_id": "7676071979984914729",
+          "title": null,
+          "source": "nio.jobs.feishu.cn",
+          "apply_url": null,
+          "seconds": 1.29,
+          "error": "post 7676071979984914729 not found in public search results (searched up to 500 posts)",
+          "text_lengths": {
+            "description": 0,
+            "requirements": 0,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "a74dbf0c1d258dba3c36beba700c8ad9bc90c68ceb89b64ff01db07de7ed03a2"
+        },
+        {
+          "ok": true,
+          "post_id": "7676071979984619817",
+          "title": "校招-蔚来顾问-阳江",
+          "source": "nio.jobs.feishu.cn",
+          "apply_url": "https://nio.jobs.feishu.cn/campus/position/7676071979984619817/detail",
+          "seconds": 2.07,
+          "error": null,
+          "text_lengths": {
+            "description": 305,
+            "requirements": 221,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "2804fbb90234c4844a9a894bc3c328c2201f4b872523a3c8e5095ad7cd191fc6"
+        }
+      ]
+    },
+    {
+      "company": "nio",
+      "scope": "intern",
+      "probe": "nio",
+      "seconds": 2.12,
+      "ok": true,
+      "reported_total": 423,
+      "error": null,
+      "query": {
+        "keyword": "",
+        "limit": 3,
+        "offset": 0,
+        "portal_type": 3,
+        "portal_entrance": 1,
+        "language": "zh",
+        "recruitment_id_list": [
+          "202"
+        ]
+      },
+      "source": "nio.jobs.feishu.cn",
+      "positions": [
+        {
+          "post_id": "7676301029218076970",
+          "title": "校招-蔚来顾问-\"未来星\"营销管训班-上海",
+          "work_cities": "上海",
+          "recruit_label": "实习",
+          "project": "蔚来顾问",
+          "apply_url": "https://nio.jobs.feishu.cn/campus/position/7676301029218076970/detail"
+        },
+        {
+          "post_id": "7676300796597651722",
+          "title": "校招-蔚来顾问-\"未来星\"营销管训班-合肥",
+          "work_cities": "合肥",
+          "recruit_label": "实习",
+          "project": "蔚来顾问",
+          "apply_url": "https://nio.jobs.feishu.cn/campus/position/7676300796597651722/detail"
+        },
+        {
+          "post_id": "7676072283140442404",
+          "title": "校招-乐道顾问-上海",
+          "work_cities": "上海",
+          "recruit_label": "实习",
+          "project": "蔚来顾问",
+          "apply_url": "https://nio.jobs.feishu.cn/campus/position/7676072283140442404/detail"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "7676301029218076970",
+          "title": "校招-蔚来顾问-\"未来星\"营销管训班-上海",
+          "source": "nio.jobs.feishu.cn",
+          "apply_url": "https://nio.jobs.feishu.cn/campus/position/7676301029218076970/detail",
+          "seconds": 1.68,
+          "error": null,
+          "text_lengths": {
+            "description": 397,
+            "requirements": 253,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "9e5a5f092f49950cacdb4d6716f6330d7394125b34a6534807ecb015e2a940f3"
+        }
+      ]
+    },
+    {
+      "company": "oppo",
+      "scope": "intern",
+      "probe": "oppo-extended",
+      "seconds": 0.61,
+      "ok": true,
+      "reported_total": 97,
+      "error": null,
+      "query": {
+        "pageNum": 2,
+        "pageSize": 5,
+        "recruitmentType": "Intern"
+      },
+      "source": "careers.oppo.com",
+      "positions": [
+        {
+          "post_id": "1624",
+          "title": "Product Operation Manager",
+          "work_cities": "深圳市",
+          "recruit_label": "实习生",
+          "project": "2027届寻梦实习招聘",
+          "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1624"
+        },
+        {
+          "post_id": "1626",
+          "title": "系统工程师",
+          "work_cities": "成都市,深圳市,武汉市,南京市",
+          "recruit_label": "实习生",
+          "project": "2027届寻梦实习招聘",
+          "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1626"
+        },
+        {
+          "post_id": "1727",
+          "title": "计算机视觉算法开发工程师",
+          "work_cities": "上海市",
+          "recruit_label": "实习生",
+          "project": "2027届寻梦实习招聘",
+          "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1727"
+        },
+        {
+          "post_id": "1625",
+          "title": "多媒体开发工程师",
+          "work_cities": "深圳市,南京市",
+          "recruit_label": "实习生",
+          "project": "2027届寻梦实习招聘",
+          "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1625"
+        },
+        {
+          "post_id": "1650",
+          "title": "互联网安全工程师",
+          "work_cities": "成都市,深圳市",
+          "recruit_label": "实习生",
+          "project": "2027届寻梦实习招聘",
+          "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1650"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "1624",
+          "title": "Product Operation Manager",
+          "source": "careers.oppo.com",
+          "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1624",
+          "seconds": 0.41,
+          "error": null,
+          "text_lengths": {
+            "description": 805,
+            "requirements": 847,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "48ca4f4ed17bd10f81d4dd803811efaf8a48c1ab03e774eed3972d081d2b4f09"
+        },
+        {
+          "ok": true,
+          "post_id": "1626",
+          "title": "系统工程师",
+          "source": "careers.oppo.com",
+          "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1626",
+          "seconds": 0.44,
+          "error": null,
+          "text_lengths": {
+            "description": 256,
+            "requirements": 335,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "590da5c8d5fcb04de7c4010f31572b26dacb431fe3ed1193ddf7ae2bc69af2aa"
+        }
+      ]
+    },
+    {
+      "company": "oppo",
+      "scope": "intern",
+      "probe": "oppo",
+      "seconds": 0.73,
+      "ok": true,
+      "reported_total": 97,
+      "error": null,
+      "query": {
+        "pageNum": 1,
+        "pageSize": 3,
+        "recruitmentType": "Intern"
+      },
+      "source": "careers.oppo.com",
+      "positions": [
+        {
+          "post_id": "1599",
+          "title": "高级底层软件工程师（AI方向）-博士",
+          "work_cities": "深圳市",
+          "recruit_label": "实习生",
+          "project": "2027届寻梦实习招聘",
+          "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1599"
+        },
+        {
+          "post_id": "1680",
+          "title": "高级AI研究员（内容生成推荐智能体）-博士",
+          "work_cities": "深圳市",
+          "recruit_label": "实习生",
+          "project": "2027届寻梦实习招聘",
+          "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1680"
+        },
+        {
+          "post_id": "1717",
+          "title": "影像算法工程师（姿态解算方向）",
+          "work_cities": "东莞市",
+          "recruit_label": "实习生",
+          "project": "2027届寻梦实习招聘",
+          "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1717"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "1599",
+          "title": "高级底层软件工程师（AI方向）-博士",
+          "source": "careers.oppo.com",
+          "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1599",
+          "seconds": 0.31,
+          "error": null,
+          "text_lengths": {
+            "description": 168,
+            "requirements": 274,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "7aaa10591a383bc7385bf7f6f236a7f6d9e7c5b2dd43fd538ac9e56f65b00214"
+        }
+      ]
+    },
+    {
+      "company": "sensetime",
+      "scope": "intern",
+      "probe": "sensetime",
+      "seconds": 1.56,
+      "ok": false,
+      "reported_total": null,
+      "error": "HTTP 404: Not Found",
+      "query": {
+        "keyword": "",
+        "limit": 3,
+        "offset": 0,
+        "portal_type": 3,
+        "portal_entrance": 1,
+        "language": "zh"
+      },
+      "source": "hr.sensetime.com",
+      "positions": [],
+      "details": []
+    },
+    {
+      "company": "tencent",
+      "scope": "intern",
+      "probe": "tencent-extended",
+      "seconds": 1.1,
+      "ok": true,
+      "reported_total": 594,
+      "error": null,
+      "query": {
+        "projectIdList": [],
+        "projectMappingIdList": [
+          2,
+          104,
+          20
+        ],
+        "keyword": "",
+        "bgList": [],
+        "workCountryType": 0,
+        "workCityList": [],
+        "recruitCityList": [],
+        "positionFidList": [],
+        "pageIndex": 2,
+        "pageSize": 5
+      },
+      "source": "join.qq.com",
+      "positions": [
+        {
+          "post_id": "1153452731391100929",
+          "title": "CSIG技术产品商务培训生",
+          "work_cities": "西安 深圳总部 北京 上海 广州 杭州 南京 厦门 中国香港",
+          "recruit_label": "应届实习",
+          "project": "应届实习",
+          "apply_url": "https://join.qq.com/post_detail.html?postid=1153452731391100929"
+        },
+        {
+          "post_id": "1153452731391100930",
+          "title": "项目管理",
+          "work_cities": "深圳总部 上海",
+          "recruit_label": "应届实习",
+          "project": "应届实习",
+          "apply_url": "https://join.qq.com/post_detail.html?postid=1153452731391100930"
+        },
+        {
+          "post_id": "1153452731391100931",
+          "title": "行业运营",
+          "work_cities": "深圳总部 北京 上海 广州",
+          "recruit_label": "应届实习",
+          "project": "应届实习",
+          "apply_url": "https://join.qq.com/post_detail.html?postid=1153452731391100931"
+        },
+        {
+          "post_id": "1155545119882220544",
+          "title": "投资分析",
+          "work_cities": "北京",
+          "recruit_label": "应届实习",
+          "project": "应届实习",
+          "apply_url": "https://join.qq.com/post_detail.html?postid=1155545119882220544"
+        },
+        {
+          "post_id": "1155545119882220545",
+          "title": "投资分析(技术方向)",
+          "work_cities": "北京",
+          "recruit_label": "应届实习",
+          "project": "应届实习",
+          "apply_url": "https://join.qq.com/post_detail.html?postid=1155545119882220545"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "1153452731391100929",
+          "title": "CSIG技术产品商务培训生",
+          "source": "join.qq.com",
+          "apply_url": "https://join.qq.com/post_detail.html?postid=1153452731391100929",
+          "seconds": 0.42,
+          "error": null,
+          "text_lengths": {
+            "description": 218,
+            "requirements": 184,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "82a97e7b87cbee09461103aac2bea8f782fdf8b67aede5bb005bcf424345f7aa"
+        },
+        {
+          "ok": true,
+          "post_id": "1153452731391100930",
+          "title": "项目管理",
+          "source": "join.qq.com",
+          "apply_url": "https://join.qq.com/post_detail.html?postid=1153452731391100930",
+          "seconds": 0.65,
+          "error": null,
+          "text_lengths": {
+            "description": 225,
+            "requirements": 188,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "6209f90751a3b2c4327c3ca46cb300cfd58ea754c6f6fb073443f3b2fc38261f"
+        }
+      ]
+    },
+    {
+      "company": "vivo",
+      "scope": "intern",
+      "probe": "vivo-extended",
+      "seconds": 0.86,
+      "ok": true,
+      "reported_total": 88,
+      "error": null,
+      "query": {
+        "PageIndex": 1,
+        "PageSize": 5,
+        "KeyWords": "",
+        "SpecialType": 0,
+        "PortalId": "903cbcbf-4898-46e1-817c-da522a9752b1",
+        "DisplayFields": [
+          "Category",
+          "Kind",
+          "LocId",
+          "Org",
+          "HeadCount",
+          "PostDate",
+          "Salary"
+        ],
+        "Category": [
+          "3"
+        ]
+      },
+      "source": "hr-campus.vivo.com",
+      "positions": [
+        {
+          "post_id": "561288149",
+          "title": "软件开发工程师（机器人方向）-实习",
+          "work_cities": "广东省·东莞市",
+          "recruit_label": "实习生招聘",
+          "project": "机器人 LAB",
+          "apply_url": "https://hr-campus.vivo.com/intern/detail?jobAdId=561288149"
+        },
+        {
+          "post_id": "561282860",
+          "title": "影像测试开发工程师（智能制造方向）-27届可转正实习",
+          "work_cities": "广东省·东莞市",
+          "recruit_label": "实习生招聘",
+          "project": "制造工程部",
+          "apply_url": "https://hr-campus.vivo.com/intern/detail?jobAdId=561282860"
+        },
+        {
+          "post_id": "561279307",
+          "title": "机器人运控技术规划工程师-实习",
+          "work_cities": "广东省·东莞市",
+          "recruit_label": "实习生招聘",
+          "project": "机器人 LAB",
+          "apply_url": "https://hr-campus.vivo.com/intern/detail?jobAdId=561279307"
+        },
+        {
+          "post_id": "561268137",
+          "title": "自动化工程师（智能制造方向）-27届暑期实习",
+          "work_cities": "广东省·东莞市",
+          "recruit_label": "实习生招聘",
+          "project": "制造工程部",
+          "apply_url": "https://hr-campus.vivo.com/intern/detail?jobAdId=561268137"
+        },
+        {
+          "post_id": "561266402",
+          "title": "驱动工程师-实习",
+          "work_cities": "广东省·深圳市",
+          "recruit_label": "实习生招聘",
+          "project": "智能终端开发部",
+          "apply_url": "https://hr-campus.vivo.com/intern/detail?jobAdId=561266402"
+        }
+      ],
+      "details": [
+        {
+          "ok": true,
+          "post_id": "561288149",
+          "title": "软件开发工程师（机器人方向）-实习",
+          "source": "hr-campus.vivo.com",
+          "apply_url": "https://hr-campus.vivo.com/intern/detail?jobAdId=561288149",
+          "seconds": 1.08,
+          "error": null,
+          "text_lengths": {
+            "description": 355,
+            "requirements": 340,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "dfffa0f0958e937d1a225af1860724fed08003cad18f3f323c78025dadcb0c03"
+        },
+        {
+          "ok": true,
+          "post_id": "561282860",
+          "title": "影像测试开发工程师（智能制造方向）-27届可转正实习",
+          "source": "hr-campus.vivo.com",
+          "apply_url": "https://hr-campus.vivo.com/intern/detail?jobAdId=561282860",
+          "seconds": 0.84,
+          "error": null,
+          "text_lengths": {
+            "description": 368,
+            "requirements": 149,
+            "description_html": 0,
+            "requirements_html": 0
+          },
+          "text_sha256": "d206ec4f9a5e5f65e7a5dc08fd395e2ce3b9365b8bed352fd993d7116b158b18"
+        }
+      ]
+    },
+    {
+      "company": "xiaohongshu",
+      "scope": "intern",
+      "probe": "xiaohongshu",
+      "seconds": 10.84,
+      "ok": false,
+      "reported_total": null,
+      "error": "network error: fetch failed",
+      "query": {
+        "recruitType": "campus",
+        "pageNum": 1,
+        "pageSize": 3
+      },
+      "source": null,
+      "positions": [],
+      "details": []
+    },
+    {
+      "company": "xiaomi",
+      "scope": "intern",
+      "probe": "xiaomi-extended",
+      "seconds": 0.53,
+      "ok": false,
+      "reported_total": null,
+      "error": "HTTP 429: Too Many Requests",
+      "query": {
+        "keyword": "",
+        "limit": 5,
+        "offset": 5,
+        "portal_type": 3,
+        "portal_entrance": 1,
+        "language": "zh",
+        "recruitment_id_list": [
+          "202"
+        ]
+      },
+      "source": "xiaomi.jobs.f.mioffice.cn",
+      "positions": [],
+      "details": []
+    }
+  ],
+  "broad": {
+    "ncss_default": {
+      "status": 200,
+      "cards": null,
+      "pages": [
+        {
+          "pagination": {
+            "count": 100,
+            "total": 10,
+            "limit": 10,
+            "offset": 1
+          },
+          "rows": [
+            {
+              "jobId": "SLaDB8f5H72xoPf8Xxek6Q",
+              "jobName": "中国银行股份有限公司2027年全球校园招聘公告",
+              "recName": "中国银行股份有限公司",
+              "recruitType": "1",
+              "publishDate": 1788487024236
+            },
+            {
+              "jobId": "GbbFPb1SHqgykXufoXYzDH",
+              "jobName": "小区快递派送员",
+              "recName": "浙江灵动智航科技有限公司长沙分公司",
+              "recruitType": "0",
+              "publishDate": 1790584024677
+            },
+            {
+              "jobId": "AVeVkGYvMYzLtWFuqyNq8A",
+              "jobName": "小区快递配送员",
+              "recName": "浙江灵动智航科技有限公司长沙分公司",
+              "recruitType": "0",
+              "publishDate": 1790584013109
+            },
+            {
+              "jobId": "FWRPpM8SVtECcAxtQJ9FXQ",
+              "jobName": "快递配送员",
+              "recName": "浙江灵动智航科技有限公司长沙分公司",
+              "recruitType": "0",
+              "publishDate": 1790583999026
+            },
+            {
+              "jobId": "A4NnJndQG5T4GzMkC2Qy1f",
+              "jobName": "农业AI数字化助理",
+              "recName": "嗨番（青岛）农业集团有限公司",
+              "recruitType": "0",
+              "publishDate": 1790583913122
+            },
+            {
+              "jobId": "43rfHs8Du5WkEjJLWrgJFd",
+              "jobName": "高中数学第二主讲",
+              "recName": "武汉高途云集教育科技有限公司",
+              "recruitType": "0",
+              "publishDate": 1790582095866
+            },
+            {
+              "jobId": "Q9dECDZ8qjcceLpRXLnYXs",
+              "jobName": "电气/机械/模具设计工程师",
+              "recName": "河南森源电气股份有限公司",
+              "recruitType": "0",
+              "publishDate": 1790576363530
+            },
+            {
+              "jobId": "8psz24rHqz8BJSLwtbBzyo",
+              "jobName": "企业管理专员",
+              "recName": "河南森源电气股份有限公司",
+              "recruitType": "0",
+              "publishDate": 1790576288133
+            },
+            {
+              "jobId": "DuPzuCxbFJbCMdGis2xwS6",
+              "jobName": "电气销售工程师",
+              "recName": "河南森源电气股份有限公司",
+              "recruitType": "0",
+              "publishDate": 1790576205724
+            },
+            {
+              "jobId": "4uSPUR7jkC7hjeSXN87dXx",
+              "jobName": "电气/机械研发工程师",
+              "recName": "河南森源电气股份有限公司",
+              "recruitType": "0",
+              "publishDate": 1790576103326
+            }
+          ]
+        },
+        {
+          "pagination": {
+            "count": 100,
+            "total": 10,
+            "limit": 10,
+            "offset": 2
+          },
+          "rows": [
+            {
+              "jobId": "4bCEmYJzFQqR2BdBq591kh",
+              "jobName": "机械研发工程师（3D打印）",
+              "recName": "山东威高骨科材料股份有限公司",
+              "recruitType": "0",
+              "publishDate": 1790576013250
+            },
+            {
+              "jobId": "BMKwwuzQS1CbnqTuB8BVRz",
+              "jobName": "质量工程师（检验方向）",
+              "recName": "河南森源电气股份有限公司",
+              "recruitType": "0",
+              "publishDate": 1790575974847
+            },
+            {
+              "jobId": "JB2odMPTfexMfp8BkTEKd6",
+              "jobName": "技术员",
+              "recName": "广东联兴建设有限公司",
+              "recruitType": "0",
+              "publishDate": 1790575959567
+            },
+            {
+              "jobId": "An9yS1UZMNiNboaYJLqgU6",
+              "jobName": "Python Java后端工程师（跨境支付方向）",
+              "recName": "深圳市巨乐惠电子有限公司",
+              "recruitType": "0",
+              "publishDate": 1790572701679
+            },
+            {
+              "jobId": "TbJasDpFVVAZGzrDvR6WT7",
+              "jobName": "质量工程师26",
+              "recName": "宁波雷自达电器有限公司",
+              "recruitType": "0",
+              "publishDate": 1790571997005
+            },
+            {
+              "jobId": "4Z4NDZCPRJMML9rwBw1XBr",
+              "jobName": "生产管理储备干部",
+              "recName": "江西旭昇电子股份有限公司",
+              "recruitType": "0",
+              "publishDate": 1790567393231
+            },
+            {
+              "jobId": "CZKWH6qXEGy5dd53wcKocS",
+              "jobName": "市场助理",
+              "recName": "江苏碧浪水科技有限公司",
+              "recruitType": "0",
+              "publishDate": 1790566204861
+            },
+            {
+              "jobId": "EMgcjAsGoTKRSNN2vZFW4K",
+              "jobName": "后台客户运营岗     月休8天",
+              "recName": "广州安赛电子商务有限公司",
+              "recruitType": "0",
+              "publishDate": 1790565916147
+            },
+            {
+              "jobId": "9AxBhRTjMEZ7isw7tjYkC6",
+              "jobName": "化工工艺工程师",
+              "recName": "山东柠檬生化有限公司",
+              "recruitType": "0",
+              "publishDate": 1790565013127
+            },
+            {
+              "jobId": "TSBht7HyeJityQcapMngDP",
+              "jobName": "测量员副手",
+              "recName": "四川鼎华恒工程管理咨询有限公司",
+              "recruitType": "0",
+              "publishDate": 1790564111944
+            }
+          ]
+        }
+      ],
+      "details": [
+        {
+          "id": "SLaDB8f5H72xoPf8Xxek6Q",
+          "url": "https://www.ncss.cn/student/jobs/SLaDB8f5H72xoPf8Xxek6Q/detail.html",
+          "company": null,
+          "status": 200,
+          "error": null,
+          "body_chars": 3858,
+          "private_use_chars": 0,
+          "has_job_description": true,
+          "text_sha256": "62f3e4df95051518e13aca1e991229d30309ab21851f3a415d027bbce5be88cd"
+        },
+        {
+          "id": "GbbFPb1SHqgykXufoXYzDH",
+          "url": "https://www.ncss.cn/student/jobs/GbbFPb1SHqgykXufoXYzDH/detail.html",
+          "company": null,
+          "status": 200,
+          "error": null,
+          "body_chars": 1140,
+          "private_use_chars": 0,
+          "has_job_description": true,
+          "text_sha256": "9722084b93f30a8f48c8c91f3d0bef5e84610a2856a4f5cea9788fe573c02526"
+        },
+        {
+          "id": "AVeVkGYvMYzLtWFuqyNq8A",
+          "url": "https://www.ncss.cn/student/jobs/AVeVkGYvMYzLtWFuqyNq8A/detail.html",
+          "company": null,
+          "status": 200,
+          "error": null,
+          "body_chars": 1173,
+          "private_use_chars": 0,
+          "has_job_description": true,
+          "text_sha256": "4593940ed049d7caf180421614ecd978c26218bfc95473ed3447a127a316981c"
+        }
+      ]
+    },
+    "ncss_intern": {
+      "status": null,
+      "cards": null,
+      "pages": [
+        {
+          "pagination": {
+            "count": 100,
+            "total": 10,
+            "limit": 10,
+            "offset": 1
+          },
+          "rows": [
+            {
+              "jobId": "S8WZpw3qsZL2RACigmcNDD",
+              "jobName": "人事实习",
+              "recName": "易鸿智能装备（宜兴）有限公司",
+              "recruitType": "0",
+              "publishDate": 1790563659719
+            },
+            {
+              "jobId": "VMLvweSnBx6R1WX5oDEsMy",
+              "jobName": "周末双休+欢迎应届生",
+              "recName": "福建思中律师事务所",
+              "recruitType": "0",
+              "publishDate": 1790557094843
+            },
+            {
+              "jobId": "XvwyAYj6TydkMcjSsS3sew",
+              "jobName": "焊接机械手操作工",
+              "recName": "青岛中集特种冷藏设备有限公司",
+              "recruitType": "0",
+              "publishDate": 1790554210211
+            },
+            {
+              "jobId": "JeKkJBj8D9evQvSrJrFPxs",
+              "jobName": "财务专员",
+              "recName": "清远北江交旅经营管理有限公司",
+              "recruitType": "0",
+              "publishDate": 1790583392641
+            },
+            {
+              "jobId": "CVFfez9FnaAmpXQPGEcZGL",
+              "jobName": "施工员",
+              "recName": "青岛奉艳园林有限公司",
+              "recruitType": "0",
+              "publishDate": 1790579558007
+            },
+            {
+              "jobId": "DHVuzN1EQKQAtZTQSYizq3",
+              "jobName": "短视频运营",
+              "recName": "深圳通微新能源科技有限公司",
+              "recruitType": "0",
+              "publishDate": 1790579290216
+            },
+            {
+              "jobId": "SYT6kadCpJWNX5N2jyTxgQ",
+              "jobName": "短视频制作",
+              "recName": "深圳通微新能源科技有限公司",
+              "recruitType": "0",
+              "publishDate": 1790579282017
+            },
+            {
+              "jobId": "EtyoB7XDvdMamsa1BAJU3R",
+              "jobName": "AI数据标注【项目经理培养】—实习生",
+              "recName": "湖北职链产教科技有限公司",
+              "recruitType": "0",
+              "publishDate": 1790572241481
+            },
+            {
+              "jobId": "MbpnGDPAcgaX9hTZjnka3W",
+              "jobName": "BA实习生",
+              "recName": "利戴工业技术服务（上海）有限公司",
+              "recruitType": "0",
+              "publishDate": 1790564357971
+            },
+            {
+              "jobId": "RKQUo1GJ9J5LuYV2pJXZtj",
+              "jobName": "母婴护士",
+              "recName": "深圳爱帝宫母婴健康管理有限公司",
+              "recruitType": "0",
+              "publishDate": 1790563326450
+            }
+          ]
+        },
+        {
+          "pagination": {
+            "count": 100,
+            "total": 10,
+            "limit": 10,
+            "offset": 2
+          },
+          "rows": [
+            {
+              "jobId": "TJWN8uGZj9nWQNX6nNJhGZ",
+              "jobName": "品质工艺检测岗",
+              "recName": "天马微电子股份有限公司龙岗分公司",
+              "recruitType": "0",
+              "publishDate": 1790562964066
+            },
+            {
+              "jobId": "2ztFufCp8XE9UiqbMuQqbQ",
+              "jobName": "自动化设备运维岗",
+              "recName": "天马微电子股份有限公司龙岗分公司",
+              "recruitType": "0",
+              "publishDate": 1790562958824
+            },
+            {
+              "jobId": "EuUEgTAvjVgQZNCKo3Ba19",
+              "jobName": "管理储备实习生",
+              "recName": "天马微电子股份有限公司龙岗分公司",
+              "recruitType": "0",
+              "publishDate": 1790562947618
+            },
+            {
+              "jobId": "GjWKq3wBVZJugp5xDgAgbJ",
+              "jobName": "人事专员（实习）",
+              "recName": "浙江大洋风机有限公司",
+              "recruitType": "0",
+              "publishDate": 1790478385595
+            },
+            {
+              "jobId": "XWZoCQmTfdrEcwk9fdrpR5",
+              "jobName": "餐厅服务员",
+              "recName": "上海新辰酒店管理有限公司紫椴雅辰酒店分公司",
+              "recruitType": "0",
+              "publishDate": 1790494634148
+            },
+            {
+              "jobId": "P4zQeZhaFHrcvP8YFqZfHY",
+              "jobName": "烹饪实习生",
+              "recName": "上海新辰酒店管理有限公司紫椴雅辰酒店分公司",
+              "recruitType": "0",
+              "publishDate": 1790494629722
+            },
+            {
+              "jobId": "UdX1dRLCm3zmBTNoPLKH46",
+              "jobName": "助理猎头顾问",
+              "recName": "成都锐思特人力资源有限公司",
+              "recruitType": "0",
+              "publishDate": 1790476377657
+            },
+            {
+              "jobId": "8CZWAdxYTNEonvyk3GQ1Z3",
+              "jobName": "Java开发工程师（长期实习）",
+              "recName": "广州通易科技有限公司",
+              "recruitType": "0",
+              "publishDate": 1790472312273
+            },
+            {
+              "jobId": "FSV7rXKrP21co1atJjzVDi",
+              "jobName": " 招聘实习生",
+              "recName": "广西小牛网络科技有限公司",
+              "recruitType": "0",
+              "publishDate": 1790387534681
+            },
+            {
+              "jobId": "VT44zziYjtQ5fzUvAPc4vn",
+              "jobName": "招聘储备干部",
+              "recName": "广西小牛网络科技有限公司",
+              "recruitType": "0",
+              "publishDate": 1790387513851
+            }
+          ]
+        }
+      ],
+      "details": [
+        {
+          "id": "S8WZpw3qsZL2RACigmcNDD",
+          "url": null,
+          "company": "易鸿智能装备（宜兴）有限公司",
+          "status": 200,
+          "error": null,
+          "body_chars": 827,
+          "private_use_chars": 0,
+          "has_job_description": true,
+          "text_sha256": "7bddf77b111b687f5c4cd76169fc597effddb126b4d1420e8998ef69001b3d41"
+        },
+        {
+          "id": "VMLvweSnBx6R1WX5oDEsMy",
+          "url": null,
+          "company": "福建思中律师事务所",
+          "status": 200,
+          "error": null,
+          "body_chars": 1485,
+          "private_use_chars": 0,
+          "has_job_description": true,
+          "text_sha256": "606078a83fb2924bb99d919e5947011769ebb5ed1a9a708f1ba4f40bb5ecd287"
+        },
+        {
+          "id": "XvwyAYj6TydkMcjSsS3sew",
+          "url": null,
+          "company": "青岛中集特种冷藏设备有限公司",
+          "status": 200,
+          "error": null,
+          "body_chars": 1122,
+          "private_use_chars": 0,
+          "has_job_description": true,
+          "text_sha256": "ddf4bf1be0e0e3a2757379121a8cab267de8cfacc2b2493225e08ff002190651"
+        },
+        {
+          "id": "JeKkJBj8D9evQvSrJrFPxs",
+          "url": null,
+          "company": "清远北江交旅经营管理有限公司",
+          "status": 200,
+          "error": null,
+          "body_chars": 919,
+          "private_use_chars": 0,
+          "has_job_description": true,
+          "text_sha256": "571cd012a02056aa4c9568260274ff4aa56909ada976bf16d1bd28c7753a3ec8"
+        },
+        {
+          "id": "CVFfez9FnaAmpXQPGEcZGL",
+          "url": null,
+          "company": null,
+          "status": null,
+          "error": "Page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"https://www.ncss.cn/student/jobs/CVFfez9FnaAmpXQPGEcZGL/detail.html\", waiting until ",
+          "body_chars": 0,
+          "private_use_chars": 0,
+          "has_job_description": false,
+          "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    "shixiseng": {
+      "status": 200,
+      "cards": 20,
+      "pages": [],
+      "details": [
+        {
+          "id": null,
+          "url": "https://www.shixiseng.com/intern/inn_wsfjm33qohtx?pcm=pc_SearchList",
+          "company": null,
+          "status": 200,
+          "error": null,
+          "body_chars": 1281,
+          "private_use_chars": 0,
+          "has_job_description": true,
+          "text_sha256": "cb2c04154d7a7a05ef51285da99ff9f049aa5d3ac40fdf183905ebfd3dae7868"
+        },
+        {
+          "id": null,
+          "url": "https://www.shixiseng.com/intern/inn_3wl5mfcgs1lg?pcm=pc_SearchList",
+          "company": null,
+          "status": 200,
+          "error": null,
+          "body_chars": 924,
+          "private_use_chars": 0,
+          "has_job_description": true,
+          "text_sha256": "798cf659a5ce7331f6c9cd1ddca36181ff15b9f6c7dd420ed295e110f568b88a"
+        }
+      ]
+    }
+  }
+}

@@ -30,3 +30,7 @@ allowlist identity, not from guessed missing upstream company fields.
 Fixtures prove the CLI shape at capture time, not continuing job availability or
 that upstream filters perfectly classify internship/campus jobs. No semantic
 reclassification is performed by this adapter.
+
+## Phase 1A fixtures
+
+Eight Batch A search/detail pairs are unchanged public CLI payloads from the 2026-10-02 audit (`@ha7ch/job-pro@1.2.1`). Alibaba, Meituan, JD, NetEase, Kuaishou, OPPO, Li Auto, Ant Group. These are offline regression inputs, not synthetic jobs or instructions. Li Auto preserves raw HTML. No cookies, credentials, applications or user profiles.

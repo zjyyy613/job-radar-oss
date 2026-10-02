@@ -1,0 +1,41 @@
+{
+  "ok": true,
+  "source": "careers.oppo.com",
+  "query": {
+    "pageNum": 1,
+    "pageSize": 3,
+    "recruitmentType": "Intern"
+  },
+  "page": 1,
+  "page_size": 3,
+  "total": 97,
+  "positions": [
+    {
+      "post_id": "1599",
+      "title": "高级底层软件工程师（AI方向）-博士",
+      "project": "2027届寻梦实习招聘",
+      "recruit_label": "实习生",
+      "bgs": "软件类",
+      "work_cities": "深圳市",
+      "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1599"
+    },
+    {
+      "post_id": "1680",
+      "title": "高级AI研究员（内容生成推荐智能体）-博士",
+      "project": "2027届寻梦实习招聘",
+      "recruit_label": "实习生",
+      "bgs": "AI/算法类",
+      "work_cities": "深圳市",
+      "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1680"
+    },
+    {
+      "post_id": "1717",
+      "title": "影像算法工程师（姿态解算方向）",
+      "project": "2027届寻梦实习招聘",
+      "recruit_label": "实习生",
+      "bgs": "AI/算法类",
+      "work_cities": "东莞市",
+      "apply_url": "https://careers.oppo.com/#/campus/talent/positionDetail/1717"
+    }
+  ]
+}

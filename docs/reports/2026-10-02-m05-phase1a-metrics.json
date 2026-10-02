@@ -1,0 +1,202 @@
+{
+  "sources": [
+    {
+      "source": "job-pro:alibaba",
+      "status": "success",
+      "pages_fetched": 2,
+      "listed": 50,
+      "response_records": 50,
+      "duplicate_ids": 0,
+      "detail_attempted": 50,
+      "detail_success": 50,
+      "admission_passed": 50,
+      "admission_rejected": 0,
+      "duration_ms": 118636,
+      "stop_reason": "max_jobs",
+      "failure_reasons": {},
+      "inserted": 50,
+      "updated": 0,
+      "canonical_jobs": 50,
+      "rejections": []
+    },
+    {
+      "source": "job-pro:meituan",
+      "status": "success",
+      "pages_fetched": 2,
+      "listed": 50,
+      "response_records": 50,
+      "duplicate_ids": 0,
+      "detail_attempted": 50,
+      "detail_success": 50,
+      "admission_passed": 50,
+      "admission_rejected": 0,
+      "duration_ms": 119328,
+      "stop_reason": "max_jobs",
+      "failure_reasons": {},
+      "inserted": 50,
+      "updated": 0,
+      "canonical_jobs": 50,
+      "rejections": []
+    },
+    {
+      "source": "job-pro:jd",
+      "status": "success",
+      "pages_fetched": 2,
+      "listed": 50,
+      "response_records": 50,
+      "duplicate_ids": 0,
+      "detail_attempted": 50,
+      "detail_success": 50,
+      "admission_passed": 50,
+      "admission_rejected": 0,
+      "duration_ms": 78102,
+      "stop_reason": "max_jobs",
+      "failure_reasons": {},
+      "inserted": 50,
+      "updated": 0,
+      "canonical_jobs": 50,
+      "rejections": []
+    },
+    {
+      "source": "job-pro:netease",
+      "status": "partial",
+      "pages_fetched": 2,
+      "listed": 50,
+      "response_records": 50,
+      "duplicate_ids": 0,
+      "detail_attempted": 50,
+      "detail_success": 50,
+      "admission_passed": 48,
+      "admission_rejected": 2,
+      "duration_ms": 193580,
+      "stop_reason": "max_jobs",
+      "failure_reasons": {
+        "insufficient_detail": 1,
+        "unreadable_detail": 1
+      },
+      "inserted": 48,
+      "updated": 0,
+      "canonical_jobs": 48,
+      "rejections": [
+        {
+          "source_job_id": "78999",
+          "reason": "insufficient_detail"
+        },
+        {
+          "source_job_id": "69985",
+          "reason": "unreadable_detail"
+        }
+      ]
+    },
+    {
+      "source": "job-pro:kuaishou",
+      "status": "partial",
+      "pages_fetched": 2,
+      "listed": 50,
+      "response_records": 50,
+      "duplicate_ids": 0,
+      "detail_attempted": 50,
+      "detail_success": 50,
+      "admission_passed": 49,
+      "admission_rejected": 1,
+      "duration_ms": 135450,
+      "stop_reason": "max_jobs",
+      "failure_reasons": {
+        "insufficient_detail": 1
+      },
+      "inserted": 49,
+      "updated": 0,
+      "canonical_jobs": 49,
+      "rejections": [
+        {
+          "source_job_id": "0b4b70df40ac44cdb485d0c309b401af",
+          "reason": "insufficient_detail"
+        }
+      ]
+    },
+    {
+      "source": "job-pro:oppo",
+      "status": "success",
+      "pages_fetched": 2,
+      "listed": 50,
+      "response_records": 50,
+      "duplicate_ids": 0,
+      "detail_attempted": 50,
+      "detail_success": 50,
+      "admission_passed": 50,
+      "admission_rejected": 0,
+      "duration_ms": 64122,
+      "stop_reason": "max_jobs",
+      "failure_reasons": {},
+      "inserted": 50,
+      "updated": 0,
+      "canonical_jobs": 50,
+      "rejections": []
+    },
+    {
+      "source": "job-pro:liauto",
+      "status": "success",
+      "pages_fetched": 2,
+      "listed": 50,
+      "response_records": 50,
+      "duplicate_ids": 0,
+      "detail_attempted": 50,
+      "detail_success": 50,
+      "admission_passed": 50,
+      "admission_rejected": 0,
+      "duration_ms": 56871,
+      "stop_reason": "max_jobs",
+      "failure_reasons": {},
+      "inserted": 50,
+      "updated": 0,
+      "canonical_jobs": 50,
+      "rejections": []
+    },
+    {
+      "source": "job-pro:antgroup",
+      "status": "partial",
+      "pages_fetched": 2,
+      "listed": 50,
+      "response_records": 50,
+      "duplicate_ids": 0,
+      "detail_attempted": 50,
+      "detail_success": 50,
+      "admission_passed": 49,
+      "admission_rejected": 1,
+      "duration_ms": 126990,
+      "stop_reason": "max_jobs",
+      "failure_reasons": {
+        "insufficient_detail": 1
+      },
+      "inserted": 49,
+      "updated": 0,
+      "canonical_jobs": 49,
+      "rejections": [
+        {
+          "source_job_id": "25100206981344",
+          "reason": "insufficient_detail"
+        }
+      ]
+    }
+  ],
+  "source_records": 404,
+  "canonical_jobs": 404,
+  "new_records": 396,
+  "new_jobs": 396,
+  "merged": 0,
+  "companies": 13,
+  "application_status": {
+    "unknown": 148,
+    "open": 256
+  },
+  "detail_success_rate": 1,
+  "admission_rate": 0.99,
+  "history_unchanged": true,
+  "replay": {
+    "updated": 8,
+    "inserted": 0,
+    "records_before": 404,
+    "records_after": 404,
+    "identical_record_hash": true
+  }
+}

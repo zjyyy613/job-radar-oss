@@ -1,0 +1,41 @@
+{
+  "ok": true,
+  "source": "campus.kuaishou.cn",
+  "query": {
+    "pageNum": 1,
+    "pageSize": 3,
+    "positionNatureCode": "intern"
+  },
+  "page": 1,
+  "page_size": 3,
+  "total": 228,
+  "positions": [
+    {
+      "post_id": "27ab82998e5a4ba3aad7a9b7ed75979d",
+      "title": "【留用实习】策略产品经理-商业化方向",
+      "project": "J1021",
+      "recruit_label": "intern",
+      "bgs": "",
+      "work_cities": "北京",
+      "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=27ab82998e5a4ba3aad7a9b7ed75979d"
+    },
+    {
+      "post_id": "9842a9e0d3354e2fbd0c809085d7d68e",
+      "title": "【留用实习】策略运营-分析",
+      "project": "J1030",
+      "recruit_label": "intern",
+      "bgs": "",
+      "work_cities": "北京",
+      "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=9842a9e0d3354e2fbd0c809085d7d68e"
+    },
+    {
+      "post_id": "9e2a9fc2ace441e9b2e0d6a202a62108",
+      "title": "【留用实习】交互设计师",
+      "project": "design",
+      "recruit_label": "intern",
+      "bgs": "",
+      "work_cities": "北京",
+      "apply_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/job-info/?code=9e2a9fc2ace441e9b2e0d6a202a62108"
+    }
+  ]
+}

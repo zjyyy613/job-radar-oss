@@ -1,0 +1,50 @@
+{
+  "ok": true,
+  "source": "campus.jd.com",
+  "query": {
+    "pageSize": 3,
+    "pageIndex": 0,
+    "parameter": {
+      "positionName": "",
+      "planIdList": [],
+      "positionDeptList": [],
+      "jobDirectionCodeList": [],
+      "workCityCodeList": []
+    }
+  },
+  "page": 1,
+  "page_size": 3,
+  "buckets": [
+    "internship"
+  ],
+  "total": 104,
+  "positions": [
+    {
+      "post_id": "9364",
+      "title": "技术支持工程师",
+      "project": "一线专业方向",
+      "recruit_label": "实习生",
+      "bgs": "京东集团",
+      "work_cities": "北京市-北京市 / 四川省-成都市",
+      "apply_url": "https://campus.jd.com/#/newDetails?publishId=9364"
+    },
+    {
+      "post_id": "5873",
+      "title": "人事运营",
+      "project": "职能方向",
+      "recruit_label": "实习生",
+      "bgs": "京东集团",
+      "work_cities": "北京市-北京市 / 江苏省-宿迁市 / 陕西省-西安市 / 山东省-济南市 / 辽宁省-沈阳市 / 天津市-天津市 / 江西省-南昌市 / 湖北省-武汉市 / 云南省-昆明市 / 四川省-成都市 / 福建省-泉州市 / 湖南省-长沙市 / 广西壮族自治区-柳州市 / 海南省-海口市 / 广东省-东莞市 / 广东省-广州市",
+      "apply_url": "https://campus.jd.com/#/newDetails?publishId=5873"
+    },
+    {
+      "post_id": "4864",
+      "title": "物流运营",
+      "project": "采销与物流方向",
+      "recruit_label": "实习生",
+      "bgs": "京东物流 / 京东零售 / 京东集团 / 京东健康",
+      "work_cities": "广东省-广州市 / 北京市-北京市 / 四川省-成都市 / 湖北省-武汉市 / 新疆维吾尔自治区-乌鲁木齐市 / 辽宁省-沈阳市 / 江西省-南昌市 / 浙江省-杭州市 / 山西省-太原市 / 上海市-上海市 / 上海市-上海市-嘉定区 / 山东省-德州市 / 江苏省-镇江市 / 黑龙江省-哈尔滨市 / 安徽省-合肥市 / 江苏省-苏州市-昆山市 / 江苏省-南京市 / 江苏省-宿迁市 / 河北省-廊坊市-广阳区 / 河北省-廊坊市 / 广东省-深圳市 / 山东省-济南市 / 海南省-澄迈县 / 海南省-海口市",
+      "apply_url": "https://campus.jd.com/#/newDetails?publishId=4864"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "ok": true,
+  "source": "hr.163.com",
+  "query": {
+    "currentPage": 1,
+    "pageSize": 3,
+    "workType": "1",
+    "keyword": ""
+  },
+  "page": 1,
+  "page_size": 3,
+  "total": 563,
+  "positions": [
+    {
+      "post_id": "79036",
+      "title": "游戏图形算法工程师（实习生）",
+      "project": "人工智能",
+      "recruit_label": "校园/实习",
+      "bgs": "技术中心",
+      "work_cities": "杭州市",
+      "apply_url": "https://hr.163.com/job-detail.html?id=79036"
+    },
+    {
+      "post_id": "78936",
+      "title": "海外商务实习生",
+      "project": "市场",
+      "recruit_label": "校园/实习",
+      "bgs": "游戏应用与平台发展事业部",
+      "work_cities": "广州市",
+      "apply_url": "https://hr.163.com/job-detail.html?id=78936"
+    },
+    {
+      "post_id": "78552",
+      "title": "市场营销实习生（活动方向）",
+      "project": "市场",
+      "recruit_label": "校园/实习",
+      "bgs": "UGC事业部",
+      "work_cities": "上海市",
+      "apply_url": "https://hr.163.com/job-detail.html?id=78552"
+    }
+  ]
+}

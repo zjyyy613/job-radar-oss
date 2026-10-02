@@ -25,7 +25,7 @@ npm run build
 根路径进入 `/radar`，Guest 可进入 `/onboarding` 填写资料，并在 `/profile` 查看、修改、清除。Profile 独立使用本地存储，不依赖外部服务；Radar 需要服务端 Supabase 配置及已归一化的真实 jobs。
 Task 2 固定安装 `@ha7ch/job-pro@1.2.1`，通过公开 CLI/process 边界使用；未引入其私有 API、ORM、Auth 或状态库。Supabase 写入使用原生 fetch 调用 PostgREST。
 
-## Task 2 ingestion
+## job-pro ingestion（Task 2 / M0.5 Phase 1A）
 
 将 `.env.example` 复制为 `.env.local`，配置服务端 `SUPABASE_URL` 与 `SUPABASE_SECRET_KEY`。
 新版 secret 优先，只放在 `apikey` 请求头；旧版 `SUPABASE_SERVICE_ROLE_KEY` 仅作 fallback。
@@ -40,21 +40,32 @@ npm run ingest:job-pro -- --write --scope campus --limit 2
 npm run ingest:job-pro -- --write --sources tencent,vivo --scope intern --limit 2
 ```
 
-- 单一 allowlist 位于 `scripts/ingest/job-pro-sources.ts`，只有腾讯、小米、vivo。
-- 单次调用仅取所选渠道第一页，默认每家公司 20 条，硬上限 50 条。**不是全量采集**，所有 run 均为 `full_list=false`，不能用来推断岗位关闭。
+- 单一 allowlist 位于 `scripts/ingest/job-pro-sources.ts`，包含腾讯、小米、vivo，以及 Alibaba、Meituan、JD、NetEase、Kuaishou、OPPO、Li Auto、Ant Group；默认仍仅选择原三家。
+- 默认每家公司 1 页、最多 5 条，全局最多 15 条。`--limit` 为页大小（最大 50），`--max-pages` 最大 20，`--max-jobs` 与 `--global-max-jobs` 最大 500。页大小保持不变；剩余额度不足一整页时正常停止，Ant Group 页大小最多 49。**不是全量采集**，所有 run 均为 `full_list=false`，不能用来推断岗位关闭。
 - 只 upsert `source_records` 并写 `source_runs`；不处理 `jobs`、NCSS、canonicalization、gates 或 UI。
-- 详情失败时跳过该条，不以稀疏列表覆盖已有详情；其他条目、公司继续处理。混合成功/失败输出 `partial`，不使整个命令失败；全失败或审计写入失败返回非零退出码。
+- 详情须通过身份、官方 locator、地点、正文准入：去除标题/空白/标点后至少 80 字符、12 种字符，无不可读编码或验证页。详情失败或未通过准入时跳过该条，不以稀疏列表覆盖已有详情；其他条目、公司继续处理。混合成功/失败输出 `partial`，不使整个命令失败；全失败或审计写入失败返回非零退出码。
 - 每家公司有 5 分钟预算，到期不再启动下一条；在途 CLI/HTTP 请求另有 45/20 秒超时，随后继续其他公司。
 - raw_payload 保留原始详情对象；raw_hash 使用稳定 key 排序的 SHA-256，与抓取时间无关。未支持的源字段仍完整保留在原始载荷中。
 - 新增/更新计数基于写入前身份查询，仅统计已确认写入；更新包括刷新 `last_seen_at`。不要同时手动运行多个 writer。响应不明时不盲目重试写入，先检查数据库状态。
 - 错误日志仅记录阶段标签，不回显密钥、上游原始错误或响应体。
 
-GitHub Actions 支持手动触发与每日 UTC 01:23 定时运行，串行执行，默认 campus / 每家公司 20 条。
+既有 GitHub Actions 支持手动触发与每日 UTC 01:23 定时运行，串行执行。本轮未修改或执行 workflow；其现有 `--limit 20` 仍受新默认每源 5 条、全局 15 条约束，不自动扩量。
 启用前在仓库 Secrets 配置 `SUPABASE_URL` 与 `SUPABASE_SECRET_KEY`（或旧版 fallback），并确保已有 Task 1 表结构。
 workflow 已加入本地仓库，尚未推送或在 GitHub 上执行。
 
 真实 fixture 的抓取命令与映射边界见 [fixture 说明](tests/fixtures/job-pro/README.md)。
 真实 Supabase 写入、复跑与自审记录见 [Task 2 smoke 报告](docs/reports/2026-09-28-task2-job-pro-smoke.md)。
+
+### M0.5 Phase 1A 受控扩量
+
+```sh
+npm run ingest:job-pro -- --write --sources alibaba,meituan,jd,netease,kuaishou,oppo,liauto,antgroup --scope intern --limit 25 --max-pages 2 --max-jobs 50 --global-max-jobs 400
+npm run canonicalize -- --write
+```
+
+串行读取，首次请求间隔 350ms；网络/5xx 类读取失败最多重试一次，退避 1500ms；403/429 不重试并停止该源。输出 pages/list/detail/admission/write 指标及固定拒绝原因，不输出上游错误正文。所有有界 run 仍为 `full_list=false`。新增岗位不自动提取 gates，readiness 未完成时资格为 Check。
+
+本次真实结果为新增 396 条，总计 404 records / 404 jobs；详见 [Phase 1A 报告](docs/reports/2026-10-02-m05-phase1a-official-ingestion.md)。来源选择依据为已验收的 [扩量审计](docs/reports/2026-10-02-m05-source-expansion-audit.md)。
 
 ## Task 3 NCSS ingestion
 

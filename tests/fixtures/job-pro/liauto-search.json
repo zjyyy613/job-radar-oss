@@ -1,0 +1,40 @@
+{
+  "ok": true,
+  "source": "www.lixiang.com",
+  "query": {
+    "page": 1,
+    "page_size": 3
+  },
+  "page": 1,
+  "page_size": 3,
+  "total": 1027,
+  "positions": [
+    {
+      "post_id": "18450",
+      "title": "高速选址运营实习生",
+      "project": "充电网络",
+      "recruit_label": "实习",
+      "bgs": "",
+      "work_cities": "北京",
+      "apply_url": "https://www.lixiang.com/job/detail/18450.html"
+    },
+    {
+      "post_id": "18451",
+      "title": "充电网络工程供应管理实习生",
+      "project": "充电网络",
+      "recruit_label": "实习",
+      "bgs": "",
+      "work_cities": "上海",
+      "apply_url": "https://www.lixiang.com/job/detail/18451.html"
+    },
+    {
+      "post_id": "18452",
+      "title": "电力大客户实习生",
+      "project": "充电网络",
+      "recruit_label": "实习",
+      "bgs": "",
+      "work_cities": "北京",
+      "apply_url": "https://www.lixiang.com/job/detail/18452.html"
+    }
+  ]
+}

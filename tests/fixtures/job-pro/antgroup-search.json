@@ -1,0 +1,42 @@
+{
+  "ok": true,
+  "source": "hrcareersweb.antgroup.com",
+  "query": {
+    "recruitType": "campus",
+    "page": 1,
+    "pageSize": 3,
+    "keyword": ""
+  },
+  "page": 1,
+  "page_size": 3,
+  "total": 461,
+  "positions": [
+    {
+      "post_id": "260813011416487",
+      "title": "【Plan A】医疗健康前沿智能体-蚂蚁健康-27届",
+      "project": "技术类",
+      "recruit_label": "校招",
+      "bgs": "",
+      "work_cities": "北京 / 杭州",
+      "apply_url": "https://talent.antgroup.com/campus-position?positionId=260813011416487"
+    },
+    {
+      "post_id": "260813011403184",
+      "title": "【Plan A】医学世界模型-蚂蚁健康-27届",
+      "project": "技术类",
+      "recruit_label": "校招",
+      "bgs": "",
+      "work_cities": "北京 / 上海 / 杭州",
+      "apply_url": "https://talent.antgroup.com/campus-position?positionId=260813011403184"
+    },
+    {
+      "post_id": "25062405364658",
+      "title": "【蚂蚁星】具身智能算法工程师-灵波（实习）",
+      "project": "技术类",
+      "recruit_label": "校招",
+      "bgs": "",
+      "work_cities": "北京 / 上海 / 杭州",
+      "apply_url": "https://talent.antgroup.com/campus-position?positionId=25062405364658"
+    }
+  ]
+}

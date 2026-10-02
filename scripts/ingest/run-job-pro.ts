@@ -3,93 +3,124 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import type { SourceRun } from "./contracts";
-import { mapJobProRecord, upstreamObject } from "./job-pro-adapter";
-import { invokeJobPro } from "./job-pro-cli";
+import { detailAdmission, mapJobProRecord, upstreamObject } from "./job-pro-adapter";
+import { invokeJobPro, JobProFailure } from "./job-pro-cli";
 import { ADAPTER_VERSION, JOB_PRO_SOURCES, isJobProSource, sourceIdentity, type JobProScope, type JobProSource } from "./job-pro-sources";
 import { createSourceStore, serverConfig, type IngestionStore } from "./source-store";
 
-interface RunOptions { sources: readonly JobProSource[]; scope: JobProScope; limit: number }
-interface Dependencies { cli: (args: readonly string[]) => Promise<unknown>; store?: IngestionStore; now?: () => string }
-interface SourceResult {
-  run: SourceRun;
-  records_mapped: number;
-  records_written: number;
-  mapped_ids: string[];
-  audit_written: boolean;
-  audit_error: string | null;
+export interface RunOptions {
+  sources: readonly JobProSource[]; scope: JobProScope;
+  /** Page size; legacy --limit remains supported. */
+  limit: number; maxPages?: number; maxJobs?: number; globalMaxJobs?: number;
 }
-
-function validateOptions(options: RunOptions) {
-  if (!options.sources.length || options.sources.some((source) => !isJobProSource(source)) || new Set(options.sources).size !== options.sources.length) throw new Error("Invalid source allowlist selection");
-  if (!["campus", "intern"].includes(options.scope) || !Number.isInteger(options.limit) || options.limit < 1 || options.limit > 50) throw new Error("Use campus/intern and a limit of 1–50 per company");
+interface Dependencies { cli: (args: readonly string[]) => Promise<unknown>; store?: IngestionStore; now?: () => string }
+function bounds(options: RunOptions) {
+  const limits = { maxPages: options.maxPages ?? 1, maxJobs: options.maxJobs ?? options.limit, globalMaxJobs: options.globalMaxJobs ?? 15 };
+  if (!options.sources.length || options.sources.some(source => !isJobProSource(source)) || new Set(options.sources).size !== options.sources.length) throw new Error("Invalid source allowlist selection");
+  if (!["campus", "intern"].includes(options.scope)) throw new Error("Use campus/intern");
+  for (const [value, max] of [[options.limit, 50], [limits.maxPages, 20], [limits.maxJobs, 500], [limits.globalMaxJobs, 500]]) {
+    if (!Number.isInteger(value) || value < 1 || value > max) throw new Error("Invalid pagination budget");
+  }
+  return limits;
 }
 
 export async function runIngestion(options: RunOptions, { cli, store, now = () => new Date().toISOString() }: Dependencies) {
-  validateOptions(options);
-  const sources: SourceResult[] = [];
+  const limits = bounds(options);
+  const sources = [];
+  const skipped_sources: string[] = [];
+  let globallyListed = 0;
   for (const source of options.sources) {
-    const sourceDeadline = performance.now() + 5 * 60_000;
+    if (globallyListed >= limits.globalMaxJobs) { skipped_sources.push(source); continue; }
+    const started = performance.now();
+    const sourceDeadline = started + 5 * 60_000;
     const run: SourceRun = {
       id: randomUUID(), ...sourceIdentity(source), full_list: false,
       started_at: now(), finished_at: now(), status: "success",
       records_seen: 0, records_new: 0, records_updated: 0,
       adapter_version: ADAPTER_VERSION, error_type: null, error_message: null,
     };
-    const result: SourceResult = { run, records_mapped: 0, records_written: 0, mapped_ids: [], audit_written: false, audit_error: null };
+    const metrics = { pages_fetched: 0, listed: 0, response_records: 0, duplicate_ids: 0,
+      detail_attempted: 0, detail_success: 0, admission_passed: 0, admission_rejected: 0,
+      duration_ms: 0, stop_reason: "max_pages", failure_reasons: {} as Record<string, number> };
+    const result = { run, metrics, records_mapped: 0, records_written: 0, mapped_ids: [] as string[],
+      rejections: [] as { source_job_id: string | null; reason: string }[], audit_written: false, audit_error: null as string | null };
     const errors: string[] = [];
-    let stage = "search_failed";
-    try {
-      const search = upstreamObject(await cli([source, "search", "", "--scope", options.scope, "--page-size", String(options.limit), "--compact"]));
-      if (search.ok !== true || search.source !== JOB_PRO_SOURCES[source].upstream || !Array.isArray(search.positions) || !Number.isInteger(search.total) || Number(search.total) < 0) throw new Error("Invalid search response");
-      if (Number(search.total) < search.positions.length || (Number(search.total) > 0 && search.positions.length === 0)) throw new Error("Inconsistent search page");
-      const positions = search.positions.slice(0, options.limit);
-      run.records_seen = positions.length;
-      const seen = new Set<string>();
+    const fail = (reason: string) => { errors.push(reason); metrics.failure_reasons[reason] = (metrics.failure_reasons[reason] ?? 0) + 1; };
+    const seen = new Set<string>();
+    // Keep page size constant: shrinking later pages would change offset and repeat/skip IDs.
+    const pageSize = Math.min(options.limit, source === "antgroup" ? 49 : 50, limits.maxJobs, limits.globalMaxJobs - globallyListed);
+    pages: for (let page = 1; page <= limits.maxPages; page++) {
+      if (metrics.listed + pageSize > limits.maxJobs) { metrics.stop_reason = "max_jobs"; break; }
+      if (globallyListed + pageSize > limits.globalMaxJobs) { metrics.stop_reason = "global_max_jobs"; break; }
+      if (performance.now() >= sourceDeadline) { fail("source_timeout"); metrics.stop_reason = "source_timeout"; break; }
+      let search: Record<string, unknown>;
+      try {
+        search = upstreamObject(await cli([source, "search", "", "--scope", options.scope, "--page-size", String(pageSize), "--page", String(page), "--compact"]));
+        if (search.ok !== true || search.source !== JOB_PRO_SOURCES[source].upstream || !Array.isArray(search.positions) || !Number.isInteger(search.total) || Number(search.total) < 0) throw new Error("Invalid search");
+        if (Number(search.total) < search.positions.length || (!search.positions.length && (page - 1) * pageSize < Number(search.total))) throw new Error("Inconsistent search");
+      } catch (error) {
+        fail(error instanceof JobProFailure ? error.kind : "search_failed"); metrics.stop_reason = "search_failed"; break;
+      }
+      const rawPositions = search.positions as unknown[];
+      metrics.pages_fetched++; metrics.response_records += rawPositions.length;
+      // Contract drift cannot turn a bounded request into an unbounded detail fan-out.
+      const positions = rawPositions.slice(0, pageSize);
+      metrics.listed += positions.length; globallyListed += positions.length; run.records_seen = metrics.listed;
+      let newIds = 0;
       for (const item of positions) {
-        // Each individual process/request is bounded too; leave time for other companies.
-        if (performance.now() >= sourceDeadline) { errors.push("source_timeout"); break; }
-        stage = "invalid_record";
+        if (performance.now() >= sourceDeadline) { fail("source_timeout"); metrics.stop_reason = "source_timeout"; break pages; }
+        let id: string | null = null;
+        let stage = "invalid_record";
         try {
-          const listed = mapJobProRecord(item, source, now());
-          if (seen.has(listed.source_job_id)) throw new Error("Duplicate listing identity");
-          seen.add(listed.source_job_id);
-          stage = "detail_failed";
-          const detail = upstreamObject(await cli([source, "detail", listed.source_job_id, "--compact"]));
-          if (detail.ok !== true || detail.source !== JOB_PRO_SOURCES[source].upstream) throw new Error("Invalid detail response");
-          stage = "invalid_record";
+          const listed = mapJobProRecord(item, source, now()); id = listed.source_job_id;
+          if (seen.has(id)) { metrics.duplicate_ids++; continue; }
+          seen.add(id); newIds++;
+          stage = "detail_failed"; metrics.detail_attempted++;
+          const detail = upstreamObject(await cli([source, "detail", id, "--compact"]));
+          if (detail.ok !== true || detail.source !== JOB_PRO_SOURCES[source].upstream) throw new Error("Invalid detail");
+          metrics.detail_success++; stage = "invalid_record";
           const record = mapJobProRecord(detail, source, now());
-          if (record.source_job_id !== listed.source_job_id) throw new Error("Detail identity mismatch");
-          result.records_mapped++;
-          result.mapped_ids.push(record.source_job_id);
+          if (record.source_job_id !== id) throw new Error("Detail identity mismatch");
+          const reason = detailAdmission(record, source);
+          if (reason) { stage = reason; throw new Error("Admission rejected"); }
+          metrics.admission_passed++; result.records_mapped++; result.mapped_ids.push(id);
           if (store) {
             stage = "write_failed";
             const disposition = await store.upsertRecord(record);
-            if (disposition === "new") run.records_new++;
-            else run.records_updated++;
+            if (disposition === "new") run.records_new++; else run.records_updated++;
             result.records_written++;
           }
-        } catch { errors.push(stage); }
+        } catch (error) {
+          const reason = error instanceof JobProFailure ? error.kind : stage;
+          fail(reason);
+          if (stage !== "write_failed") { metrics.admission_rejected++; result.rejections.push({ source_job_id: id, reason }); }
+          if (error instanceof JobProFailure && ["rate_limited", "access_denied"].includes(error.kind)) { metrics.stop_reason = error.kind; break pages; }
+        }
       }
-    } catch { errors.push(stage); }
+      if (positions.length && !newIds && metrics.duplicate_ids) { fail("repeated_page"); metrics.stop_reason = "repeated_page"; break; }
+      if (page * pageSize >= Number(search.total)) { metrics.stop_reason = "query_exhausted"; break; }
+      if (!positions.length) { metrics.stop_reason = "query_exhausted"; break; }
+      if (metrics.listed >= limits.maxJobs) { metrics.stop_reason = "max_jobs"; break; }
+      if (globallyListed >= limits.globalMaxJobs) { metrics.stop_reason = "global_max_jobs"; break; }
+    }
     if (errors.length) {
       run.status = (store ? result.records_written : result.records_mapped) > 0 ? "partial" : "failed";
-      run.error_type = errors[0];
-      run.error_message = `${errors.length} failure(s): ${[...new Set(errors)].join(", ")}`;
+      run.error_type = errors[0]; run.error_message = `${errors.length} failure(s): ${[...new Set(errors)].join(", ")}`;
     }
-    run.finished_at = now();
+    run.finished_at = now(); metrics.duration_ms = Math.round(performance.now() - started);
     if (store) {
       try { await store.writeRun(run); result.audit_written = true; }
       catch { result.audit_error = "source_runs write failed"; }
     }
     sources.push(result);
   }
-  const succeeded = sources.filter((source) => source.run.status === "success" && !source.audit_error).length;
-  const useful = sources.some((source) => source.run.status !== "failed");
-  return { status: succeeded === sources.length ? "success" : useful ? "partial" : "failed", dry_run: !store, sources };
+  const succeeded = sources.filter(source => source.run.status === "success" && !source.audit_error).length;
+  return { status: succeeded === sources.length ? "success" : sources.some(source => source.run.status !== "failed") ? "partial" : "failed",
+    dry_run: !store, limits, skipped_sources, globally_listed: globallyListed, sources };
 }
 
 export function parseOptions(args: string[]): RunOptions & { dryRun: boolean } {
-  const options: RunOptions & { dryRun: boolean } = { sources: Object.keys(JOB_PRO_SOURCES) as JobProSource[], scope: "campus", limit: 20, dryRun: false };
+  const options: RunOptions & { dryRun: boolean } = { sources: ["tencent", "xiaomi", "vivo"], scope: "campus", limit: 5, maxPages: 1, maxJobs: 5, globalMaxJobs: 15, dryRun: false };
   let mode: string | undefined;
   const used = new Set<string>();
   for (let i = 0; i < args.length; i++) {
@@ -99,16 +130,19 @@ export function parseOptions(args: string[]): RunOptions & { dryRun: boolean } {
     if (key === "--write" || key === "--dry-run") {
       if (mode) throw new Error("Choose exactly one of --write / --dry-run");
       mode = key; options.dryRun = key === "--dry-run";
-    } else if (["--sources", "--scope", "--limit"].includes(key)) {
+    } else if (["--sources", "--scope", "--limit", "--max-pages", "--max-jobs", "--global-max-jobs"].includes(key)) {
       const value = args[++i];
       if (!value) throw new Error("Missing option value");
       if (key === "--sources") options.sources = value.split(",") as JobProSource[];
       if (key === "--scope") options.scope = value as JobProScope;
       if (key === "--limit") options.limit = Number(value);
+      if (key === "--max-pages") options.maxPages = Number(value);
+      if (key === "--max-jobs") options.maxJobs = Number(value);
+      if (key === "--global-max-jobs") options.globalMaxJobs = Number(value);
     } else throw new Error("Unknown option");
   }
   if (!mode) throw new Error("Choose --dry-run or --write explicitly");
-  validateOptions(options);
+  bounds(options);
   return options;
 }
 
@@ -128,7 +162,7 @@ async function main() {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   main().catch(() => {
-    console.error("job-pro ingestion could not start. Check server-only Supabase configuration and options: --dry-run or --write, --sources tencent,xiaomi,vivo, --scope campus|intern, --limit 1–50.");
+    console.error("job-pro ingestion could not start. Check server-only Supabase configuration and options: --dry-run or --write, --sources <allowlisted companies>, --scope campus|intern, --limit 1–50, --max-pages 1–20, --max-jobs 1–500, --global-max-jobs 1–500.");
     process.exitCode = 1;
   });
 }
