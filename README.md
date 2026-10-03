@@ -177,6 +177,23 @@ npm run extract:gates -- --corpus
 回归来源见 [fixture 说明](tests/fixtures/gates/README.md)，真实结果与失败修复见
 [Task 5 报告](docs/reports/2026-09-29-task5-gate-extraction-smoke.md)。
 
+## M0.5 Phase 1B 批量 Gate Extraction
+
+```sh
+# 只读 parser classification，不调用模型
+node --import tsx scripts/ingest/run-batch-gate-extraction.ts --preview
+# 显式写入；同一文件用于恢复，116 是整个 checkpoint 生命周期的 HTTP 调用硬上限
+node --import tsx scripts/ingest/run-batch-gate-extraction.ts --write .verification/phase1b/checkpoint.json 116
+```
+
+批处理最多 500 jobs，串行并发 1，调用 cap 必须显式提供且最多 200。模型仍为服务端 `deepseek-flash` Responses API、90 秒超时；仅 unresolved clauses 调用模型。传输/5xx 最多重试一次，退避 1500ms；结构/证据拒绝不重试。调用额度在 HTTP 请求之前落盘，包括重试与中断时可能已发出的请求。
+
+复用 Task 5 parser/schema/validator/RPC，未修改语义。current successful + current version 跳过；失败或明确 stale 仅在显式批次中重试：条件 PATCH 校验 ID/hash/attempt/status/version/attempted_at，清除 attempt hash、标记 retry_pending，但保留旧 gates/成功 metadata；随后仍由既有 RPC 进行 CAS 写入。旧单条 runner 的默认同 hash 跳过行为不变。
+
+同一 checkpoint 的已完成失败不自动重复调用；重新尝试需先检查失败原因，再显式使用新 checkpoint。不要更换 checkpoint 来绕过预算。模型结果在写库前保存，写入响应不明时批次停止，下次先读取 DB，再复用已保存结果。SIGINT/SIGTERM 在当前岗位落盘后停止；强制终止留下的 `started` 标记视为 uncertain，不自动重发。确认原进程已停止、核对数据库后方可清理残留 `.lock`；不要并行运行其他 writer。检查点为本地运行日志，不替代数据库 extraction readiness，勿提交到 Git。
+
+真实批次：396 pending，307 parser-only 成功，58 次模型调用（26 通过 / 32 拒绝），31 parser 校验失败；共 341 ready / 63 failed。详见 [Phase 1B 报告](docs/reports/2026-10-03-m05-phase1b-batch-extraction.md)。未执行 Actions / Deployment。
+
 ## 冻结契约约定
 
 - `src/lib/domain/source-record.ts` 是所有来源唯一的标准化契约；`scripts/ingest/contracts.ts` 直接复用它。

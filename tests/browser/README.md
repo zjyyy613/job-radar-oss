@@ -33,3 +33,7 @@ Offline, network-free tests remain `npm test` (including `tests/radar/` and the 
 ## Company brand asset pack
 
 Run `.venv-ncss/Scripts/python.exe tests/browser/company_logo_integrity.py` against the production app. It verifies the same eight real jobs, five local brand images, Tencent fallback, failed-image fallback, no reserved brand requests, unchanged desktop/mobile sizes, and saves `docs/reports/assets/company-brand-asset-pack-v1/desktop-radar.png`. No production data is changed.
+
+## M0.5 Phase 1B
+
+`phase1b_smoke.py` uses the real 404-job snapshot and the 2027 / bachelor / mechanical-engineering acceptance profile. It reads `.verification/phase1b/audit.json` (qualification evaluation) and `after.json` (read-only database snapshot), then checks desktop/mobile list counts, verdict order, search, filters, URL sort restoration and evidence detail. Run against the production app with `.venv-ncss/Scripts/python.exe tests/browser/phase1b_smoke.py`. These snapshot-specific assertions are not offline unit tests and must not seed production data.

@@ -1,0 +1,1877 @@
+{
+  "summary": {
+    "total": 404,
+    "total_pending": 396,
+    "parser_only": 307,
+    "input_invalid": 31,
+    "model_fallback": 58,
+    "model_success": 26,
+    "model_rejected": 32,
+    "extraction_failed": 63,
+    "ready_jobs": 341,
+    "gates_generated": 377,
+    "total_gates": 382,
+    "evidence_quotes": 382,
+    "evidence_failures": [],
+    "deepseek_calls": 58,
+    "elapsed_ms": 180212,
+    "distribution": {
+      "Eligible": 239,
+      "Check": 116,
+      "Blocked": 49,
+      "Excluded": 0
+    },
+    "history_unchanged": true,
+    "sources_unchanged": true,
+    "profile": {
+      "student_status": "enrolled",
+      "graduation_year": 2027,
+      "education": "bachelor",
+      "major": "机械工程",
+      "days_per_week": null,
+      "duration_months": null,
+      "research_areas": null
+    }
+  },
+  "sample_method": "SHA-256(phase1b-audit:job_id) ordering within each verdict; first 10",
+  "samples": [
+    {
+      "id": "01430de8-6051-8d95-a219-96c1c3ebc6c8",
+      "company": "京东",
+      "title": "金融产品经理",
+      "status": "Eligible",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_3f519a8c71b8a2f7dc8d",
+          "note": null,
+          "field": "student_status",
+          "scope": "job",
+          "value": {
+            "kind": "one_of",
+            "values": [
+              "enrolled"
+            ]
+          },
+          "evidence": [
+            {
+              "quote": "统招本科及以上学历在校生",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_f5bbd1a2801c0b7e7c3a",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "bachelor"
+          },
+          "evidence": [
+            {
+              "quote": "统招本科及以上学历在校生",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": []
+    },
+    {
+      "id": "400e941f-03f6-8e07-a6d0-5cd8d4c3b599",
+      "company": "快手",
+      "title": "【留用实习】AIGC设计师",
+      "status": "Eligible",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_96a1394939d09b2d82f8",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "bachelor"
+          },
+          "evidence": [
+            {
+              "quote": "本科及以上学历",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": []
+    },
+    {
+      "id": "41564c90-5a48-8946-a010-3e739db31be4",
+      "company": "OPPO",
+      "title": "健康算法工程师",
+      "status": "Eligible",
+      "ready": true,
+      "gates": [],
+      "reasons": []
+    },
+    {
+      "id": "bcc9084d-b7ae-8180-a1ea-74b11d189f44",
+      "company": "蚂蚁集团",
+      "title": "【Plan A】递归自我改进（RSI）方向-27届",
+      "status": "Eligible",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_b38feaa1d0f4465e9056",
+          "note": null,
+          "field": "graduation_year",
+          "scope": "program",
+          "value": {
+            "kind": "one_of",
+            "values": [
+              2027
+            ]
+          },
+          "evidence": [
+            {
+              "quote": "27届",
+              "source": "title",
+              "context": "【Plan A】递归自我改进（RSI）方向-27届"
+            }
+          ],
+          "requirement": "ambiguous"
+        }
+      ],
+      "reasons": []
+    },
+    {
+      "id": "a440b569-4634-851f-a222-aa657a6ed0b4",
+      "company": "快手",
+      "title": "【留用实习】平台产品经理-创作者平台",
+      "status": "Eligible",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_96a1394939d09b2d82f8",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "bachelor"
+          },
+          "evidence": [
+            {
+              "quote": "本科及以上学历",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": []
+    },
+    {
+      "id": "90a3a977-e922-82e0-ae1e-1aec16291935",
+      "company": "京东",
+      "title": "合规",
+      "status": "Eligible",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_3f519a8c71b8a2f7dc8d",
+          "note": null,
+          "field": "student_status",
+          "scope": "job",
+          "value": {
+            "kind": "one_of",
+            "values": [
+              "enrolled"
+            ]
+          },
+          "evidence": [
+            {
+              "quote": "统招本科及以上学历在校生",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_f5bbd1a2801c0b7e7c3a",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "bachelor"
+          },
+          "evidence": [
+            {
+              "quote": "统招本科及以上学历在校生",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": []
+    },
+    {
+      "id": "9420dc89-f3bd-8de7-a6ab-f0b51c7e6787",
+      "company": "阿里巴巴",
+      "title": "语音增强大模型算法实习生",
+      "status": "Eligible",
+      "ready": true,
+      "gates": [],
+      "reasons": []
+    },
+    {
+      "id": "ac93ab0b-65da-872a-a19e-7986653e78d7",
+      "company": "理想汽车",
+      "title": "充电网络规划实习生",
+      "status": "Eligible",
+      "ready": true,
+      "gates": [],
+      "reasons": []
+    },
+    {
+      "id": "b5f85010-c336-8fb8-accc-ce174b893e5e",
+      "company": "京东",
+      "title": "大客户销售",
+      "status": "Eligible",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_3f519a8c71b8a2f7dc8d",
+          "note": null,
+          "field": "student_status",
+          "scope": "job",
+          "value": {
+            "kind": "one_of",
+            "values": [
+              "enrolled"
+            ]
+          },
+          "evidence": [
+            {
+              "quote": "统招本科及以上学历在校生",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_f5bbd1a2801c0b7e7c3a",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "bachelor"
+          },
+          "evidence": [
+            {
+              "quote": "统招本科及以上学历在校生",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": []
+    },
+    {
+      "id": "702eb0b1-d286-8ceb-a945-16dfb3189e7c",
+      "company": "阿里巴巴",
+      "title": "智多星-大模型评测（评测工程方向）",
+      "status": "Eligible",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_37a52965539b4dc779d5",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "bachelor"
+          },
+          "evidence": [
+            {
+              "quote": "学历专业： 本科及以上在读",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": []
+    },
+    {
+      "id": "8c28ea32-f78d-8f05-a19d-dfad3b041b48",
+      "company": "阿里巴巴",
+      "title": "视觉算法实习生（图片质量/美学评价大模型方向）",
+      "status": "Check",
+      "ready": false,
+      "gates": [],
+      "reasons": [
+        {
+          "code": "qualification_data_unavailable",
+          "message": "资格信息待确认",
+          "gate": null
+        }
+      ]
+    },
+    {
+      "id": "04d9b127-ea0c-8c31-ac45-347af6d8d8c0",
+      "company": "网易",
+      "title": "《蛋仔派对》UGC运营实习生（用户运营方向）",
+      "status": "Check",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_4e1630a4a1cb1bf47ea5",
+          "note": null,
+          "field": "student_status",
+          "scope": "job",
+          "value": {
+            "kind": "one_of",
+            "values": [
+              "enrolled"
+            ]
+          },
+          "evidence": [
+            {
+              "quote": "本科/研究生在校生",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_bd1b9836ddcd114e9d5f",
+          "note": null,
+          "field": "days_per_week",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 5
+          },
+          "evidence": [
+            {
+              "quote": "每周至少实习5天",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_0faccae18467b446749f",
+          "note": null,
+          "field": "duration_months",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 3
+          },
+          "evidence": [
+            {
+              "quote": "可持续实习3个月以上",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_unknown",
+          "message": "资料缺失或条件暂无法确认",
+          "gate": {
+            "id": "gate_bd1b9836ddcd114e9d5f",
+            "note": null,
+            "field": "days_per_week",
+            "scope": "job",
+            "value": {
+              "kind": "minimum",
+              "value": 5
+            },
+            "evidence": [
+              {
+                "quote": "每周至少实习5天",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        },
+        {
+          "code": "required_unknown",
+          "message": "资料缺失或条件暂无法确认",
+          "gate": {
+            "id": "gate_0faccae18467b446749f",
+            "note": null,
+            "field": "duration_months",
+            "scope": "job",
+            "value": {
+              "kind": "minimum",
+              "value": 3
+            },
+            "evidence": [
+              {
+                "quote": "可持续实习3个月以上",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "0204010d-ac6e-8c63-a325-cd47c0dd3a83",
+      "company": "美团",
+      "title": "招聘实习生",
+      "status": "Check",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_c8d7883447b47c214cdd",
+          "note": null,
+          "field": "duration_months",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 4
+          },
+          "evidence": [
+            {
+              "quote": "能够稳定实习4个月及以上",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_409d3648672e1e06ed03",
+          "note": null,
+          "field": "days_per_week",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 5
+          },
+          "evidence": [
+            {
+              "quote": "每周出勤5天",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_unknown",
+          "message": "资料缺失或条件暂无法确认",
+          "gate": {
+            "id": "gate_c8d7883447b47c214cdd",
+            "note": null,
+            "field": "duration_months",
+            "scope": "job",
+            "value": {
+              "kind": "minimum",
+              "value": 4
+            },
+            "evidence": [
+              {
+                "quote": "能够稳定实习4个月及以上",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        },
+        {
+          "code": "required_unknown",
+          "message": "资料缺失或条件暂无法确认",
+          "gate": {
+            "id": "gate_409d3648672e1e06ed03",
+            "note": null,
+            "field": "days_per_week",
+            "scope": "job",
+            "value": {
+              "kind": "minimum",
+              "value": 5
+            },
+            "evidence": [
+              {
+                "quote": "每周出勤5天",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "b4fe3828-6b0e-8017-abd4-ae6ca6b4d4bd",
+      "company": "阿里巴巴",
+      "title": "共享出行海外服务体验实习生（泰语）",
+      "status": "Check",
+      "ready": false,
+      "gates": [],
+      "reasons": [
+        {
+          "code": "qualification_data_unavailable",
+          "message": "资格信息待确认",
+          "gate": null
+        }
+      ]
+    },
+    {
+      "id": "fd86ada1-f1fe-8877-a010-19beb62b56df",
+      "company": "网易",
+      "title": "市场内容营销实习生",
+      "status": "Check",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_f648107754e0b56a428d",
+          "note": null,
+          "field": "days_per_week",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 4
+          },
+          "evidence": [
+            {
+              "quote": "每周至少实习4天以上（不包含周末）",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_61492bdcb6df9d12abb5",
+          "note": null,
+          "field": "duration_months",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 3
+          },
+          "evidence": [
+            {
+              "quote": "连续实习3个月以上",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_unknown",
+          "message": "资料缺失或条件暂无法确认",
+          "gate": {
+            "id": "gate_f648107754e0b56a428d",
+            "note": null,
+            "field": "days_per_week",
+            "scope": "job",
+            "value": {
+              "kind": "minimum",
+              "value": 4
+            },
+            "evidence": [
+              {
+                "quote": "每周至少实习4天以上（不包含周末）",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        },
+        {
+          "code": "required_unknown",
+          "message": "资料缺失或条件暂无法确认",
+          "gate": {
+            "id": "gate_61492bdcb6df9d12abb5",
+            "note": null,
+            "field": "duration_months",
+            "scope": "job",
+            "value": {
+              "kind": "minimum",
+              "value": 3
+            },
+            "evidence": [
+              {
+                "quote": "连续实习3个月以上",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "7da35fea-164a-8aa8-ab09-31affd6fc6d0",
+      "company": "美团",
+      "title": "美团跑腿市场营销实习生",
+      "status": "Check",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_4d8d7b8c6a5bbc4dd069",
+          "note": null,
+          "field": "student_status",
+          "scope": "job",
+          "value": {
+            "kind": "one_of",
+            "values": [
+              "enrolled"
+            ]
+          },
+          "evidence": [
+            {
+              "quote": "市场营销、广告、传播、中文等相关专业在读学生",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_bda5f5b104cad27d498f",
+          "note": null,
+          "field": "days_per_week",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 4
+          },
+          "evidence": [
+            {
+              "quote": "每周可保证至少4天实习时间",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_280797709ee149ff9777",
+          "note": null,
+          "field": "duration_months",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 3
+          },
+          "evidence": [
+            {
+              "quote": "能够连续实习3个月以上",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_unknown",
+          "message": "资料缺失或条件暂无法确认",
+          "gate": {
+            "id": "gate_bda5f5b104cad27d498f",
+            "note": null,
+            "field": "days_per_week",
+            "scope": "job",
+            "value": {
+              "kind": "minimum",
+              "value": 4
+            },
+            "evidence": [
+              {
+                "quote": "每周可保证至少4天实习时间",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        },
+        {
+          "code": "required_unknown",
+          "message": "资料缺失或条件暂无法确认",
+          "gate": {
+            "id": "gate_280797709ee149ff9777",
+            "note": null,
+            "field": "duration_months",
+            "scope": "job",
+            "value": {
+              "kind": "minimum",
+              "value": 3
+            },
+            "evidence": [
+              {
+                "quote": "能够连续实习3个月以上",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "36683e2a-e5f4-8357-a7cf-bfc96c219e02",
+      "company": "网易",
+      "title": "客户端开发实习生（王牌竞速）",
+      "status": "Check",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_2118657af8596e525ab3",
+          "note": null,
+          "field": "major",
+          "scope": "job",
+          "value": {
+            "kind": "one_of",
+            "values": [
+              "computer_science"
+            ]
+          },
+          "evidence": [
+            {
+              "quote": "计算机或相关专业",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_3b64dcf1723bb1e5f2ad",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "bachelor"
+          },
+          "evidence": [
+            {
+              "quote": "本科在读及以上学历",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_unknown",
+          "message": "资料缺失或条件暂无法确认",
+          "gate": {
+            "id": "gate_2118657af8596e525ab3",
+            "note": null,
+            "field": "major",
+            "scope": "job",
+            "value": {
+              "kind": "one_of",
+              "values": [
+                "computer_science"
+              ]
+            },
+            "evidence": [
+              {
+                "quote": "计算机或相关专业",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "7e0c327e-5288-877d-a472-f5639268555f",
+      "company": "阿里巴巴",
+      "title": "智多星-大模型评测（通用方向）",
+      "status": "Check",
+      "ready": false,
+      "gates": [],
+      "reasons": [
+        {
+          "code": "qualification_data_unavailable",
+          "message": "资格信息待确认",
+          "gate": null
+        }
+      ]
+    },
+    {
+      "id": "cb84086d-c662-83bd-a137-51b5ea942230",
+      "company": "阿里巴巴",
+      "title": "品牌设计实习生",
+      "status": "Check",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_eec92cb6f168daa127b2",
+          "note": null,
+          "field": "duration_months",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 6
+          },
+          "evidence": [
+            {
+              "quote": "• 可以实习6个月",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_unknown",
+          "message": "资料缺失或条件暂无法确认",
+          "gate": {
+            "id": "gate_eec92cb6f168daa127b2",
+            "note": null,
+            "field": "duration_months",
+            "scope": "job",
+            "value": {
+              "kind": "minimum",
+              "value": 6
+            },
+            "evidence": [
+              {
+                "quote": "• 可以实习6个月",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e5c49d95-c426-8cf3-a82d-069f8cab42cd",
+      "company": "网易",
+      "title": "视频剪辑实习生（含AI方向）",
+      "status": "Check",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_275c86d3c1b3aab26747",
+          "note": null,
+          "field": "duration_months",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 3
+          },
+          "evidence": [
+            {
+              "quote": "实习期不少于3个月",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_unknown",
+          "message": "资料缺失或条件暂无法确认",
+          "gate": {
+            "id": "gate_275c86d3c1b3aab26747",
+            "note": null,
+            "field": "duration_months",
+            "scope": "job",
+            "value": {
+              "kind": "minimum",
+              "value": 3
+            },
+            "evidence": [
+              {
+                "quote": "实习期不少于3个月",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "f1490f6a-24ab-8f95-a51d-ff72f75a692a",
+      "company": "理想汽车",
+      "title": "结构耐撞仿真工程师-北京",
+      "status": "Blocked",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_45c26c1b97f0fc448148",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "master"
+          },
+          "evidence": [
+            {
+              "quote": "硕士及以上学历",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_contradiction",
+          "message": "不符合明确资格条件",
+          "gate": {
+            "id": "gate_45c26c1b97f0fc448148",
+            "note": null,
+            "field": "education",
+            "scope": "job",
+            "value": {
+              "kind": "education_minimum",
+              "value": "master"
+            },
+            "evidence": [
+              {
+                "quote": "硕士及以上学历",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "94f998bb-ebd5-85b5-ae66-ce4bad63b0b8",
+      "company": "OPPO",
+      "title": "多媒体影像产品经理",
+      "status": "Blocked",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_45c26c1b97f0fc448148",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "master"
+          },
+          "evidence": [
+            {
+              "quote": "硕士及以上学历",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_contradiction",
+          "message": "不符合明确资格条件",
+          "gate": {
+            "id": "gate_45c26c1b97f0fc448148",
+            "note": null,
+            "field": "education",
+            "scope": "job",
+            "value": {
+              "kind": "education_minimum",
+              "value": "master"
+            },
+            "evidence": [
+              {
+                "quote": "硕士及以上学历",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "78471b3c-4cab-8882-a671-7cfe1a004f67",
+      "company": "美团",
+      "title": "设计及项目运营实习生",
+      "status": "Blocked",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_45c26c1b97f0fc448148",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "master"
+          },
+          "evidence": [
+            {
+              "quote": "硕士及以上学历",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_fe1c01bd5b32bb36e16f",
+          "note": null,
+          "field": "student_status",
+          "scope": "job",
+          "value": {
+            "kind": "one_of",
+            "values": [
+              "enrolled"
+            ]
+          },
+          "evidence": [
+            {
+              "quote": "视觉传达、影视制作等专业在校生",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_contradiction",
+          "message": "不符合明确资格条件",
+          "gate": {
+            "id": "gate_45c26c1b97f0fc448148",
+            "note": null,
+            "field": "education",
+            "scope": "job",
+            "value": {
+              "kind": "education_minimum",
+              "value": "master"
+            },
+            "evidence": [
+              {
+                "quote": "硕士及以上学历",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "9d3630b9-e43b-8608-ac2e-05a35b2be64c",
+      "company": "蚂蚁集团",
+      "title": "信贷事业群-风控大模型算法实习生",
+      "status": "Blocked",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_32cd1626bd429fb5c073",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "doctorate"
+          },
+          "evidence": [
+            {
+              "quote": "博士及以上",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_eafd1b9694516b6e000e",
+          "note": null,
+          "field": "days_per_week",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 4
+          },
+          "evidence": [
+            {
+              "quote": "每周实习 4 天及以上、可持续 3 个月以上者优先",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "preferred"
+        },
+        {
+          "id": "gate_e46cf4a4e5d523a1dad3",
+          "note": null,
+          "field": "duration_months",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 3
+          },
+          "evidence": [
+            {
+              "quote": "每周实习 4 天及以上、可持续 3 个月以上者优先",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "preferred"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_contradiction",
+          "message": "不符合明确资格条件",
+          "gate": {
+            "id": "gate_32cd1626bd429fb5c073",
+            "note": null,
+            "field": "education",
+            "scope": "job",
+            "value": {
+              "kind": "education_minimum",
+              "value": "doctorate"
+            },
+            "evidence": [
+              {
+                "quote": "博士及以上",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "66520b4b-2b41-8a86-acd0-2a26c4f80fa0",
+      "company": "快手",
+      "title": "【快Star实习】推荐算法工程师-混排",
+      "status": "Blocked",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_45c26c1b97f0fc448148",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "master"
+          },
+          "evidence": [
+            {
+              "quote": "硕士及以上学历",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_contradiction",
+          "message": "不符合明确资格条件",
+          "gate": {
+            "id": "gate_45c26c1b97f0fc448148",
+            "note": null,
+            "field": "education",
+            "scope": "job",
+            "value": {
+              "kind": "education_minimum",
+              "value": "master"
+            },
+            "evidence": [
+              {
+                "quote": "硕士及以上学历",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "64e8df47-c37c-8ca8-abe7-febcb842dc9d",
+      "company": "美团",
+      "title": "具身智能数据管线开发",
+      "status": "Blocked",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_e45399bf3f5d6d1762f8",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "master"
+          },
+          "evidence": [
+            {
+              "quote": "1）硕士及以上学历在读",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_c0ccfe728b222d90a5fe",
+          "note": null,
+          "field": "days_per_week",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 4
+          },
+          "evidence": [
+            {
+              "quote": "每周至少实习4天",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        },
+        {
+          "id": "gate_61492bdcb6df9d12abb5",
+          "note": null,
+          "field": "duration_months",
+          "scope": "job",
+          "value": {
+            "kind": "minimum",
+            "value": 3
+          },
+          "evidence": [
+            {
+              "quote": "连续实习3个月以上",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_contradiction",
+          "message": "不符合明确资格条件",
+          "gate": {
+            "id": "gate_e45399bf3f5d6d1762f8",
+            "note": null,
+            "field": "education",
+            "scope": "job",
+            "value": {
+              "kind": "education_minimum",
+              "value": "master"
+            },
+            "evidence": [
+              {
+                "quote": "1）硕士及以上学历在读",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8fe293a3-f31f-838b-a799-c52779b29d6c",
+      "company": "快手",
+      "title": "【快Star实习】多模态大模型强化学习算法工程师-Keye",
+      "status": "Blocked",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_7f9918f856b28d60904e",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "master"
+          },
+          "evidence": [
+            {
+              "quote": "计算机科学、机器学习、人工智能等相关专业硕士及以上学历",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_contradiction",
+          "message": "不符合明确资格条件",
+          "gate": {
+            "id": "gate_7f9918f856b28d60904e",
+            "note": null,
+            "field": "education",
+            "scope": "job",
+            "value": {
+              "kind": "education_minimum",
+              "value": "master"
+            },
+            "evidence": [
+              {
+                "quote": "计算机科学、机器学习、人工智能等相关专业硕士及以上学历",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6962394d-aa5d-8697-a9a0-a89c0185b3f6",
+      "company": "蚂蚁集团",
+      "title": "【蚂蚁星】AI工程师-大模型数据智能科学家- 百灵（实习）",
+      "status": "Blocked",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_a1bfb2181fe6bb8f16e5",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "doctorate"
+          },
+          "evidence": [
+            {
+              "quote": "计算机、人工智能、数学、统计学或相关专业博士及以上学历",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_contradiction",
+          "message": "不符合明确资格条件",
+          "gate": {
+            "id": "gate_a1bfb2181fe6bb8f16e5",
+            "note": null,
+            "field": "education",
+            "scope": "job",
+            "value": {
+              "kind": "education_minimum",
+              "value": "doctorate"
+            },
+            "evidence": [
+              {
+                "quote": "计算机、人工智能、数学、统计学或相关专业博士及以上学历",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "aad1f135-80c7-834d-ac85-2b2bac8bec57",
+      "company": "阿里巴巴",
+      "title": "AIDC供应链产技团队-供应链物流大模型算法工程师-日常实习生",
+      "status": "Blocked",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_9dcba7c34c31d60ac13a",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "education_minimum",
+            "value": "master"
+          },
+          "evidence": [
+            {
+              "quote": "硕士及以上学历在读",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_contradiction",
+          "message": "不符合明确资格条件",
+          "gate": {
+            "id": "gate_9dcba7c34c31d60ac13a",
+            "note": null,
+            "field": "education",
+            "scope": "job",
+            "value": {
+              "kind": "education_minimum",
+              "value": "master"
+            },
+            "evidence": [
+              {
+                "quote": "硕士及以上学历在读",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    },
+    {
+      "id": "806d91be-985f-84f7-ae7a-ce84d8296031",
+      "company": "OPPO",
+      "title": "计算机视觉算法开发工程师",
+      "status": "Blocked",
+      "ready": true,
+      "gates": [
+        {
+          "id": "gate_87ebea58640c1b629306",
+          "note": null,
+          "field": "education",
+          "scope": "job",
+          "value": {
+            "kind": "one_of",
+            "values": [
+              "master"
+            ]
+          },
+          "evidence": [
+            {
+              "quote": "学历要求：硕士",
+              "source": "requirements",
+              "context": null
+            }
+          ],
+          "requirement": "required"
+        }
+      ],
+      "reasons": [
+        {
+          "code": "required_contradiction",
+          "message": "不符合明确资格条件",
+          "gate": {
+            "id": "gate_87ebea58640c1b629306",
+            "note": null,
+            "field": "education",
+            "scope": "job",
+            "value": {
+              "kind": "one_of",
+              "values": [
+                "master"
+              ]
+            },
+            "evidence": [
+              {
+                "quote": "学历要求：硕士",
+                "source": "requirements",
+                "context": null
+              }
+            ],
+            "requirement": "required"
+          }
+        }
+      ]
+    }
+  ],
+  "failures": [
+    {
+      "id": "1770efe2-e536-875f-a622-e57ed5ae48c2",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "1a36afba-7777-89ab-a724-3f1cd230f4a2",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "1cf42a1e-ced9-8e91-aa45-c3296aab0248",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "1d81f390-e8be-8f74-a8f1-fe8781bd1276",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "28aa0f4a-99c4-80a5-ab0a-b824e0856c63",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "2e9b3e1b-8e98-80d3-ac86-5f7b9c914c00",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "2ee9e867-43be-81e2-af40-2f7ff0ec50ee",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "3804daf8-9eba-8956-ae89-d5ca3cdf8ba8",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "41c04715-3700-880d-af28-2ee72eeac67d",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "4c96055f-f0a1-8551-a586-1d243c9363e3",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "4df2971f-3362-8ab6-a477-534d3f391896",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "4f30e551-18e8-8014-af08-79985e27b492",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "56d6b645-0e7f-8826-a013-d9cba0d803ae",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "577af6e6-c9dd-843f-af25-7af2c080e6a7",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "581f3e33-ece9-8cc8-aac4-4a27d19ec654",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "5e1029c9-997d-8343-a127-edd6e6373254",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "66dcdfc0-822c-8712-a813-855fca098290",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "69be8253-a452-8ea8-ad32-23cb5169fd34",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "6c8ff1ac-f7c5-8cfa-ab6a-4427e867b0cf",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "70067bcb-cea5-840f-accb-a59ec2a14c75",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "74e90f4e-bd60-83c3-a43e-a7b7606d5381",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "74ea2db7-f8d3-8ed9-ac1c-09dbedb03f01",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "795632ee-ad8f-8c27-a00a-1abe57e75bbc",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "7e0c327e-5288-877d-a472-f5639268555f",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "7fb6e75e-d772-8ff6-a17a-626da34edc72",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "80e91e37-ba67-86c8-a96f-9e1c3973f6d0",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "85da07a8-2481-8524-a4f6-32a8721fa07d",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "869d9bf3-8ffb-8879-a28a-b7a50da2cf45",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "8741de2c-7fd6-876f-a046-607c8308fdf4",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "89b25772-5cfc-81b4-a525-6c98c2afec02",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "89b55518-7002-890d-a529-945d2ab9e5ab",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "89dce279-2666-88ed-a59d-f01a4d6cd390",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "8c28ea32-f78d-8f05-a19d-dfad3b041b48",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "8e65238c-1793-86a8-a2a6-6a7a44ecca9e",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "913ee194-22c4-8a23-ad17-a2a1ad237742",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "9417e47c-8170-8608-a4e4-b8dabc3b4dd6",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "9558c53b-612d-8bcf-a4d8-780d5e37720c",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "9d72442d-ceb8-8ec0-a0dd-6f42b12e434b",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "a17867a8-4c1a-8168-a3b8-d14726a5f919",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "a8760cbd-f77a-89a4-af1d-b50348e068e0",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "a9670ae9-40dd-8432-abe5-acd6c584ab30",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "ac06df80-f92d-80bc-a40e-ac439e4b058c",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "b4fe3828-6b0e-8017-abd4-ae6ca6b4d4bd",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "b5595d6b-a433-8480-a5fa-a2f5ad3e5740",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "b8d7370d-2de3-8a7d-ac90-c2917ef1c7be",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "bd713f66-a74f-84d4-ae76-008ae06af1f8",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "be071853-d60c-85f0-a076-fb5596222498",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "c1769122-a0ff-8e67-a9e4-2ee6b5a216f8",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "c1f0dfc0-c4b2-8950-ac50-70ea6b51574c",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "c27315cf-9815-88c0-a0f4-6e882e261bdc",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "c4a7fa1b-09e6-8080-ab0c-d223737fc497",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "cf8565ba-ebee-8ee8-a458-f91870343c7b",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "d1a1ba69-465b-8001-ae29-f127e40bf0d3",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "d6642028-c8f7-8eea-a5d8-562fe69f7b77",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "e3d01d54-2879-807d-ab3f-7eb56f937866",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "e872bc09-8895-8fe9-aba2-5e944c4e3cee",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "e8a0a153-0316-83b1-ad24-d4121cb99bb8",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "ea0d6238-a639-8990-a399-f175278891c8",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "eb846a13-cd2f-80b5-ae82-77b339869441",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    },
+    {
+      "id": "f26d94d4-1686-8d4f-a27d-5b4c2f0dc863",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "f5ea5849-b54e-87a5-a20e-a14230dcccfc",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "f7578709-698a-8866-a630-8b9858f3af9f",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic+deepseek"
+    },
+    {
+      "id": "fb3f9a53-988e-8927-aad4-861a85228701",
+      "error": "invalid_extraction",
+      "extractor_type": "deterministic"
+    }
+  ],
+  "rerun": {
+    "calls_before": 58,
+    "calls_after": 58,
+    "ready_skipped": 341,
+    "checkpoint_done": 63
+  }
+}
