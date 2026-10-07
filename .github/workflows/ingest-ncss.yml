@@ -7,14 +7,12 @@ on:
         description: First-page job limit (1–20; never a full-list run)
         type: number
         default: 2
-  schedule:
-    - cron: "43 1 * * *"
 
 permissions:
   contents: read
 
 concurrency:
-  group: ingest-ncss
+  group: job-radar-production-writer
   cancel-in-progress: false
 
 jobs:

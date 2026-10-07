@@ -1,43 +1,78 @@
-name: Ingest job-pro
-
+name: Refresh Job Radar
 on:
   workflow_dispatch:
     inputs:
-      scope:
-        description: Recruitment channel
-        type: choice
-        options: [campus, intern]
-        default: campus
-      limit:
-        description: Maximum jobs per company (1–50)
+      sources:
+        description: Existing job-pro allowlist only
+        type: string
+        default: alibaba,meituan,jd,netease,kuaishou,oppo,liauto,antgroup
+      max_jobs:
+        description: Per-source job cap (1–500); page size 2
         type: number
-        default: 20
-  schedule:
-    - cron: "23 1 * * *"
-
+        default: 2
+      max_pages:
+        description: Per-source page cap (1–20)
+        type: number
+        default: 1
+      global_cap:
+        description: Global list cap (1–500)
+        type: number
+        default: 16
+      model_cap:
+        description: Model HTTP attempts including retries (0–200)
+        type: number
+        default: 8
+      resume_run_id:
+        description: Previous run ID to restore; leave empty for a fresh incremental run
+        type: string
+        default: ''
 permissions:
   contents: read
-
+  actions: read
 concurrency:
-  group: ingest-job-pro
+  group: job-radar-production-writer
   cancel-in-progress: false
-
 jobs:
-  ingest:
+  refresh:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "24"
+          node-version: '24'
           cache: npm
       - run: npm ci
-      - name: Ingest bounded allowlist
+      - name: Restore explicit checkpoint
+        if: inputs.resume_run_id != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: refresh-checkpoint
+          path: .verification/refresh
+          run-id: ${{ inputs.resume_run_id }}
+          github-token: ${{ github.token }}
+      - name: Incremental refresh
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          INGEST_SCOPE: ${{ inputs.scope || 'campus' }}
-          INGEST_LIMIT: ${{ inputs.limit || '20' }}
-        run: npm run ingest:job-pro -- --write --scope "$INGEST_SCOPE" --limit "$INGEST_LIMIT"
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          DEEPSEEK_BASE_URL: https://api.deepseek.com
+          DEEPSEEK_MODEL: deepseek-flash
+          REFRESH_SOURCES: ${{ inputs.sources || 'alibaba,meituan,jd,netease,kuaishou,oppo,liauto,antgroup' }}
+          REFRESH_MAX_JOBS: ${{ inputs.max_jobs || '2' }}
+          REFRESH_MAX_PAGES: ${{ inputs.max_pages || '1' }}
+          REFRESH_GLOBAL_MAX_JOBS: ${{ inputs.global_cap || '16' }}
+          REFRESH_MODEL_CAP: ${{ inputs.model_cap }}
+        run: node --import tsx scripts/ingest/run-refresh.ts
+      - name: Preserve recovery checkpoint and summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: refresh-checkpoint
+          path: |
+            .verification/refresh/checkpoint.json
+            .verification/refresh/summary.json
+          include-hidden-files: true
+          retention-days: 14
+          if-no-files-found: warn
