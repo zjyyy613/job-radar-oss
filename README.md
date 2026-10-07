@@ -256,3 +256,17 @@ PGlite 测试本身不代表真实部署；Task 2–5 已分别应用迁移并�
 阶段报告、Implementation Plan 原始 checklist 及 DESIGN 中“本轮/当前只做 Pre-Task7”等文字保留其建立时的上下文，不代表当前交付仍停在旧阶段。当前完成状态以本节和 M0 Final Acceptance 为准；冻结语义和视觉规则不变。
 
 M1 未实现：Saved、Hide/Undo、Seen/New、inline profile completion 等。后续基础设施事项：当前未配置 Git remote、未 push/部署，GitHub Secrets/Actions 尚未远端验证；canonicalization 与 extraction 仍为显式串行后台命令，来源工作流不会自动串起整条更新流水线。接入 `supabase db push` 前须对齐历史初始 migration 版本，不能重复执行 DDL。以上不是新增产品功能或已完成的远端运行承诺。
+
+## M0.5 Phase 2A refresh（远端 smoke 待验证）
+
+复用 `.github/workflows/ingest-job-pro.yml`，现在显示为 **Refresh Job Radar**：ingestion/admission → canonicalization → incremental extraction → evidence/identity verification → summary。NCSS 仍独立手动入口；两个 workflow 共用 `job-radar-production-writer` 并发锁。真实 remote manual smoke 成功前，两个 schedule 均停用。
+
+默认八个 Batch A、intern、每页2条/每源1页2条/全局16条、模型最多8次；手动输入只能选择既有 allowlist。单次45分钟上限。密钥仅在运行步骤注入；需要 repository Actions Secrets `SUPABASE_URL`、`SUPABASE_SECRET_KEY`、`DEEPSEEK_API_KEY`；DeepSeek URL/model 为固定非秘密配置。
+
+新增或内容哈希变化进入现有批处理；current successful 不重复调用；同 hash failed（含 Phase 1B 的63条）继续 Check，不自动重试。版本过期的成功结果可重新处理。bounded/full_list=false 保持不变；本流水线不引入新的 Closed。
+
+恢复：从目标 run 下载 `refresh-checkpoint` artifact，手动填写该 run ID 为 `resume_run_id`，其余输入保持一致。artifact 仅保存明确列出的 checkpoint/summary，保留14天，不包含 `.env` 或环境快照。ingestion 完成后恢复可跳过抓取；若中途尚未落盘 ingestion 完成状态，恢复可能重新读取有界来源并稳定 upsert，不承诺 source reads exactly-once。模型逐请求额度先落盘，沿用 Phase 1B 的 uncertain 人工核对规则。runner 丢失或强杀可能无法上传 artifact，此时不要自动重试可能已计费的请求。
+
+exit 0 表示处理完成（summary 可为 partial，成功来源仍保留）；未完成、写入不明、预算耗尽或全部来源失败为非零。固定本地目录 `.verification/refresh`：同目录 checkpoint 表示恢复，新一轮须显式归档旧目录；不并行运行其他本地 writer。
+
+迁移历史：本地初始 `0001_job_radar_m0.sql` 对应远端 `20260928013502_job_radar_m0`，后两条版本一致；从零重放后3个 RPC函数定义 MD5与远端精确一致。保留这一命名 debt，不运行 destructive reset 或盲目 db push；新环境按三文件顺序重建，接入 CLI migration repair 前先比对实际 schema。
