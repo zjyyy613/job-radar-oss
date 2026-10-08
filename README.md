@@ -259,7 +259,7 @@ M1 未实现：Saved、Hide/Undo、Seen/New、inline profile completion 等。�
 
 ## M0.5 Phase 2A refresh（远端 smoke 待验证）
 
-复用 `.github/workflows/ingest-job-pro.yml`，现在显示为 **Refresh Job Radar**：ingestion/admission → canonicalization → incremental extraction → evidence/identity verification → summary。NCSS 仍独立手动入口；两个 workflow 共用 `job-radar-production-writer` 并发锁。真实 remote manual smoke 成功前，两个 schedule 均停用。
+复用 `.github/workflows/refresh.yml`，现在显示为 **Refresh Job Radar**：ingestion/admission → canonicalization → incremental extraction → evidence/identity verification → summary。NCSS 仍独立手动入口；两个 workflow 共用 `job-radar-production-writer` 并发锁。真实 remote manual smoke 成功前，两个 schedule 均停用。
 
 默认八个 Batch A、intern、每页2条/每源1页2条/全局16条、模型最多8次；手动输入只能选择既有 allowlist。单次45分钟上限。密钥仅在运行步骤注入；需要 repository Actions Secrets `SUPABASE_URL`、`SUPABASE_SECRET_KEY`、`DEEPSEEK_API_KEY`；DeepSeek URL/model 为固定非秘密配置。
 
