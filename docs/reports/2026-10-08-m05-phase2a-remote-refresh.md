@@ -1,6 +1,6 @@
 # M0.5 Phase 2A — Automated Incremental Pipeline
 
-日期：2026-10-08（Asia/Shanghai）。当前状态：**IN PROGRESS — workflow scope 已补齐，完整历史已推送；remote Actions smoke 正在验证。**
+日期：2026-10-08（Asia/Shanghai）。当前状态：**BLOCKED — workflow scope 已补齐，历史已推送至6411fd6；后续Git网络不可达，remote Actions smoke尚未运行。**
 
 ## 已完成
 
@@ -49,3 +49,11 @@ lint / typecheck / 21 files、343 tests / production build均通过。覆盖new/
 sources/listed/detail/admitted/inserted/updated/unchanged/extraction/model calls/duration：**尚无远端run，未生成。** 当前数据库基线不变。尚不配置schedule，不进入Vercel deployment或M1。
 
 参考：[GitHub workflow dispatch](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow)、[workflow syntax/concurrency](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax)。
+
+## 2026-10-08 续接结果
+
+用户完成workflow授权后，ab4233b及6411fd6已成功推送；私有状态、默认分支`task-1-m0-contracts`确认正确。GitHub Actions已启用，但workflow列表仍为空、dispatch返回404。尝试将同一文件重命名为`refresh.yml`以重新注册（没有新增pipeline或自动写库触发器），本地提交527efc0。
+
+随后标准Git直连持续超时/重置；配置代理127.0.0.1:7890也无法连接。GitHub REST仍可读，但Git Data API创建相同tree/message的commit会改变时区编码及SHA，因此未更新远端ref，没有改写已有历史。远端核对仍为6411fd6，重命名尚未发布。
+
+当前需要恢复本机GitHub Git网络路径或在可用网络终端完成`git -C E:/job-radar push origin task-1-m0-contracts`。之后先核实refresh.yml注册，再dispatch，不能宣称远端smoke完成。未进行任何真实refresh写库，基线仍为404/404/341；Secrets已配置无需重传，schedule仍停用。
