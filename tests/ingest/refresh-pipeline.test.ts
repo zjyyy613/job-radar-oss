@@ -41,9 +41,11 @@ describe('incremental refresh',()=>{
  const h=harness();await refresh(cp(),h.d);h.d.cli=vi.fn(async()=>({ok:true,source:'zhaopin.meituan.com',total:0,positions:[]}));
  const r=await refresh(cp(),h.d);expect(r.application_status.closed).toBe(0);expect(h.state.jobs[0].consecutive_missing_count).toBe(0);
  });
- it('workflow has shared production lock, no pre-smoke schedule, narrow artifacts and server-only secrets',()=>{
+ it('workflow shares its writer lock and pipeline across daily/manual runs with bounded model calls',()=>{
  const workflow=readFileSync('.github/workflows/refresh.yml','utf8'),ncss=readFileSync('.github/workflows/ingest-ncss.yml','utf8');
  for(const w of [workflow,ncss]){expect(w).toContain('group: job-radar-production-writer');expect(w).toContain('cancel-in-progress: false');}
  expect(workflow).toContain('workflow_dispatch:');expect(workflow).toContain('timeout-minutes: 45');expect(workflow).not.toContain('NEXT_PUBLIC_');expect(workflow).not.toContain('path: .env');expect(workflow).toContain('checkpoint.json');
+ expect(workflow).toContain("cron: '17 23 * * *'");
+ expect(workflow).toContain("format('{0}', inputs.model_cap) || '8'");
  });
 });

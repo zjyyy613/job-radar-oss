@@ -1,5 +1,7 @@
 name: Refresh Job Radar
 on:
+  schedule:
+    - cron: '17 23 * * *'
   workflow_dispatch:
     inputs:
       sources:
@@ -63,7 +65,7 @@ jobs:
           REFRESH_MAX_JOBS: ${{ inputs.max_jobs || '2' }}
           REFRESH_MAX_PAGES: ${{ inputs.max_pages || '1' }}
           REFRESH_GLOBAL_MAX_JOBS: ${{ inputs.global_cap || '16' }}
-          REFRESH_MODEL_CAP: ${{ inputs.model_cap }}
+          REFRESH_MODEL_CAP: ${{ github.event_name == 'workflow_dispatch' && format('{0}', inputs.model_cap) || '8' }}
         run: node --import tsx scripts/ingest/run-refresh.ts
       - name: Preserve recovery checkpoint and summary
         if: always()

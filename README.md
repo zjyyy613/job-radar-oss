@@ -49,9 +49,9 @@ npm run ingest:job-pro -- --write --sources tencent,vivo --scope intern --limit 
 - 新增/更新计数基于写入前身份查询，仅统计已确认写入；更新包括刷新 `last_seen_at`。不要同时手动运行多个 writer。响应不明时不盲目重试写入，先检查数据库状态。
 - 错误日志仅记录阶段标签，不回显密钥、上游原始错误或响应体。
 
-既有 GitHub Actions 支持手动触发与每日 UTC 01:23 定时运行，串行执行。本轮未修改或执行 workflow；其现有 `--limit 20` 仍受新默认每源 5 条、全局 15 条约束，不自动扩量。
+Phase 2A 已将既有 job-pro workflow 串为 refresh；当前调度、额度与远端验证见文末 Phase 2A，历史 Task 2/Phase 1A 报告仅描述当时运行。
 启用前在仓库 Secrets 配置 `SUPABASE_URL` 与 `SUPABASE_SECRET_KEY`（或旧版 fallback），并确保已有 Task 1 表结构。
-workflow 已加入本地仓库，尚未推送或在 GitHub 上执行。
+workflow 已推送，Phase 2A 已完成远端手动运行验证。
 
 真实 fixture 的抓取命令与映射边界见 [fixture 说明](tests/fixtures/job-pro/README.md)。
 真实 Supabase 写入、复跑与自审记录见 [Task 2 smoke 报告](docs/reports/2026-09-28-task2-job-pro-smoke.md)。
@@ -96,8 +96,7 @@ stdout 为 JSON；错误仅输出阶段标签，不输出异常原文、响应�
 - 只写当前来源的 `source_records` / `source_runs`；失败不改 job-pro 或 `jobs`。
   混合成功记录 `partial`，全失败返回非零；审计写入失败也返回非零，不能保证数据库不可用时留存日志。
 - upsert 用现有唯一键，计数只包含确认写入。不要并发启动手动 writer；写入响应不明时先查数据库，不盲目重试。
-- 独立 workflow `ingest-ncss.yml` 支持手动和每日 UTC 01:43 运行，单独 concurrency group。
-  尚未推送/运行 GitHub Actions；远端仍需配置服务端 Secrets。
+- 独立 workflow `ingest-ncss.yml` 保留手动入口，Phase 2A 停用其 schedule，并与 refresh 共享 production writer lock。本轮未执行远端 NCSS ingestion。
 
 真实 fixture 与合成行业样本见 [fixture 说明](tests/fixtures/ncss/README.md)，
 实际写入与自审见 [Task 3 smoke 报告](docs/reports/2026-09-28-task3-ncss-smoke.md)。
@@ -255,11 +254,11 @@ PGlite 测试本身不代表真实部署；Task 2–5 已分别应用迁移并�
 
 阶段报告、Implementation Plan 原始 checklist 及 DESIGN 中“本轮/当前只做 Pre-Task7”等文字保留其建立时的上下文，不代表当前交付仍停在旧阶段。当前完成状态以本节和 M0 Final Acceptance 为准；冻结语义和视觉规则不变。
 
-M1 未实现：Saved、Hide/Undo、Seen/New、inline profile completion 等。后续基础设施事项：当前未配置 Git remote、未 push/部署，GitHub Secrets/Actions 尚未远端验证；canonicalization 与 extraction 仍为显式串行后台命令，来源工作流不会自动串起整条更新流水线。接入 `supabase db push` 前须对齐历史初始 migration 版本，不能重复执行 DDL。以上不是新增产品功能或已完成的远端运行承诺。
+M1 未实现：Saved、Hide/Undo、Seen/New、inline profile completion 等。M0.5 已接入后台增量 refresh，远端状态见下节及 Phase 2A 报告；尚未进行 Vercel 部署。接入 `supabase db push` 前须核对历史初始 migration 版本，不能重复执行 DDL。
 
-## M0.5 Phase 2A refresh（远端 smoke 待验证）
+## M0.5 Phase 2A refresh
 
-复用 `.github/workflows/refresh.yml`，现在显示为 **Refresh Job Radar**：ingestion/admission → canonicalization → incremental extraction → evidence/identity verification → summary。NCSS 仍独立手动入口；两个 workflow 共用 `job-radar-production-writer` 并发锁。真实 remote manual smoke 成功前，两个 schedule 均停用。
+复用 `.github/workflows/refresh.yml`，现在显示为 **Refresh Job Radar**：ingestion/admission → canonicalization → incremental extraction → evidence/identity verification → summary。NCSS 仍独立手动入口；两个 workflow 共用 `job-radar-production-writer` 并发锁。首次真实 remote manual smoke 已成功。refresh 每日 UTC 23:17（北京时间次日 07:17）运行一次，使用同一 pipeline 和默认保守额度；NCSS 无 schedule。GitHub 调度可能延迟，不保证准点。
 
 默认八个 Batch A、intern、每页2条/每源1页2条/全局16条、模型最多8次；手动输入只能选择既有 allowlist。单次45分钟上限。密钥仅在运行步骤注入；需要 repository Actions Secrets `SUPABASE_URL`、`SUPABASE_SECRET_KEY`、`DEEPSEEK_API_KEY`；DeepSeek URL/model 为固定非秘密配置。
 
