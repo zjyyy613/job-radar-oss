@@ -1,6 +1,6 @@
 # M0.5 Phase 2A — Automated Incremental Pipeline
 
-日期：2026-10-08（Asia/Shanghai）。当前状态：**BLOCKED — GitHub OAuth workflow scope 缺失，尚未完成 remote Actions smoke。**
+日期：2026-10-08（Asia/Shanghai）。当前状态：**IN PROGRESS — workflow scope 已补齐，完整历史已推送；remote Actions smoke 正在验证。**
 
 ## 已完成
 
@@ -28,7 +28,7 @@
 
 ## 远端阻碍与续接
 
-首次push因本机失效proxy连接失败；只在该次git命令禁用代理（未改全局配置）后成功连接GitHub，但GitHub拒绝上传workflow：OAuth token缺少`workflow` scope。远端Actions尚未dispatch，不能提供真实run统计或宣称PASS。
+首次push因本机失效proxy连接失败；只在该次git命令禁用代理（未改全局配置）后成功连接GitHub，但GitHub拒绝上传workflow：OAuth token缺少`workflow` scope。该权限问题现已由用户补齐；完整历史已成功推送到同名默认分支。远端Actions尚未dispatch，不能提供真实run统计或宣称PASS。
 
 用户需在本机执行：
 
