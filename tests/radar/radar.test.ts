@@ -55,12 +55,26 @@ function job(id = "1", overrides: Partial<JobReadModel> = {}): JobReadModel {
   };
 }
 it("city facets preserve jobs, qualification/search/sort and do not duplicate multi-city rows", async () => {
-  const jobs = [job("1", { location: ["北京市,上海市", "北京顺义区"] }), job("2", { location: ["广东省-深圳市"] })];
+  const jobs = [
+    job("1", { location: ["北京市,上海市", "北京顺义区"] }),
+    job("2", { location: ["广东省-深圳市"] }),
+  ];
   const before = JSON.stringify(jobs);
-  const state = await loadRadarState({ city: "北京市", q: jobs[0].title, sort: "freshness" });
+  const state = await loadRadarState({
+    city: "北京市",
+    q: jobs[0].title,
+    sort: "freshness",
+  });
   const selected = selectJobs(jobs, profile, state);
-  expect(selected.map(row => row.job.id)).toEqual(["1"]);
-  expect(selected[0].result).toEqual(evaluateQualification(profile, jobs[0].gates, jobs[0].application_status, jobs[0]));
+  expect(selected.map((row) => row.job.id)).toEqual(["1"]);
+  expect(selected[0].result).toEqual(
+    evaluateQualification(
+      profile,
+      jobs[0].gates,
+      jobs[0].application_status,
+      jobs[0],
+    ),
+  );
   expect(JSON.stringify(jobs)).toBe(before);
 });
 describe("Task 7 read boundary", () => {
@@ -302,4 +316,92 @@ it("closed detail cannot render malformed gates even though Excluded short-circu
   expect(displayGatesAreValid([{}])).toBe(false);
   expect(displayGatesAreValid([gate])).toBe(true);
   expect(displayGatesAreValid([])).toBe(true);
+});
+
+describe("browse filters and explicit preferences", () => {
+  it("combines keyword, normalized city, exact company, title keyword, qualification and sort", () => {
+    const jobs = [
+      job("a", {
+        company: "腾讯",
+        title: "产品实习生",
+        location: ["北京市,上海市"],
+      }),
+      job("b", { company: "腾讯", title: "产品实习生", location: ["深圳"] }),
+      job("c", {
+        company: "腾讯文档",
+        title: "产品实习生",
+        location: ["北京"],
+      }),
+      job("d", { company: "腾讯", title: "工程实习生", location: ["北京"] }),
+      job("e", {
+        company: "腾讯",
+        title: "产品实习生",
+        location: ["北京"],
+        extraction_status: "failed",
+      }),
+    ];
+    const original = JSON.stringify(jobs);
+    const state = loadRadarState({
+      q: "实习",
+      city: "北京市",
+      company: "腾讯",
+      role: "产品",
+      status: "Eligible",
+      sort: "freshness",
+    });
+    const rows = selectJobs(jobs, profile, state);
+    expect(rows.map((row) => row.job.id)).toEqual(["a"]);
+    expect(rows[0].result).toEqual(
+      evaluateQualification(
+        profile,
+        jobs[0].gates,
+        jobs[0].application_status,
+        jobs[0],
+      ),
+    );
+    expect(JSON.stringify(jobs)).toBe(original);
+    for (const field of ["q", "city", "company", "role", "status"] as const) {
+      const noMatch = {
+        ...state,
+        [field]: field === "status" ? ("Excluded" as const) : "未匹配",
+      };
+      expect(selectJobs(jobs, profile, noMatch)).toEqual([]);
+    }
+  });
+  it("title keyword ignores case but does not guess role meaning or search the JD", () => {
+    const jobs = [job("a", { title: "AI Intern", description: "产品运营" })];
+    expect(
+      selectJobs(jobs, profile, loadRadarState({ role: "ai" })),
+    ).toHaveLength(1);
+    expect(
+      selectJobs(jobs, profile, loadRadarState({ role: "人工智能" })),
+    ).toHaveLength(0);
+    expect(
+      selectJobs(jobs, profile, loadRadarState({ role: "产品" })),
+    ).toHaveLength(0);
+  });
+  it("URL preserves all filters and detail return context including unknown company", () => {
+    const state = loadRadarState({
+      q: "研发",
+      city: "北京市",
+      company: "未知公司",
+      role: "C++",
+      status: "Check",
+      sort: "freshness",
+      job: "42",
+    });
+    const encoded = radarUrl("/radar", state);
+    expect(
+      loadRadarState(new URL(encoded, "https://radar.local").searchParams),
+    ).toEqual(state);
+    const full = new URL(fullDetailUrl("42", state), "https://radar.local");
+    expect(
+      loadRadarState(
+        new URL(
+          safeRadarReturn(full.searchParams.get("returnTo")!),
+          "https://radar.local",
+        ).searchParams,
+      ),
+    ).toEqual(state);
+  });
 });

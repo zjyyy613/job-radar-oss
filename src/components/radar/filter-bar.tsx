@@ -2,6 +2,10 @@
 import { useState, useSyncExternalStore } from "react";
 import { Search, SlidersHorizontal, ChevronDown } from "lucide-react";
 import type { RadarState } from "@/lib/radar/url-state";
+import { CityChoice, PreferenceChoice } from "./browse-dialogs";
+import type { PreferenceProfile } from "@/lib/domain/profile";
+import { clearedFilters } from "@/lib/radar/browse-filters";
+import { Button } from "@/components/ui/button";
 function subscribeWide(listener: () => void) {
   const m = window.matchMedia("(min-width:768px)");
   m.addEventListener("change", listener);
@@ -10,10 +14,14 @@ function subscribeWide(listener: () => void) {
 export function FilterBar({
   state,
   cities,
+  companies,
+  preferences,
   onChange,
 }: {
   state: RadarState;
   cities: string[];
+  companies: string[];
+  preferences: PreferenceProfile;
   onChange: (value: Partial<RadarState>) => void;
 }) {
   const wide = useSyncExternalStore(
@@ -22,7 +30,13 @@ export function FilterBar({
     () => false,
   );
   const [expanded, setExpanded] = useState(false);
-  const active = Boolean(state.city || state.status !== "all");
+  const active = Boolean(
+    state.q ||
+    state.city ||
+    state.company ||
+    state.role ||
+    state.status !== "all",
+  );
   return (
     <div className="filter-bar">
       <label className="search-field">
@@ -49,16 +63,24 @@ export function FilterBar({
           <ChevronDown size={14} aria-hidden="true" />
         </summary>
         <div className="filter-selects">
-          <label>
-            地点
-            <select
-              name="city"
+          <div className="filter-city">
+            <span>地点</span>
+            <CityChoice
+              cities={cities}
               value={state.city}
-              onChange={(e) => onChange({ city: e.target.value })}
+              onChange={(city) => onChange({ city })}
+            />
+          </div>
+          <label>
+            公司
+            <select
+              name="company"
+              value={state.company}
+              onChange={(e) => onChange({ company: e.target.value })}
             >
-              <option value="">全部地点</option>
-              {cities.map((city) => (
-                <option key={city}>{city}</option>
+              <option value="">全部公司</option>
+              {companies.map((company) => (
+                <option key={company}>{company}</option>
               ))}
             </select>
           </label>
@@ -93,6 +115,26 @@ export function FilterBar({
           </label>
         </div>
       </details>
+      <div className="browse-actions">
+        <PreferenceChoice preferences={preferences} onChange={onChange} />
+        {state.role && (
+          <span>
+            标题包含：{state.role}{" "}
+            <Button
+              variant="ghost"
+              aria-label="取消岗位关键词筛选"
+              onClick={() => onChange({ role: "" })}
+            >
+              取消
+            </Button>
+          </span>
+        )}
+        {active && (
+          <Button variant="ghost" onClick={() => onChange(clearedFilters)}>
+            清除全部筛选
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,0 +1,32 @@
+[
+  {
+    "surface": "desktop",
+    "width": 1440,
+    "cases": 6,
+    "back_forward_reload_detail_return": "pass",
+    "explicit_apply_and_clear": "pass",
+    "city_alias_search_and_focus": "pass",
+    "overflow": false,
+    "page_errors": []
+  },
+  {
+    "surface": "medium",
+    "width": 1024,
+    "cases": 6,
+    "back_forward_reload_detail_return": "pass",
+    "explicit_apply_and_clear": "pass",
+    "city_alias_search_and_focus": "pass",
+    "overflow": false,
+    "page_errors": []
+  },
+  {
+    "surface": "mobile",
+    "width": 390,
+    "cases": 6,
+    "back_forward_reload_detail_return": "pass",
+    "explicit_apply_and_clear": "pass",
+    "city_alias_search_and_focus": "pass",
+    "overflow": false,
+    "page_errors": []
+  }
+]

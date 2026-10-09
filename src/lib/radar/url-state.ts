@@ -7,6 +7,8 @@ import {
 export const radarParsers = {
   q: parseAsString.withDefault(""),
   city: parseAsString.withDefault(""),
+  company: parseAsString.withDefault(""),
+  role: parseAsString.withDefault(""),
   status: parseAsStringLiteral([
     "all",
     "Eligible",

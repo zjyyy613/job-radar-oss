@@ -71,6 +71,11 @@ export function selectJobs(
       ({ job, result }) =>
         (state.status === "all" || result.status === state.status) &&
         matchesCity(job.location, state.city) &&
+        (!state.company || job.company === state.company) &&
+        (!state.role ||
+          job.title
+            .toLocaleLowerCase()
+            .includes(state.role.trim().toLocaleLowerCase())) &&
         (!state.q ||
           [job.title, job.company, ...job.location]
             .join(" ")

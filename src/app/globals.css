@@ -1773,6 +1773,61 @@ blockquote {
 }
 
 /* Frozen brand assets: transparent monochrome paths, no mockup background. */
+.filter-city {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #53534e;
+  font-size: 12px;
+}
+.city-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 36px;
+  padding: 6px 10px;
+  background: #fcfcfa;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  font-size: 14px;
+  cursor: pointer;
+}
+.browse-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  width: 100%;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.browse-actions:empty { display: none; }
+.browse-dialog { max-width: min(480px, calc(100% - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto; border-color: var(--line); }
+.browse-actions [data-variant="ghost"] { color: var(--ink); background: transparent; border: 0; border-radius: 6px; font-size: 13px; }
+.browse-actions [data-variant="ghost"]:hover { background: #f1f1ee; }
+.browse-dialog [data-variant="outline"] { color: var(--ink); background: transparent; border: 1px solid #b9b9af; border-radius: 6px; }
+.browse-dialog label, .preference-form { display: grid; gap: 8px; }
+.preference-form { gap: 16px; }
+.browse-dialog input, .browse-dialog select {
+  width: 100%; min-width: 0; min-height: 44px; padding: 8px 10px;
+  border: 1px solid var(--line); border-radius: 6px; background: #fcfcfa; font-size: 16px;
+}
+.city-options { max-height: 40dvh; overflow-y: auto; overscroll-behavior: contain; }
+.city-options button {
+  display: flex; justify-content: space-between; width: 100%; min-height: 44px;
+  text-align: left; padding: 10px; cursor: pointer; border-radius: 6px;
+  background: transparent; color: var(--ink); border: 0;
+}
+.city-options button[aria-pressed="true"], .city-options button:hover { background: #f1f1ee; }
+.city-options span { font-size: 12px; color: var(--muted); }
+.browse-dialog-actions { display: flex; gap: 8px; justify-content: flex-end; }
+@media (max-width: 767px) {
+  .filter-city { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 12px; }
+  .city-trigger, .browse-actions button, .browse-dialog button { min-height: 44px; }
+}
+
 .brand-mark {
   width: 26px;
   height: 28px;

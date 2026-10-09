@@ -5,6 +5,7 @@ import type { RadarData } from "@/lib/data/job-read-model";
 import { radarParsers, fullDetailUrl } from "@/lib/radar/url-state";
 import { selectJobs } from "@/lib/radar/presentation";
 import { locationOptions, resolveCityFilter } from "@/lib/radar/location";
+import { companyOptions, clearedFilters } from "@/lib/radar/browse-filters";
 import { useLocalProfile } from "@/lib/profile/use-local-profile";
 import { emptyGuestProfile } from "@/lib/profile/local-profile";
 import { Button } from "@/components/ui/button";
@@ -61,7 +62,7 @@ export function RadarClient({ data }: { data: RadarData }) {
           {data.jobs.length > 0 && (
             <Button
               variant="outline"
-              onClick={() => void setState({ q: "", city: "", status: "all" })}
+              onClick={() => void setState(clearedFilters)}
             >
               清除筛选
             </Button>
@@ -113,6 +114,8 @@ export function RadarClient({ data }: { data: RadarData }) {
       <FilterBar
         state={{ ...state, city: resolveCityFilter(state.city) }}
         cities={cities}
+        companies={companyOptions(data.jobs, state.company)}
+        preferences={snapshot.data?.preferences ?? emptyGuestProfile().preferences}
         onChange={(value) => void setState(value)}
       />
       {state.job && !selected && (
