@@ -54,6 +54,15 @@ function job(id = "1", overrides: Partial<JobReadModel> = {}): JobReadModel {
     ...overrides,
   };
 }
+it("city facets preserve jobs, qualification/search/sort and do not duplicate multi-city rows", async () => {
+  const jobs = [job("1", { location: ["北京市,上海市", "北京顺义区"] }), job("2", { location: ["广东省-深圳市"] })];
+  const before = JSON.stringify(jobs);
+  const state = await loadRadarState({ city: "北京市", q: jobs[0].title, sort: "freshness" });
+  const selected = selectJobs(jobs, profile, state);
+  expect(selected.map(row => row.job.id)).toEqual(["1"]);
+  expect(selected[0].result).toEqual(evaluateQualification(profile, jobs[0].gates, jobs[0].application_status, jobs[0]));
+  expect(JSON.stringify(jobs)).toBe(before);
+});
 describe("Task 7 read boundary", () => {
   it("requests all readiness fields, canonical content and provenance without raw payload", async () => {
     const calls: { table: string; params: Record<string, string> }[] = [];

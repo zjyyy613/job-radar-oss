@@ -4,6 +4,7 @@ import { useQueryStates } from "nuqs";
 import type { RadarData } from "@/lib/data/job-read-model";
 import { radarParsers, fullDetailUrl } from "@/lib/radar/url-state";
 import { selectJobs } from "@/lib/radar/presentation";
+import { locationOptions, resolveCityFilter } from "@/lib/radar/location";
 import { useLocalProfile } from "@/lib/profile/use-local-profile";
 import { emptyGuestProfile } from "@/lib/profile/local-profile";
 import { Button } from "@/components/ui/button";
@@ -21,7 +22,7 @@ export function RadarClient({ data }: { data: RadarData }) {
     snapshot.data?.qualification ?? emptyGuestProfile().qualification;
   const rows = selectJobs(data.jobs, profile, state);
   const selected = data.jobs.find((job) => job.id === state.job);
-  const cities = [...new Set(data.jobs.flatMap((job) => job.location))].sort();
+  const cities = locationOptions(data.jobs, state.city);
   const incomplete =
     !profile.student_status ||
     !profile.graduation_year ||
@@ -110,7 +111,7 @@ export function RadarClient({ data }: { data: RadarData }) {
         </div>
       )}
       <FilterBar
-        state={state}
+        state={{ ...state, city: resolveCityFilter(state.city) }}
         cities={cities}
         onChange={(value) => void setState(value)}
       />

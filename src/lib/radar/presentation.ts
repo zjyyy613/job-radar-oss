@@ -12,6 +12,7 @@ import {
   RESEARCH_OPTIONS,
 } from "../domain/profile-values";
 import type { RadarState } from "./url-state";
+import { matchesCity } from "./location";
 export const FIELD_LABELS: Record<GateField, string> = {
   student_status: "学生状态",
   graduation_year: "毕业年份",
@@ -69,7 +70,7 @@ export function selectJobs(
     .filter(
       ({ job, result }) =>
         (state.status === "all" || result.status === state.status) &&
-        (!state.city || job.location.includes(state.city)) &&
+        matchesCity(job.location, state.city) &&
         (!state.q ||
           [job.title, job.company, ...job.location]
             .join(" ")
