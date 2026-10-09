@@ -38,14 +38,27 @@ export async function queryRadar(read: ReadRows): Promise<RadarData> {
     order: "id",
   });
   const ids = [...new Set(jobs.flatMap((job) => job.source_record_ids))];
-  const [sources, runs] = await Promise.allSettled([
-    ids.length
-      ? read<SourceMeta>("source_records", {
+  const sourceRows = new Map<string, SourceMeta>();
+  let sourceBatchFailed = false;
+  async function readSources() {
+    // Keep URLs bounded and retain successful batches if another batch fails.
+    for (let offset = 0; offset < ids.length; offset += 100) {
+      try {
+        const batch = ids.slice(offset, offset + 100);
+        const rows = await read<SourceMeta>("source_records", {
           select: SOURCE_COLUMNS,
-          id: `in.(${ids.join(",")})`,
+          id: `in.(${batch.join(",")})`,
           order: "id",
-        })
-      : Promise.resolve([]),
+        });
+        for (const row of rows) if (batch.includes(row.id)) sourceRows.set(row.id, row);
+      } catch {
+        sourceBatchFailed = true;
+      }
+    }
+    return [...sourceRows.values()].sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+  }
+  const [sources, runs] = await Promise.allSettled([
+    readSources(),
     read<SourceHealth>("source_runs", {
       select: "source,status,finished_at",
       order: "finished_at.desc,id.desc",
@@ -65,7 +78,7 @@ export async function queryRadar(read: ReadRows): Promise<RadarData> {
     })),
     sourceHealth: [...latest.values()],
     warnings: [
-      sources.status === "rejected"
+      sources.status === "rejected" || sourceBatchFailed
         ? "来源详情暂不可用，岗位内容仍可浏览。"
         : "",
       runs.status === "rejected"
