@@ -39,3 +39,13 @@ export function safeRadarReturn(value: string | undefined) {
     return "/radar";
   }
 }
+
+export function safeJobReturn(value: string | undefined) {
+  if (value) {
+    try {
+      const url = new URL(value, "https://radar.local");
+      if (url.origin === "https://radar.local" && url.pathname === "/saved") return url.pathname + url.search;
+    } catch { /* Fall back to the existing Radar return contract. */ }
+  }
+  return safeRadarReturn(value);
+}

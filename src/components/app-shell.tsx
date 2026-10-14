@@ -2,7 +2,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Radar, UserRound } from "lucide-react";
+import { Radar, UserRound, Star } from "lucide-react";
+import { SavedStorageNotice } from "./saved/save-button";
 import type { ReactNode } from "react";
 export function AppShell({ children }: { children: ReactNode }) {
   const path = usePathname();
@@ -43,6 +44,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             Radar
           </Link>
           <Link
+            href="/saved"
+            aria-current={path.startsWith("/saved") ? "page" : undefined}
+          >
+            <Star size={17} aria-hidden="true" />
+            Saved
+          </Link>
+          <Link
             href="/profile"
             aria-current={
               path.startsWith("/profile") || path.startsWith("/onboarding")
@@ -61,6 +69,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </p>
       </aside>
       <div className="app-content" id="main-content" tabIndex={-1}>
+        <SavedStorageNotice />
         {children}
       </div>
     </div>

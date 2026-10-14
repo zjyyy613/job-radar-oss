@@ -1,5 +1,6 @@
 import { CompanyMark } from "@/components/company-mark";
 import { Button } from "@/components/ui/button";
+import { SaveButton } from "@/components/saved/save-button";
 import type { JobReadModel } from "@/lib/data/job-read-model";
 import type { QualificationResult } from "@/lib/domain/qualification-engine";
 import {
@@ -20,7 +21,7 @@ export function JobRow({
 }) {
   const signal = result ? secondarySignal(result) : null;
   return (
-    <li>
+    <li className="job-row-container">
       <Button
         variant="ghost"
         className="job-row"
@@ -53,6 +54,7 @@ export function JobRow({
           →
         </span>
       </Button>
+      <SaveButton id={job.id} title={job.title} compact />
     </li>
   );
 }

@@ -1,0 +1,13 @@
+[
+  {
+    "surface": "mobile",
+    "save_remove_reload_keyboard": "pass",
+    "cross_tab": "pass",
+    "radar_peek_full_saved_consistent": "pass",
+    "no_nested_buttons": true,
+    "write_failure_preserves_state": "pass",
+    "unavailable_remove": "pass",
+    "profile_clear": "pass",
+    "page_errors": []
+  }
+]

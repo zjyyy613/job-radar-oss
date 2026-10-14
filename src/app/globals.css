@@ -1773,6 +1773,21 @@ blockquote {
 }
 
 /* Frozen brand assets: transparent monochrome paths, no mockup background. */
+.job-row-container { position: relative; border-bottom: 1px solid var(--line); }
+.job-row-container > [data-slot="button"].job-row { width: calc(100% - 44px); border-bottom: 0; }
+.job-row-container > .save-button { position: absolute; top: 50%; right: 0; transform: translateY(-50%); width: 44px; padding: 10px; }
+.save-button { display: inline-flex; align-items: center; gap: 6px; }
+.saved-unavailable { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 8px; border-bottom: 1px solid var(--line); }
+.saved-unavailable h2 { font-size: 15px; }
+.saved-unavailable p { overflow-wrap: anywhere; }
+.saved-note { margin-bottom: 16px; }
+.saved-storage-error { margin: 12px 24px; }
+@media (max-width: 767px) {
+  .saved-unavailable { flex-wrap: wrap; }
+  .sidebar nav { gap: 0; }
+  .sidebar nav a { padding-inline: 8px; }
+}
+
 .filter-city {
   display: flex;
   align-items: center;

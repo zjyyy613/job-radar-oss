@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { GateRow } from "./gate-row";
 import { CheckReason } from "./check-reason";
 import { SourceMeta } from "./source-meta";
+import { SaveButton, SavedStorageNotice } from "@/components/saved/save-button";
 export function JobDetail({
   job,
   full = false,
@@ -43,6 +44,7 @@ export function JobDetail({
   const url = safeExternalUrl(job.apply_url);
   return (
     <article className={`job-detail ${full ? "full-detail" : ""}`}>
+      <SavedStorageNotice />
       <header className="job-heading">
         <p className="eyebrow company-heading">
           <CompanyMark company={job.company} />
@@ -57,7 +59,9 @@ export function JobDetail({
           <p className="meta">{job.recruitment_batch}</p>
         )}
         <div className="detail-actions">
-          {url ? (
+          {job.application_status === "closed" ? (
+            <p className="muted">岗位已关闭，当前不可申请。{url && <a href={url} target="_blank" rel="noopener noreferrer">查看原始岗位 ↗</a>}</p>
+          ) : url ? (
             <Button asChild>
               <a href={url} target="_blank" rel="noopener noreferrer">
                 官网投递 ↗
@@ -66,6 +70,7 @@ export function JobDetail({
           ) : (
             <p className="muted">申请链接未提供，请查看原始来源。</p>
           )}
+          <SaveButton id={job.id} title={job.title} />
           {!full && fullHref && (
             <Link className="text-link" href={fullHref}>
               查看完整岗位详情 →

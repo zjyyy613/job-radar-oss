@@ -29,7 +29,7 @@ export default function ProfilePage() {
           {row("偏好城市", data.preferences.preferred_cities.join("、") || null)}{row("偏好岗位", data.preferences.preferred_roles.join("、") || null)}{row("偏好公司", data.preferences.preferred_companies.join("、") || null)}
         </dl></section>
       </>}
-    {snapshot.loaded && <section className="local-data"><h2>管理本地数据</h2><p>清除本浏览器中的 Job Radar 资料与偏好。此操作不会删除其他网站的数据。</p>
+    {snapshot.loaded && <section className="local-data"><h2>管理本地数据</h2><p>清除本浏览器中的 Job Radar 资料、偏好与收藏。此操作不会删除其他网站的数据。</p>
       {!confirmClear ? <button className="secondary" onClick={() => setConfirmClear(true)}>清除本地 Job Radar 数据</button> : <div role="group" aria-label="确认清除"><p>清除后需要重新填写，确定继续吗？</p><div className="actions"><button className="secondary" onClick={() => setConfirmClear(false)}>取消清除</button><button onClick={() => { if (localProfile.clear()) { setConfirmClear(false); setEditing(false); setMessage("已清除本地 Job Radar 数据。"); } }}>确认清除</button></div></div>}
     </section>}
   </main>;
