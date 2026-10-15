@@ -99,7 +99,7 @@ Semantic color 极少使用：Eligible 在列表中 mostly silent；Check 使用
 
 ## Project UI Skills and conflict resolution
 
-项目仅安装 `.agents/skills/anti-ui-slop` 和 `.agents/skills/web-design-guidelines`，上游内容保留原样；安装来源及固定 commit 见各目录 `UPSTREAM.md`。
+项目已安装 `.agents/skills/anti-ui-slop`、`.agents/skills/web-design-guidelines`、`.agents/skills/hallmark` 与 `.agents/skills/visual-quality-final-audit`，上游内容保留原样；安装来源及固定 commit 见各目录 `UPSTREAM.md`。日常允许使用的是前两个；`hallmark` 与 `visual-quality-final-audit` 不得自动启用，仅在用户明确授权的具体任务中使用。
 
 - **anti-ui-slop** 仅用于 product-specific design contract、implementation guardrails、finish gate。本文件即产品设计契约；后续按任务范围核验实际 desktop/mobile 与状态，不重新发明视觉方向。无需付费 UIZZE、MCP 或外部参考才能继续。
 - **web-design-guidelines** 仅用于 implementation/review audit、accessibility、responsive behavior、interaction/state completeness。其在线指南仍是低优先级参考，不能通过更新覆盖本设计基线。
@@ -112,4 +112,4 @@ Semantic color 极少使用：Eligible 在列表中 mostly silent；Check 使用
 4. 虚拟列表、暗色主题、媒体、依赖和参考素材等建议仅在冻结范围与实际需求内评估，不构成新增功能、安装包或外部付费授权。
 5. 当前只审查设计约束与安装文件，不执行已验收 UI 的重设计，也不声称完成浏览器 UI finish gate。
 
-不安装或启用 Ant Design、GSAP、Cinematic UI、Landing Page Generator、UI/UX Pro Max、high-end-visual-design、redesign-existing-projects；Hallmark 本轮暂缓。
+不安装或启用 Ant Design、GSAP、Cinematic UI、Landing Page Generator、UI/UX Pro Max、high-end-visual-design、redesign-existing-projects。`hallmark` 已安装，但仅供用户明确授权的具体任务使用，不自动启用。

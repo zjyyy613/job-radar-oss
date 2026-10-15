@@ -1,6 +1,6 @@
 # Job Radar
 
-当前已完成 **M0 / Task 1–7**：冻结契约、多来源 ingestion、保守 canonicalization、source reliability、Gate Extraction、本地 Guest Profile、确定性资格引擎和 Radar Browse / Inspect / Full Detail。Task 7 视觉与 Brand Direction 已由用户 Freeze；未进入 M1。最终验收见 [M0 Final Acceptance](docs/reports/2026-10-01-m0-final-acceptance.md)。
+当前已完成 **M0 / Task 1–7**：冻结契约、多来源 ingestion、保守 canonicalization、source reliability、Gate Extraction、本地 Guest Profile、确定性资格引擎和 Radar Browse / Inspect / Full Detail。Task 7 视觉与 Brand Direction 已由用户 Freeze。其后 **Product Improvement v1**（地点归一与城市筛选、组合筛选与偏好应用、最小 Saved、时间与招聘状态表达）已发布并冻结；M1 其余功能尚未实现。协作与进度状态见 [Project Handoff](docs/PROJECT_HANDOFF.md)，M0 最终验收见 [M0 Final Acceptance](docs/reports/2026-10-01-m0-final-acceptance.md)。
 
 冻结依据（按优先级）：
 - [Product Spec v1.0](docs/specs/job-radar-product-spec-v1.0.md)
@@ -252,9 +252,9 @@ PGlite 测试本身不代表真实部署；Task 2–5 已分别应用迁移并�
 
 ### 文档时间与运行边界
 
-阶段报告、Implementation Plan 原始 checklist 及 DESIGN 中“本轮/当前只做 Pre-Task7”等文字保留其建立时的上下文，不代表当前交付仍停在旧阶段。当前完成状态以本节和 M0 Final Acceptance 为准；冻结语义和视觉规则不变。
+阶段报告、Implementation Plan 原始 checklist 及 DESIGN 中“本轮/当前只做 Pre-Task7”等文字保留其建立时的上下文，不代表当前交付仍停在旧阶段。当前完成状态以 [Project Handoff](docs/PROJECT_HANDOFF.md)、本节和 M0 Final Acceptance 为准；冻结语义和视觉规则不变。
 
-M1 未实现：Saved、Hide/Undo、Seen/New、inline profile completion 等。M0.5 已接入后台增量 refresh，远端状态见下节及 Phase 2A 报告；尚未进行 Vercel 部署。接入 `supabase db push` 前须核对历史初始 migration 版本，不能重复执行 DDL。
+M1 中仅实现**最小 Saved**（Product Improvement v1 Task 3，见 [Saved 报告](docs/reports/2026-10-10-minimal-saved-jobs.md)）；Hide/Undo、Seen/New、inline profile completion 等仍未实现。M0.5 已接入后台增量 refresh，远端状态见下节及 Phase 2A 报告；**已部署至 Vercel 生产环境**，生产版本对应提交 `18e042297f2b572f160bedad777e5edb5777810d`（由 ChatGPT 经 Vercel 部署接口核实）。接入 `supabase db push` 前须核对历史初始 migration 版本，不能重复执行 DDL。
 
 ## M0.5 Phase 2A refresh
 
