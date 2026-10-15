@@ -4,10 +4,10 @@
 > 业务与冻结规则以 [Product Spec v1.0](specs/job-radar-product-spec-v1.0.md)、[Technical Architecture v0.1](architecture/job-radar-technical-architecture-v0.1.md)、[DESIGN.md](../DESIGN.md)、[README.md](../README.md) 为准，本文不复制其内容。
 > 维护约定：本文件由 **DSH 作为主要维护者**更新，ChatGPT 负责项目协调与任务状态核对，Codex 读取本文件的交接信息；按任务分配或完成节点更新，避免双方同时编辑，且每次更新都要附实际证据。
 
-- 文件版本：v2
+- 文件版本：v3
 - 最后更新：2026-10-15
 - 最后更新者：DSH
-- 更新节点：Collaboration Setup 02（最小文档状态同步）完成
+- 更新节点：DATA-02（现有官方来源小规模扩量验证）完成
 
 ## 1. 当前稳定基线
 
@@ -15,6 +15,7 @@
 | --- | --- | --- |
 | 项目 | Job Radar | — |
 | 状态 | Product Improvement v1 Released / Frozen | User 确认 |
+| 生产数据快照（最新） | 429 jobs / 13 公司；网易 64、美团 59；腾讯/小米/vivo 各 2；extraction ready 363 / failed 66；`published_at` 2；`internship_type` 0；`recruitment_batch` 0；427 条有职责+要求+申请链接 | **由 ChatGPT 经 Supabase 只读查询确认**（2026-10-15）；DSH 未直接连库 |
 | GitHub 生产分支 | `task-1-m0-contracts` | `git ls-remote --symref origin HEAD` |
 | 生产分支 commit（GitHub） | `18e042297f2b572f160bedad777e5edb5777810d` | 同一次 `ls-remote`，与 DSH 本地基线一致 |
 | 已部署版本（Vercel Production） | `18e042297f2b572f160bedad777e5edb5777810d` | **由 ChatGPT 通过 Vercel 部署接口核实**；DSH 未独立验证 |
@@ -51,7 +52,9 @@
 | Task ID | Task | Owner | Status | Branch/Commit | Next Action |
 | --- | --- | --- | --- | --- | --- |
 | SETUP-01 | 建立共享项目交接文件 | DSH | Completed | `work/dsh` @ `3016bed` | 无（据 User 通报已以 Git fast-forward 同步至 Codex 工作区）；未 push、未部署 |
-| SETUP-02 | 最小文档状态同步（交接文件 / README / AGENTS.md / DESIGN.md） | DSH | Completed | `work/dsh`（本轮文档提交） | 无 |
+| SETUP-02 | 最小文档状态同步（交接文件 / README / AGENTS.md / DESIGN.md） | DSH | Completed | `work/dsh` @ `40c58e7` | 无 |
+| DATA-01 | 岗位覆盖与数据质量评估（只读分析） | DSH | Completed | 只读，无代码变更 | 方向已通过 User 与 ChatGPT 审查；结果并入 DATA-02 交付报告 |
+| DATA-02 | 现有官方来源小规模扩量验证（`tencent / intern` 有界 dry-run） | DSH | Completed | `work/dsh`（本轮文档提交） | 建议每源 20–60 条下一轮，待 User 批准 |
 | — | 当前无进行中的产品开发任务 | — | — | — | 等待 User 分配 |
 
 本表只登记**已授权且有实际证据**的任务；未分配的工作不预填 Owner、不虚构进度。
@@ -66,6 +69,8 @@
 | DSH worktree 接入 | Completed | `E:\job-radar-dsh` 建立于 `work/dsh`；只读接入确认已通过。 |
 | SETUP-01 交接文件 | Completed | [PROJECT_HANDOFF.md](PROJECT_HANDOFF.md) 建立；commit `3016bed`（本地）。 |
 | SETUP-02 文档状态同步 | Completed | 修正 README 过期表述；AGENTS.md / DESIGN.md 更新 Skills 信息；本文件基线区分三个版本。 |
+| DATA-01 数据覆盖评估 | Completed | 只读分析：8 家受调度源占 98.0%；腾讯/小米/vivo 各 2 条；受调度源上游覆盖率约 11.4%；建筑/法学方向样本为 0；`published_at` 2/429。见 [数据覆盖评估](reports/2026-10-15-data-coverage-assessment.md)。 |
+| DATA-02 腾讯 intern 扩量验证 | Completed | 实测 2 页 / 10 候选 / 详情 10-10 / 准入 10-10、12.8s、0 失败、停止条件 `max_jobs`、10-10 官方 `join.qq.com` 申请链接；与库内 2 条腾讯 campus 记录 ID 无交集（**库内存在性未核实**）。 |
 
 只列关键结果，不复制详细历史；完整过程见 [reports/](reports/)。
 
@@ -73,13 +78,17 @@
 
 **A. 已知非阻断问题**
 
-- extraction 未就绪岗位：63 条失败保持 `Check`（31 条 parser×validator 兼容 + 32 条模型拒绝）待专项审计；不自动重试。
+- extraction 未就绪岗位：66 条失败保持 `Check` 待专项审计；不自动重试（Phase 1B 时为 63 条）。
+- `published_at` 仅 2/429 且两条均属 NCSS；根因已定位：job-pro adapter 只读 `payload.post_date`，而腾讯 detail 载荷不含该字段（`scripts/ingest/job-pro-adapter.ts:88`）。
+- `internship_type` / `recruitment_batch` 在 job-pro adapter 中**硬编码为 null**（`job-pro-adapter.ts:80-82`），上游 `recruit_label` / `project` 未采纳，故全库 0 条；上游实际提供该字段。
+- 腾讯 / 小米 / vivo 不在 `.github/workflows/refresh.yml` 默认调度源内，现有调度下长期停留 2 条/家。
 - 迁移历史 debt：本地 `0001_job_radar_m0.sql` ↔ 远端 `20260928013502_job_radar_m0`；禁止重复执行初始 DDL，未做 history repair。
 - 真实库无 `Closed` 样本，且所有 run 均为 `full_list=false`，**不得据此推断任何 Closed**。
-- 来源字段缺失：`published_at` 大量为空（显示「未提供」）；NCSS 无详情与申请链接。
+- NCSS 来源无详情与申请链接（`description`/`requirements`/`apply_url`/`deadline` 恒为 null）。
 
 **B. 后续产品候选方向（未授权，需 User 决策）**
 
+- 扩量验证下一轮（每源 20–60 条，仅 dry-run）：DATA-02 判定「值得继续」，待 User 批准。
 - M1 其余能力：Hide + Undo、Seen/New、inline profile completion、Compare、账号同步。
 - 来源侧：NCSS 扩页、新来源接入（ByteDance / Xiaomi 曾 429，Horizon、NIO 等 Later 项）；实习僧因上游协议限制已 Drop。
 - 更长期：JD Lens。
