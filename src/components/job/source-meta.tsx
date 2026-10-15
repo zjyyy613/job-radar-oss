@@ -1,18 +1,15 @@
 import type { JobReadModel } from "@/lib/data/job-read-model";
 import { safeExternalUrl } from "@/lib/data/job-read-model";
-import { dateLabel } from "@/lib/radar/presentation";
+import { dateLabel, APPLICATION_LABELS } from "@/lib/radar/presentation";
 export function SourceMeta({ job }: { job: JobReadModel }) {
   return (
     <footer className="source-meta">
       <h2>来源与更新</h2>
       <p>
         招聘状态：
-        {
-          { open: "开放申请", closed: "已关闭", unknown: "状态未明" }[
-            job.application_status
-          ]
-        }
+        {APPLICATION_LABELS[job.application_status]}
       </p>
+      <p>来源标注发布：{dateLabel(job.published_at)}</p>
       {job.sources.length ? (
         job.sources.map((source) => (
           <div key={source.id}>
@@ -25,7 +22,7 @@ export function SourceMeta({ job }: { job: JobReadModel }) {
                   : "发现来源"}
             </p>
             <p>
-              最后获取 {dateLabel(source.fetched_at)} · 最后确认收录{" "}
+              最近获取 {dateLabel(source.fetched_at)} · 最近观察到{" "}
               {dateLabel(source.last_seen_at)}
             </p>
             {safeExternalUrl(source.source_url) && (
@@ -42,7 +39,7 @@ export function SourceMeta({ job }: { job: JobReadModel }) {
       ) : (
         <p>来源详情暂不可用。</p>
       )}
-      <p>收录时间不代表岗位仍在招聘；申请前请核对原始来源。</p>
+      <p>获取与观察时间不是发布时间，也不代表已核实当前开放；申请前请核对原始来源。</p>
     </footer>
   );
 }

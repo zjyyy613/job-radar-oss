@@ -38,8 +38,8 @@ export function RadarClient({ data }: { data: RadarData }) {
         <span>{rows.length} 个岗位</span>
         <span>
           {state.sort === "qualification"
-            ? "资格优先 · 最近收录"
-            : "按收录时间"}{" "}
+            ? "资格优先 · 最近获取"
+            : "按获取时间"}{" "}
         </span>
       </div>
       {rows.length ? (

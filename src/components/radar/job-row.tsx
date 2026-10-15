@@ -40,7 +40,7 @@ export function JobRow({
           </span>
           <span className="row-meta">
             <span>{job.location.join(" / ") || "地点未提供"}</span>
-            <span className="row-date">收录 {dateLabel(freshness(job))}</span>
+            <span className="row-date">获取 {dateLabel(freshness(job))}</span>
           </span>
           {signal && (
             <span

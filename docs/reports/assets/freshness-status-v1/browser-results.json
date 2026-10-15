@@ -1,0 +1,20 @@
+[
+  {
+    "surface": "desktop",
+    "jobs": 429,
+    "unknown_eligible_separate": true,
+    "open_caveat": true,
+    "publication_fetch_distinct": true,
+    "saved_latest_data": true,
+    "console_errors": []
+  },
+  {
+    "surface": "mobile",
+    "jobs": 429,
+    "unknown_eligible_separate": true,
+    "open_caveat": true,
+    "publication_fetch_distinct": true,
+    "saved_latest_data": true,
+    "console_errors": []
+  }
+]

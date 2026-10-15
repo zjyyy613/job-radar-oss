@@ -18,6 +18,10 @@ import {
   selectJobs,
   checkReason,
   secondarySignal,
+  freshness,
+  dateLabel,
+  APPLICATION_LABELS,
+  APPLICATION_NOTES,
 } from "../../src/lib/radar/presentation";
 import { emptyGuestProfile } from "../../src/lib/profile/local-profile";
 import { evaluateQualification } from "../../src/lib/domain/qualification-engine";
@@ -403,5 +407,29 @@ describe("browse filters and explicit preferences", () => {
         ).searchParams,
       ),
     ).toEqual(state);
+  });
+});
+
+
+describe("acquisition dates and application clarity", () => {
+  it("never substitutes publication for missing or invalid acquisition metadata", () => {
+    expect(freshness(job("a", {sources:[],published_at:"2020-01-01T00:00:00Z"}))).toBeNull();
+    expect(freshness(job("a", {sources:[{...record(), fetched_at:"invalid"}]}))).toBeNull();
+    expect(dateLabel(null)).toBe("未提供");
+  });
+  it("uses chronological acquisition time across sources, including timezone offsets", () => {
+    expect(freshness(job("a", {sources:[{...record(),fetched_at:"2026-10-15T09:00:00+08:00"},{...record(),fetched_at:"2026-10-15T02:00:00Z"}]}))).toBe("2026-10-15T02:00:00Z");
+  });
+  it("refetch affects acquisition sorting without changing publication or qualification", () => {
+    const a=job("a",{published_at:"2020-01-01T00:00:00Z",sources:[{...record(),fetched_at:"2026-10-15T00:00:00Z"}]}), b=job("b",{published_at:"2026-10-14T00:00:00Z",sources:[{...record(),fetched_at:"2026-10-14T00:00:00Z"}]});
+    const rows=selectJobs([b,a],profile,loadRadarState({sort:"freshness"}));
+    expect(rows.map(r=>r.job.id)).toEqual(["a","b"]);expect(rows[0].job.published_at).toBe("2020-01-01T00:00:00Z");
+    expect(rows[0].result).toEqual(evaluateQualification(profile,a.gates,a.application_status,a));
+  });
+  it("application unknown is distinct from closed and eligible is not an open-status claim", () => {
+    const unknown=job("a",{application_status:"unknown"});
+    expect(evaluateQualification(profile,unknown.gates,unknown.application_status,unknown).status).toBe("Eligible");
+    expect(APPLICATION_LABELS.unknown).toBe("开放状态未核实");expect(APPLICATION_NOTES.unknown).toContain("不等于已关闭");
+    expect(APPLICATION_NOTES.open).toContain("不代表持续有效");expect(APPLICATION_LABELS.closed).toBe("已关闭");
   });
 });

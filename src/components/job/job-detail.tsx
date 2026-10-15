@@ -13,6 +13,8 @@ import {
   verdict,
   displayGatesAreValid,
   checkReason,
+  APPLICATION_LABELS,
+  APPLICATION_NOTES,
 } from "@/lib/radar/presentation";
 import { Button } from "@/components/ui/button";
 import { GateRow } from "./gate-row";
@@ -58,6 +60,7 @@ export function JobDetail({
         {job.recruitment_batch && (
           <p className="meta">{job.recruitment_batch}</p>
         )}
+        <p className="meta">招聘状态：{APPLICATION_LABELS[job.application_status]}。{APPLICATION_NOTES[job.application_status]}</p>
         <div className="detail-actions">
           {job.application_status === "closed" ? (
             <p className="muted">岗位已关闭，当前不可申请。{url && <a href={url} target="_blank" rel="noopener noreferrer">查看原始岗位 ↗</a>}</p>
@@ -98,13 +101,10 @@ export function JobDetail({
             <CheckReason result={result} profile={profile} />
             {result.status === "Eligible" && (
               <p className="muted">
-                仅核对已识别的资格条件，最终要求以招聘方原文为准。
+                仅核对已识别的资格条件，不代表岗位当前可投递；最终要求以招聘方原文为准。
               </p>
             )}
           </>
-        )}
-        {job.application_status === "unknown" && (
-          <p className="muted">招聘状态未明，请在投递前向原始来源确认。</p>
         )}
       </section>
       {ready &&

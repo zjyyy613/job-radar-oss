@@ -110,7 +110,7 @@ export function FilterBar({
               }
             >
               <option value="qualification">资格优先</option>
-              <option value="freshness">最近收录</option>
+              <option value="freshness">最近获取</option>
             </select>
           </label>
         </div>

@@ -34,13 +34,21 @@ export function verdict(result: QualificationResult) {
     : VERDICTS[result.status];
 }
 export function freshness(job: JobReadModel) {
-  return (
-    job.sources
-      .map((s) => s.fetched_at)
-      .sort()
-      .at(-1) ?? job.published_at
-  );
+  // Acquisition time only: publication is a different fact, never a fallback.
+  return job.sources.map(s => s.fetched_at)
+    .filter(value => Number.isFinite(Date.parse(value)))
+    .sort((a, b) => Date.parse(a) - Date.parse(b)).at(-1) ?? null;
 }
+export const APPLICATION_LABELS = {
+  open: "来源记录显示开放",
+  unknown: "开放状态未核实",
+  closed: "已关闭",
+};
+export const APPLICATION_NOTES = {
+  open: "不代表持续有效，投递前请核对原始来源。",
+  unknown: "不等于已关闭，投递前请到原始来源确认。",
+  closed: "当前不可申请，可查看原始岗位信息。",
+};
 export function dateLabel(value: string | null) {
   return value && !Number.isNaN(Date.parse(value))
     ? new Intl.DateTimeFormat("zh-CN", {
