@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import samples from "../fixtures/location-samples.json";
-import { groupLabelMatches, locationGroups, locationOptions, matchesCity, normalizeLocations, resolveCityFilter } from "../../src/lib/radar/location";
+import { groupLabelMatches, locationGroups, locationOptions, matchesCity, normalizeLocations, resolveCityFilter, shortLocationLabel } from "../../src/lib/radar/location";
 
 it.each([
   ["北京", ["北京"]], ["北京市", ["北京"]], ["北京顺义区", ["北京"]],
@@ -49,11 +49,57 @@ it("groups cities under their existing province, with municipalities, 港澳, �
     { key: "北京市", label: "北京市", kind: "municipality", options: ["北京"] },
     { key: "上海市", label: "上海市", kind: "municipality", options: ["上海"] },
     { key: "广东省", label: "广东省", kind: "province", options: ["广州", "深圳"] },
+    { key: "浙江省", label: "浙江省", kind: "province", options: ["浙江"], unresolved: ["浙江"] },
     { key: "山西省", label: "山西省", kind: "province", options: ["太原"] },
     { key: "香港", label: "香港特别行政区", kind: "region", options: ["香港"] },
     { key: "__overseas", label: "境外", kind: "overseas", options: ["巴黎"] },
-    { key: "__other", label: "其他地点", kind: "other", options: ["浙江"] },
   ]);
+});
+
+it("files a province-only or county-only raw value under its province", () => {
+  const groups = locationGroups(["浙江", "广东", "海南省-澄迈县", "中国香港", "中国澳门", "未知地名"]);
+  expect(groups.find(g => g.key === "浙江省")).toEqual({ key: "浙江省", label: "浙江省", kind: "province", options: ["浙江"], unresolved: ["浙江"] });
+  expect(groups.find(g => g.key === "广东省")).toEqual({ key: "广东省", label: "广东省", kind: "province", options: ["广东"], unresolved: ["广东"] });
+  // The county stays visible and is never turned into a city.
+  expect(groups.find(g => g.key === "海南省")).toEqual({ key: "海南省", label: "海南省", kind: "province", options: ["海南省-澄迈县"] });
+  expect(groups.find(g => g.key === "香港")).toEqual({ key: "香港", label: "香港特别行政区", kind: "region", options: ["中国香港"] });
+  expect(groups.find(g => g.key === "澳门")).toEqual({ key: "澳门", label: "澳门特别行政区", kind: "region", options: ["中国澳门"] });
+  // Only what truly cannot be attributed stays here.
+  expect(groups.find(g => g.key === "__other")).toEqual({ key: "__other", label: "其他地点", kind: "other", options: ["未知地名"] });
+});
+
+it("leaves contradictory province/city composites unassigned", () => {
+  expect(locationGroups(["广东省-北京市", "美国-北京市", "北京路", "朝阳区", "昆山市"])).toEqual([
+    { key: "__other", label: "其他地点", kind: "other", options: ["广东省-北京市", "美国-北京市", "北京路", "朝阳区", "昆山市"] },
+  ]);
+  // A consistent province composite is listed under its province without a hint.
+  expect(locationGroups(["浙江-杭州"])).toEqual([
+    { key: "浙江省", label: "浙江省", kind: "province", options: ["浙江-杭州"] },
+  ]);
+});
+
+it("keeps normalization, matching and URL resolution byte-for-byte compatible", () => {
+  expect(normalizeLocations(["浙江"])).toEqual({ cities: [], unresolved: ["浙江"] });
+  expect(normalizeLocations(["海南省-澄迈县"])).toEqual({ cities: [], unresolved: ["海南省-澄迈县"] });
+  expect(normalizeLocations(["中国香港"])).toEqual({ cities: [], unresolved: ["中国香港"] });
+  expect(resolveCityFilter("浙江")).toBe("浙江");
+  expect(resolveCityFilter("中国香港")).toBe("中国香港");
+  // Display grouping must never widen matching.
+  expect(matchesCity(["中国香港"], "香港")).toBe(false);
+  expect(matchesCity(["中国香港"], "中国香港")).toBe(true);
+  expect(matchesCity(["浙江"], "杭州")).toBe(false);
+  expect(matchesCity(["浙江"], "浙江")).toBe(true);
+  expect(matchesCity(["海南省-澄迈县"], "海口")).toBe(false);
+});
+
+it("shortens province labels for the index grid without changing the group label", () => {
+  expect(shortLocationLabel("广东省")).toBe("广东");
+  expect(shortLocationLabel("北京市")).toBe("北京");
+  expect(shortLocationLabel("内蒙古自治区")).toBe("内蒙古");
+  expect(shortLocationLabel("广西壮族自治区")).toBe("广西");
+  expect(shortLocationLabel("新疆维吾尔自治区")).toBe("新疆");
+  expect(shortLocationLabel("香港特别行政区")).toBe("香港");
+  expect(locationGroups(["广州"])[0].label).toBe("广东省");
 });
 
 it("derives every mainland group from the existing regions catalog only", () => {

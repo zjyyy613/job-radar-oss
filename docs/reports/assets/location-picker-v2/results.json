@@ -1,0 +1,684 @@
+{
+  "base": "http://127.0.0.1:3111/citycheck-tmp",
+  "results": [
+    {
+      "surface": "desktop",
+      "check": "dialog opens from keyboard",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "focus moves into the dialog title",
+      "pass": true,
+      "detail": "H2"
+    },
+    {
+      "surface": "desktop",
+      "check": "cancel is reachable without scrolling the dialog",
+      "pass": true,
+      "detail": {
+        "x": 305,
+        "y": 812.84375,
+        "width": 830,
+        "height": 44
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "province index rendered",
+      "pass": true,
+      "detail": 31
+    },
+    {
+      "surface": "desktop",
+      "check": "city pane exists",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "wide layout shows index and cities together",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "dialog is wider than the old single-column picker",
+      "pass": true,
+      "detail": {
+        "x": 280,
+        "y": 18.15625,
+        "width": 880,
+        "height": 863.6875
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "province grid uses columns",
+      "pass": true,
+      "detail": "104.344px 104.344px 104.344px 104.359px"
+    },
+    {
+      "surface": "desktop",
+      "check": "Beijing is one click away",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "Hong Kong quick entry present",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "city pane starts without a province",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "广州 listed after choosing 广东省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "深圳 listed after choosing 广东省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "东莞 listed after choosing 广东省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "chosen province marked",
+      "pass": true,
+      "detail": "广东"
+    },
+    {
+      "surface": "desktop",
+      "check": "focus follows into the city pane",
+      "pass": true,
+      "detail": "city-pane-title"
+    },
+    {
+      "surface": "desktop",
+      "check": "trigger shows the chosen city",
+      "pass": true,
+      "detail": "广州"
+    },
+    {
+      "surface": "desktop",
+      "check": "callback received the city, not the province",
+      "pass": true,
+      "detail": "selected=广州"
+    },
+    {
+      "surface": "desktop",
+      "check": "focus returns to the trigger",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "reopen keeps the selection's province active",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "reopen marks the selected city",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "collapsed province city found by search",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "search replaces the panes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "search narrows to the matching group",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "surface": "desktop",
+      "check": "province name search lists its cities",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "raw SAR alias searchable",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "empty search states so",
+      "pass": true,
+      "detail": "没有匹配的地点"
+    },
+    {
+      "surface": "desktop",
+      "check": "tab order starts at 全部地点",
+      "pass": true,
+      "detail": "全部地点"
+    },
+    {
+      "surface": "desktop",
+      "check": "tab reaches the matched option",
+      "pass": true,
+      "detail": "太原"
+    },
+    {
+      "surface": "desktop",
+      "check": "keyboard selection applies",
+      "pass": true,
+      "detail": "太原"
+    },
+    {
+      "surface": "desktop",
+      "check": "浙江 filed under 浙江省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "浙江 marked as having no city",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "海南省-澄迈县 filed under 海南省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "中国香港 filed under 香港特别行政区",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "Beijing selected in one click",
+      "pass": true,
+      "detail": "北京"
+    },
+    {
+      "surface": "desktop",
+      "check": "no horizontal overflow",
+      "pass": true,
+      "detail": {
+        "gridScrolls": false,
+        "gridHeight": 362,
+        "paneShare": 0.4022222222222222,
+        "dialogBottom": 882,
+        "viewport": 900,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 40,
+        "minQuick": 40
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "measured real grid buttons",
+      "pass": true,
+      "detail": {
+        "gridScrolls": false,
+        "gridHeight": 362,
+        "paneShare": 0.4022222222222222,
+        "dialogBottom": 882,
+        "viewport": 900,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 40,
+        "minQuick": 40
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "province targets >= 40px",
+      "pass": true,
+      "detail": {
+        "gridScrolls": false,
+        "gridHeight": 362,
+        "paneShare": 0.4022222222222222,
+        "dialogBottom": 882,
+        "viewport": 900,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 40,
+        "minQuick": 40
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "quick targets >= 40px",
+      "pass": true,
+      "detail": {
+        "gridScrolls": false,
+        "gridHeight": 362,
+        "paneShare": 0.4022222222222222,
+        "dialogBottom": 882,
+        "viewport": 900,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 40,
+        "minQuick": 40
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "dialog stays inside the viewport",
+      "pass": true,
+      "detail": {
+        "gridScrolls": false,
+        "gridHeight": 362,
+        "paneShare": 0.4022222222222222,
+        "dialogBottom": 882,
+        "viewport": 900,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 40,
+        "minQuick": 40
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "province pane stays bounded",
+      "pass": true,
+      "detail": {
+        "gridScrolls": false,
+        "gridHeight": 362,
+        "paneShare": 0.4022222222222222,
+        "dialogBottom": 882,
+        "viewport": 900,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 40,
+        "minQuick": 40
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "wide index needs no scrolling",
+      "pass": true,
+      "detail": {
+        "gridScrolls": false,
+        "gridHeight": 362,
+        "paneShare": 0.4022222222222222,
+        "dialogBottom": 882,
+        "viewport": 900,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 40,
+        "minQuick": 40
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "dialog opens from keyboard",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "focus moves into the dialog title",
+      "pass": true,
+      "detail": "H2"
+    },
+    {
+      "surface": "mobile",
+      "check": "cancel is reachable without scrolling the dialog",
+      "pass": true,
+      "detail": {
+        "x": 41,
+        "y": 787,
+        "width": 308,
+        "height": 44
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "province index rendered",
+      "pass": true,
+      "detail": 31
+    },
+    {
+      "surface": "mobile",
+      "check": "city pane exists",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "narrow layout shows one step at a time",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "province grid uses columns",
+      "pass": true,
+      "detail": "98.6562px 98.6719px 98.6562px"
+    },
+    {
+      "surface": "mobile",
+      "check": "Beijing is one click away",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "Hong Kong quick entry present",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "广州 listed after choosing 广东省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "深圳 listed after choosing 广东省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "东莞 listed after choosing 广东省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "chosen province marked",
+      "pass": true,
+      "detail": "广东"
+    },
+    {
+      "surface": "mobile",
+      "check": "focus follows into the city pane",
+      "pass": true,
+      "detail": "city-pane-title"
+    },
+    {
+      "surface": "mobile",
+      "check": "narrow step hides the index",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "trigger shows the chosen city",
+      "pass": true,
+      "detail": "广州"
+    },
+    {
+      "surface": "mobile",
+      "check": "callback received the city, not the province",
+      "pass": true,
+      "detail": "selected=广州"
+    },
+    {
+      "surface": "mobile",
+      "check": "focus returns to the trigger",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "reopen keeps the selection's province active",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "reopen marks the selected city",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "back returns to the province index",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "back moves focus to the index",
+      "pass": true,
+      "detail": "city-provinces"
+    },
+    {
+      "surface": "mobile",
+      "check": "collapsed province city found by search",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "search replaces the panes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "search narrows to the matching group",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "surface": "mobile",
+      "check": "province name search lists its cities",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "raw SAR alias searchable",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "empty search states so",
+      "pass": true,
+      "detail": "没有匹配的地点"
+    },
+    {
+      "surface": "mobile",
+      "check": "tab order starts at 全部地点",
+      "pass": true,
+      "detail": "全部地点"
+    },
+    {
+      "surface": "mobile",
+      "check": "tab reaches the matched option",
+      "pass": true,
+      "detail": "太原"
+    },
+    {
+      "surface": "mobile",
+      "check": "keyboard selection applies",
+      "pass": true,
+      "detail": "太原"
+    },
+    {
+      "surface": "mobile",
+      "check": "浙江 filed under 浙江省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "浙江 marked as having no city",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "海南省-澄迈县 filed under 海南省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "中国香港 filed under 香港特别行政区",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "Beijing selected in one click",
+      "pass": true,
+      "detail": "北京"
+    },
+    {
+      "surface": "mobile",
+      "check": "no horizontal overflow",
+      "pass": true,
+      "detail": {
+        "gridScrolls": true,
+        "gridHeight": 236,
+        "paneShare": 0.2799911137440758,
+        "dialogBottom": 828,
+        "viewport": 844,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 44,
+        "minQuick": 44
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "measured real grid buttons",
+      "pass": true,
+      "detail": {
+        "gridScrolls": true,
+        "gridHeight": 236,
+        "paneShare": 0.2799911137440758,
+        "dialogBottom": 828,
+        "viewport": 844,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 44,
+        "minQuick": 44
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "province targets >= 44px",
+      "pass": true,
+      "detail": {
+        "gridScrolls": true,
+        "gridHeight": 236,
+        "paneShare": 0.2799911137440758,
+        "dialogBottom": 828,
+        "viewport": 844,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 44,
+        "minQuick": 44
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "quick targets >= 44px",
+      "pass": true,
+      "detail": {
+        "gridScrolls": true,
+        "gridHeight": 236,
+        "paneShare": 0.2799911137440758,
+        "dialogBottom": 828,
+        "viewport": 844,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 44,
+        "minQuick": 44
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "dialog stays inside the viewport",
+      "pass": true,
+      "detail": {
+        "gridScrolls": true,
+        "gridHeight": 236,
+        "paneShare": 0.2799911137440758,
+        "dialogBottom": 828,
+        "viewport": 844,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 44,
+        "minQuick": 44
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "province pane stays bounded",
+      "pass": true,
+      "detail": {
+        "gridScrolls": true,
+        "gridHeight": 236,
+        "paneShare": 0.2799911137440758,
+        "dialogBottom": 828,
+        "viewport": 844,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 44,
+        "minQuick": 44
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "narrow index scrolls inside its own pane, not the page",
+      "pass": true,
+      "detail": {
+        "gridScrolls": true,
+        "gridHeight": 236,
+        "paneShare": 0.2799911137440758,
+        "dialogBottom": 828,
+        "viewport": 844,
+        "overflowX": 0,
+        "provinces": 31,
+        "quick": 9,
+        "minTarget": 44,
+        "minQuick": 44
+      }
+    }
+  ]
+}

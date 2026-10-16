@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Check } from "lucide-react";
 import type { PreferenceProfile } from "@/lib/domain/profile";
 import type { RadarState } from "@/lib/radar/url-state";
 import {
@@ -8,7 +8,7 @@ import {
   preferenceOptions,
   searchCities,
 } from "@/lib/radar/browse-filters";
-import { groupLabelMatches, locationGroups } from "@/lib/radar/location";
+import { groupLabelMatches, locationGroups, shortLocationLabel } from "@/lib/radar/location";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,6 +19,9 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 
+/** Province-grouped picker: a multi-column province index with the chosen
+ * province's cities beside it. Selecting a province only changes what is listed —
+ * the filter value is always a concrete city or the original raw location. */
 export function CityChoice({
   cities,
   value,
@@ -30,15 +33,17 @@ export function CityChoice({
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  // Only user overrides are stored; every other group keeps its computed default.
-  const [overrides, setOverrides] = useState<Record<string, boolean>>({});
+  const [active, setActive] = useState<string | null>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const citiesTitleRef = useRef<HTMLParagraphElement>(null);
+  const provincesRef = useRef<HTMLDivElement>(null);
   const searching = Boolean(query.trim());
+  const groups = locationGroups(cities);
   const nameMatched = new Set(searchCities(cities, query));
-  const groups = locationGroups(cities)
+  const matches = groups
     .map((group) => ({
       ...group,
-      // A province query reveals its cities, and search never depends on expansion.
+      // A province query reveals its cities, and search never depends on the index.
       options: !searching
         ? group.options
         : groupLabelMatches(group.label, query)
@@ -46,21 +51,50 @@ export function CityChoice({
           : group.options.filter((option) => nameMatched.has(option)),
     }))
     .filter((group) => group.options.length);
-  // Municipalities, 港澳/境外/其他 and the current selection start open; mainland
-  // provinces start collapsed so the list stays scannable.
-  const expanded = (group: (typeof groups)[number]) =>
-    searching || (overrides[group.key] ?? (group.kind !== "province" || group.options.includes(value)));
+  const hint = (group: (typeof groups)[number], option: string) =>
+    group.unresolved?.includes(option) ? "未注明城市" : undefined;
+  // Locations that need no province step stay one click away on both surfaces.
+  const quick = groups
+    .filter((group) => group.kind !== "province")
+    .flatMap((group) => group.options.map((option) => ({ option, hint: hint(group, option) })));
+  const activeGroup = groups.find((group) => group.key === active) ?? null;
   function choose(city: string) {
     onChange(city);
     setOpen(false);
   }
+  function openProvince(key: string) {
+    setActive(key);
+    // The city pane content is what changed, so focus follows it (both surfaces).
+    requestAnimationFrame(() => citiesTitleRef.current?.focus());
+  }
+  function backToIndex() {
+    setActive(null);
+    requestAnimationFrame(() => provincesRef.current?.focus());
+  }
+  // Full-width rows spell out the state; compact chips use a mark so a long city
+  // name never wraps, and aria-pressed still carries the meaning.
+  const selected = (compact: boolean) =>
+    compact ? <Check size={13} aria-hidden="true" /> : <span>已选择</span>;
+  const option = (group: (typeof groups)[number], city: string) => (
+    <button
+      key={city}
+      type="button"
+      aria-pressed={city === value}
+      onClick={() => choose(city)}
+    >
+      {city}
+      {hint(group, city) && <span className="city-hint">{hint(group, city)}</span>}
+      {city === value && selected(false)}
+    </button>
+  );
   return (
     <Dialog
       open={open}
       onOpenChange={(next) => {
         setOpen(next);
         setQuery("");
-        setOverrides({});
+        // Reopen where the current selection lives, so it is visible immediately.
+        setActive(next ? groups.find((group) => group.kind === "province" && group.options.includes(value))?.key ?? null : null);
       }}
     >
       <DialogTrigger asChild>
@@ -74,7 +108,7 @@ export function CityChoice({
         </button>
       </DialogTrigger>
       <DialogContent
-        className="browse-dialog"
+        className="browse-dialog city-dialog"
         showCloseButton={false}
         onOpenAutoFocus={(event) => {
           event.preventDefault();
@@ -83,7 +117,7 @@ export function CityChoice({
       >
         <DialogTitle ref={titleRef} tabIndex={-1}>选择地点</DialogTitle>
         <DialogDescription>
-          按省份分组查找；展开省份只用于浏览，最终选择的是具体城市。原始地点仍保留在岗位详情中。
+          按省份浏览或直接搜索；选择省份只改变显示的城市列表，最终选择的是具体城市。原始地点仍保留在岗位详情中。
         </DialogDescription>
         <label>
           搜索地点
@@ -96,59 +130,72 @@ export function CityChoice({
             onChange={(e) => setQuery(e.target.value)}
           />
         </label>
-        <div className="city-options">
-          <button
-            type="button"
-            aria-pressed={!value}
-            onClick={() => choose("")}
-          >
-            全部地点{!value && <span>已选择</span>}
-          </button>
-          {groups.map((group) => {
-            const isOpen = expanded(group);
-            const panelId = `city-group-${group.key}`;
-            return (
+        {searching ? (
+          <div className="city-options">
+            <button type="button" aria-pressed={!value} onClick={() => choose("")}>
+              全部地点{!value && <span>已选择</span>}
+            </button>
+            {matches.map((group) => (
               <section className="city-group" key={group.key}>
-                {searching ? (
-                  <p className="city-group-label">{group.label}</p>
-                ) : (
-                  <button
-                    type="button"
-                    className="city-group-toggle"
-                    aria-expanded={isOpen}
-                    aria-controls={panelId}
-                    onClick={() =>
-                      setOverrides((current) => ({ ...current, [group.key]: !isOpen }))
-                    }
-                  >
-                    <span>{group.label}</span>
-                    <ChevronDown size={14} aria-hidden="true" />
-                  </button>
-                )}
-                <div
-                  className="city-group-options"
-                  id={panelId}
-                  role="group"
-                  aria-label={group.label}
-                  hidden={!isOpen}
-                >
-                  {group.options.map((city) => (
-                    <button
-                      key={city}
-                      type="button"
-                      aria-pressed={city === value}
-                      onClick={() => choose(city)}
-                    >
-                      {city}
-                      {city === value && <span>已选择</span>}
-                    </button>
-                  ))}
+                <p className="city-group-label">{group.label}</p>
+                <div className="city-group-options" role="group" aria-label={group.label}>
+                  {group.options.map((city) => option(group, city))}
                 </div>
               </section>
-            );
-          })}
-          {!groups.length && <p role="status">没有匹配的地点</p>}
-        </div>
+            ))}
+            {!matches.length && <p role="status">没有匹配的地点</p>}
+          </div>
+        ) : (
+          <div className="city-picker" data-step={active ? "cities" : "index"}>
+            <div className="city-index">
+              <button type="button" className="city-all" aria-pressed={!value} onClick={() => choose("")}>
+                全部地点{!value && <span>已选择</span>}
+              </button>
+              {quick.length > 0 && (
+                <>
+                  <p className="city-pane-title">直辖市与地区</p>
+                  <div className="city-quick" role="group" aria-label="直辖市与地区">
+                    {quick.map(({ option: city, hint: cityHint }) => (
+                      <button key={city} type="button" aria-pressed={city === value} onClick={() => choose(city)}>
+                        {city}
+                        {cityHint && <span className="city-hint">{cityHint}</span>}
+                        {city === value && selected(true)}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+              <p className="city-pane-title">省份</p>
+              <div className="city-provinces" role="group" aria-label="省份" ref={provincesRef} tabIndex={-1}>
+                {groups.map((group) => (
+                  <button
+                    key={group.key}
+                    type="button"
+                    className="city-province"
+                    aria-current={group.key === active}
+                    title={group.label}
+                    onClick={() => openProvince(group.key)}
+                  >
+                    {shortLocationLabel(group.label)}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="city-cities" role="group" aria-label={activeGroup?.label ?? "选择省份"}>
+              <button type="button" className="city-back" onClick={backToIndex}>
+                ← 返回省份
+              </button>
+              <p className="city-pane-title" ref={citiesTitleRef} tabIndex={-1}>
+                {activeGroup ? activeGroup.label : "选择省份查看城市"}
+              </p>
+              {activeGroup ? (
+                <div className="city-pane-options">{activeGroup.options.map((city) => option(activeGroup, city))}</div>
+              ) : (
+                <p className="city-pane-empty">从省份中选择，或使用上方的直辖市与地区。</p>
+              )}
+            </div>
+          </div>
+        )}
         <DialogClose asChild>
           <Button variant="outline">取消</Button>
         </DialogClose>

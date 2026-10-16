@@ -24,19 +24,51 @@ const other: Record<string, string> = {
 /** Display labels only for the `other` catalog; membership is derived from `other`
  * itself so no second geographic mapping is introduced. */
 const specialLabels: Record<string, string> = { 香港: "香港特别行政区", 澳门: "澳门特别行政区" };
+/** Display-only synonyms for raw values that name a special region. These are never
+ * added to `other`, so normalization and matching stay exactly as before. */
+const displayAliases: Record<string, string> = {
+  中国香港: "香港", 中国澳门: "澳门",
+};
 export type LocationGroupKind = "municipality" | "province" | "region" | "overseas" | "other";
 export interface LocationGroup {
   key: string;
   label: string;
   kind: LocationGroupKind;
   options: string[];
+  /** Raw values in this group that name a province but no city (display hint only). */
+  unresolved?: string[];
 }
 /** Province of every known mainland city, derived from `regions` (single source of truth). */
 const provinceOfCity = new Map<string, string>();
 for (const [province, cities] of Object.entries(regions)) {
   for (const name of cities) if (!provinceOfCity.has(name)) provinceOfCity.set(name, province);
 }
+/** Grid/heading label: the province name without its administrative suffix. */
+export function shortLocationLabel(label: string): string {
+  return label.replace(/(特别行政区|维吾尔自治区|壮族自治区|回族自治区|自治区|省|市)$/, "");
+}
+const provinceByShortName = new Map<string, string>();
+for (const province of Object.keys(regions)) provinceByShortName.set(shortLocationLabel(province), province);
 const specialValues = new Set(Object.values(other));
+/** Display-only placement of a raw location that normalization left unresolved.
+ *
+ * It only decides which province bucket the raw value is *listed* under. The value
+ * itself stays raw and stays the city filter value, so `matchesCity`, `city` URLs and
+ * historical links keep their exact behaviour. A value that names a city outside the
+ * province it also names is contradictory evidence and stays unassigned. */
+function displayProvince(value: string): { key: string; label: string; kind: LocationGroupKind; unresolved: boolean } | null {
+  const alias = displayAliases[value];
+  if (alias && specialLabels[alias]) return { key: alias, label: specialLabels[alias], kind: "region", unresolved: false };
+  const parts = value.split(/\s*[-·・]\s*/).filter(Boolean);
+  const head = parts[0] ?? "";
+  // A raw value may name the province with or without its administrative suffix.
+  const province = provinceByShortName.get(head) ?? provinceByShortName.get(shortLocationLabel(head));
+  if (!province) return null;
+  const named = parts[1] ? city(parts[1]) : null;
+  if (named && !regions[province].includes(named)) return null;
+  const municipality = regions[province].length === 1 && province.endsWith("市");
+  return { key: province, label: province, kind: municipality ? "municipality" : "province", unresolved: parts.length === 1 };
+}
 /** Groups the browse options that actually exist in the current data.
  *
  * A municipality is its own group; Hong Kong/Macau, overseas and values that could
@@ -44,9 +76,10 @@ const specialValues = new Set(Object.values(other));
  * Options are never dropped or invented here — grouping is presentational. */
 export function locationGroups(values: readonly string[]): LocationGroup[] {
   const groups = new Map<string, LocationGroup>();
-  const add = (key: string, label: string, kind: LocationGroupKind, option: string) => {
+  const add = (key: string, label: string, kind: LocationGroupKind, option: string, unresolvedOption?: string) => {
     const group = groups.get(key) ?? { key, label, kind, options: [] };
     if (!group.options.includes(option)) group.options.push(option);
+    if (unresolvedOption && !group.unresolved?.includes(unresolvedOption)) group.unresolved = [...(group.unresolved ?? []), unresolvedOption];
     groups.set(key, group);
   };
   for (const value of values) {
@@ -58,6 +91,8 @@ export function locationGroups(values: readonly string[]): LocationGroup[] {
     const special = specialLabels[value];
     if (special) { add(value, special, "region", value); continue; }
     if (specialValues.has(value)) { add("__overseas", "境外", "overseas", value); continue; }
+    const display = displayProvince(value);
+    if (display) { add(display.key, display.label, display.kind, value, display.unresolved ? value : undefined); continue; }
     add("__other", "其他地点", "other", value);
   }
   const ordered: LocationGroup[] = [];
