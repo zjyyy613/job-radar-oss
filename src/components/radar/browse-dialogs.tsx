@@ -117,7 +117,7 @@ export function CityChoice({
       >
         <DialogTitle ref={titleRef} tabIndex={-1}>选择地点</DialogTitle>
         <DialogDescription>
-          按省份浏览或直接搜索；选择省份只改变显示的城市列表，最终选择的是具体城市。原始地点仍保留在岗位详情中。
+          按省份或地区浏览，也可直接搜索。分组仅用于查找，点击具体地点后才会筛选岗位；原始地点仍保留在岗位详情中。
         </DialogDescription>
         <label>
           搜索地点

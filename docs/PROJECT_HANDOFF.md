@@ -4,10 +4,10 @@
 > 业务与冻结规则以 [Product Spec v1.0](specs/job-radar-product-spec-v1.0.md)、[Technical Architecture v0.1](architecture/job-radar-technical-architecture-v0.1.md)、[DESIGN.md](../DESIGN.md)、[README.md](../README.md) 为准，本文不复制其内容。
 > 维护约定：本文件由 **DSH 作为主要维护者**更新，ChatGPT 负责项目协调与任务状态核对，Codex 读取本文件的交接信息；按任务分配或完成节点更新，避免双方同时编辑，且每次更新都要附实际证据。
 
-- 文件版本：v7
+- 文件版本：v8
 - 最后更新：2026-10-16
 - 最后更新者：DSH
-- 更新节点：PRODUCT-02.1（地点归类与选择器交互修订）完成
+- 更新节点：PRODUCT-02.1 发布前文案微修复（真实页面验收 PASS 后的 P2 收尾）
 
 ## 1. 当前稳定基线
 
@@ -61,7 +61,7 @@
 | ENGINEERING-02 | 提取诊断与 partial 运行状态提示修复 | DSH | Completed | `work/dsh`（本轮工程提交） | 已通过 targeted / full / lint / typecheck / build |
 | PRODUCT-01 | 竞品岗位发现机制与职位分类方案（产品研究，无代码变更） | DSH | Completed | 只读研究 | 结论已交付；D1–D3 三项决策待 User 确认，未落盘为仓库文件 |
 | PRODUCT-02 | 省份分组地点选择器（Radix 地点弹层内的一级→二级导航） | DSH | Completed | `work/dsh` @ `94ed77f` | 已发布；证据见 `province-grouping-v1`（手风琴版，已被 02.1 取代） |
-| PRODUCT-02.1 | 地点归类修订 + 多列展开式选择器（桌面双栏 / 手机分步） | DSH | Completed | `work/dsh`（本轮产品提交） | 已通过 444 项测试 / lint / typecheck / build + 85 项浏览器验收；待验收 |
+| PRODUCT-02.1 | 地点归类修订 + 多列展开式选择器（桌面双栏 / 手机分步）+ 发布前文案微修复 | DSH | Completed | `work/dsh`（本轮产品提交） | **真实 `/radar` 页面验收 PASS（88/88，472 条真实岗位）**；已通过 444 项测试 / lint / typecheck / build；文案 P2 已修复；待发布 |
 | — | 当前无进行中的产品开发任务 | — | — | — | 等待 User 分配 |
 
 本表只登记**已授权且有实际证据**的任务；未分配的工作不预填 Owner、不虚构进度。
@@ -83,6 +83,7 @@
 | PRODUCT-01 竞品研究与职位分类方案 | Completed | 三家竞品实地调研（BOSS 三层树 / 智联职类 3 级 + 专业独立轴 / 实习僧两级词表），逐条标注「直接验证 / 仅有搜索摘要 / 未验证-需登录」；在 219 条真实标题语料上实测 4 版规则（朴素关键词优先 4/23 错 → 混合规则 23/23、未分类 2.3%）；推荐 8 一级 + 28 二级 + 数据驱动渲染阈值。**无代码变更、未落盘为仓库文件**。 |
 | PRODUCT-02 省份分组地点选择器 | Completed | `CityChoice` 内实现一级（省份/直辖市/港澳/境外/其他）→ 二级（城市）导航；复用既有 `regions` 单一数据源，未新增地区数据；只在数据中存在的 56 个地点上分组（31 组）；搜索不依赖展开。无 DB 字段、无 Gate/Evidence/Qualification 改动。证据见 [province-grouping-v1](reports/assets/province-grouping-v1/results.json)（68/68 通过；手风琴版，已被 02.1 取代）。 |
 | PRODUCT-02.1 地点归类与选择器修订 | Completed | ①**展示层归类修复**（不改归一化/匹配）：`浙江`→浙江省并标注「未注明城市」、`海南省-澄迈县`→海南省（保留原始地名）、`中国香港`→香港特别行政区；矛盾组合（如 `广东省-北京市`）与无法归属值才留在「其他地点」。②**交互改为多列展开式**：桌面宽弹层「省份 4 列索引 + 相邻城市面板」，桌面 31 个省份**无需滚动全部可见**；手机改为「省份网格 → 城市」分步（避免嵌套长列表）。搜索、全部地点、已选显示、键盘与焦点恢复全部保留。证据见 [location-picker-v2](reports/assets/location-picker-v2/results.json)（85/85 通过）。 |
+| PRODUCT-02.1 真实页面验收 + 文案微修复 | Completed | **真实 `/radar` 页面验收 PASS：88/88**（由 DSH 在主工作区 `E:\job-radar` 本地构建后执行，桌面 1440×900 + 手机 390×844）。真实数据 **472 条岗位 / 30 个地点分桶**；`广州` 44、`浙江` 1、`海南省-澄迈县` 1、`中国香港` 1；组合筛选 24；深链、返回、清除筛选、详情预览均正常。**「其他地点」已消失**（生产数据不再有无法归属值）。关键回归证据：`香港`=3 与 `中国香港`=1 **未被合并** → 匹配范围未扩大。验收发现的唯一 P2 文案（把省级/县级原始地点称作「具体城市」）已按 User 指定文本修复；未改动归类/结构/URL/筛选/资格。 |
 
 只列关键结果，不复制详细历史；完整过程见 [reports/](reports/)。
 
@@ -114,7 +115,7 @@
 - **ENGINEERING-01 的排查结果在仓库内不存在**（全仓库检索无该文档）；DSH 的 ENGINEERING-02 基于本轮自行定位的失败路径实现，未引用其结论。
 - **`/radar` 无法在本 worktree 做真实数据验收**：页面经 server-only 读取 Supabase，缺 `.env.local` 时（`src/lib/data/supabase-server.ts:19`）抛出配置错误。因此 PRODUCT-02 与 PRODUCT-02.1 的浏览器验收都用了一个**临时 harness 路由**驱动真实 `CityChoice` 组件（真实 56/58 个地点选项、真实 CSS、真实 Chromium），交付前均已删除该路由。可复跑的验收脚本在 `tests/browser/province_grouping.py`，在有 `.env.local` 的工作区可直接指向真实 `/radar`（`CITY_BASE_URL`）。
 - **验收产物目录**：`docs/reports/assets/province-grouping-v1`（PRODUCT-02 手风琴版，历史）、`docs/reports/assets/location-picker-v2`（PRODUCT-02.1 多列/分步版，当前）。两者都对应各自的 commit，v2 取代 v1 的交互。
-- **`/radar` 真实数据验收的缺口仍然存在**：上述浏览器验收覆盖组件交互（分组、双栏/分步、搜索、键盘、焦点、滚动、布局），但**未在真实 472 条数据的页面上端到端复验**列表结果；URL/Clear/`matchesCity`/资格判定由单元测试覆盖。
+- **真实 `/radar` 数据验收已在主工作区完成**（PRODUCT-02.1）：由 DSH 在 `E:\job-radar` 用其既有 `.env.local` 本地 `npm run build` + `npm start -p 3322` 后，用 Playwright 对真实页面执行 **88 项检查全部通过**（真实 472 条岗位）。**该验收脚本未入库**（按本轮"不创建 commit"之外的边界，脚本与截图放在系统临时目录，两个工作区均未留下文件）；如需长期复跑，可把 `tests/browser/province_grouping.py` 的 `CITY_BASE_URL` 指向真实 `/radar`。注意：真实页面验收**必须在有 `.env.local` 的工作区**进行（`E:\job-radar`），`E:\job-radar-dsh` 缺该文件。
 - **删除/新增 `src/app` 路由后必须清 `.next`**：`.next/dev/types/validator.ts` 会残留已删除路由的类型引用，导致 `typecheck` / `build` 报 `TS2307`（本轮已实际踩到并通过删除 `.next` 解决）。
 - Git 全局配置 `http.proxy = http://127.0.0.1:7890` 当前不可用，`fetch/push` 会失败；直连 443 正常。未修改该配置。
 - README 与 AGENTS.md / DESIGN.md 中「本轮只做 Pre-Task7」「M0→M1 backlog 未实施」等**历史阶段文字按 User 决定保留**，不代表当前状态；当前状态以第 1 节为准。
