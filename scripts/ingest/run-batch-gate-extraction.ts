@@ -5,7 +5,7 @@ import { createCanonicalizationStore } from './canonicalization-store';
 import { serverConfig } from './source-store';
 import { createDeepSeekModel, deepseekConfig } from './deepseek-responses';
 import { EXTRACTION_VERSION } from './extract-gates';
-import { classify, runBatch, type BatchJob, type Checkpoint } from './batch-gate-extraction';
+import { classify, runBatch, selectBatchJobs, type BatchJob, type Checkpoint } from './batch-gate-extraction';
 import { createBatchStore } from './batch-gate-store';
 async function main() {
   const [mode, file, cap, ...extra]=process.argv.slice(2);
@@ -14,7 +14,10 @@ async function main() {
   const config=serverConfig(process.env);
   const jobs=(await createCanonicalizationStore(config.url,config.key).snapshot()).jobs as BatchJob[];
   const counts=jobs.reduce((a,j)=>(a[classify(j)]=(a[classify(j)]??0)+1,a),{} as Record<string,number>);
-  console.log(JSON.stringify({classification:counts,total:jobs.length}));
+  // Only jobs that still need work go into the batch, so the run stays within the
+  // batch budget guard no matter how large the job table grows.
+  const pending=selectBatchJobs(jobs);
+  console.log(JSON.stringify({classification:counts,total:jobs.length,pending:pending.length}));
   if(mode==='--preview')return;
   const model=createDeepSeekModel(deepseekConfig(process.env));
   const path=resolve(file);mkdirSync(dirname(path),{recursive:true});
@@ -25,7 +28,7 @@ async function main() {
     const checkpoint:Checkpoint=existsSync(path)?JSON.parse(readFileSync(path,'utf8')):{version:1,extraction_version:EXTRACTION_VERSION,max_calls:Number(cap),calls:0,entries:{}};
     if(checkpoint.max_calls!==Number(cap))throw new Error('Checkpoint call cap cannot change');
     const save=()=>{writeFileSync(path+'.tmp',JSON.stringify(checkpoint,null,2));renameSync(path+'.tmp',path);};save();
-    const summary=await runBatch(jobs,model,createBatchStore(config.url,config.key),checkpoint,save,{stopped:()=>stopped,progress:row=>console.log(JSON.stringify(row))});
+    const summary=await runBatch(pending,model,createBatchStore(config.url,config.key),checkpoint,save,{stopped:()=>stopped,progress:row=>console.log(JSON.stringify(row))});
     writeFileSync(path+'.summary.json',JSON.stringify({calls:checkpoint.calls,summary},null,2));
     console.log(JSON.stringify({calls:checkpoint.calls,processed:summary.length,stopped}));
     if(stopped||summary.some(r=>['failed','store_unconfirmed','uncertain_interrupted','budget_deferred'].includes(r.status)))process.exitCode=1;

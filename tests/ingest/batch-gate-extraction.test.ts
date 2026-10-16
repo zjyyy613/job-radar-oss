@@ -1,5 +1,5 @@
 import { describe,it,expect,vi } from 'vitest';
-import { classify,runBatch,type BatchJob,type Checkpoint } from '../../scripts/ingest/batch-gate-extraction';
+import { classify,runBatch,selectBatchJobs,type BatchJob,type Checkpoint } from '../../scripts/ingest/batch-gate-extraction';
 import type { ExtractionResult } from '../../scripts/ingest/extract-gates';
 import { EXTRACTION_VERSION } from '../../scripts/ingest/extract-gates';
 import { createBatchStore } from '../../scripts/ingest/batch-gate-store';
@@ -51,5 +51,16 @@ describe('batch orchestration preserves frozen extraction',()=>{
  const failed={...ready(job()),extraction_status:'failed' as const,extraction_error:'bad'};
  const prepared=await s.prepare(failed);expect(prepared.extraction_attempt_hash).toBeNull();expect(prepared.gates).toEqual(failed.gates);
  expect(JSON.parse(request.mock.calls[0][1]!.body as string)).not.toHaveProperty('gates');expect(classify(failed)).toBe('parser');
+ });
+ it('an explicit batch run carries only the jobs that still need work',()=>{
+ // The job table grows past runBatch's own 500-row budget guard as sourcing
+ // expands; selecting the pending jobs keeps an explicit run possible.
+ const rows=[job('pending'),ready(job('ready')),{...ready(job('stale')),raw_content_hash:'new'},{...job('nohash'),raw_content_hash:null}];
+ expect(selectBatchJobs(rows).map(j=>j.id)).toEqual(['pending','stale','nohash']);
+ const big=Array.from({length:501},(_,i)=>ready(job(String(i))));
+ expect(big.length).toBeGreaterThan(500);expect(selectBatchJobs(big)).toEqual([]);
+ });
+ it('the batch budget guard still rejects more than 500 selected jobs',async()=>{
+ await expect(runBatch(Array.from({length:501},(_,i)=>job(String(i))),vi.fn(),store(),cp(),()=>{})).rejects.toThrow('Invalid batch budget');
  });
 });

@@ -12,6 +12,14 @@ export function classify(job: BatchJob): 'skip' | 'parser' | 'model' | 'invalid'
   try { const parsed = parseGates(job); validateExtraction(parsed, job); return parsed.unresolved.length ? 'model' : 'parser'; }
   catch { return 'invalid'; }
 }
+/**
+ * Explicit batch runs only need the jobs that still require work. runBatch skips
+ * ready jobs anyway, and handing it the whole job table would trip its own
+ * 500-row budget guard as soon as the table grows past that.
+ */
+export function selectBatchJobs(jobs: BatchJob[]): BatchJob[] {
+  return jobs.filter((job) => classify(job) !== 'skip');
+}
 export interface Checkpoint {
   version: 1; extraction_version: string; max_calls: number; calls: number;
   entries: Record<string, { hash: string | null; state: 'started' | 'result' | 'done'; result?: ExtractionResult }>;

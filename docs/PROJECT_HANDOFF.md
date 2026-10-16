@@ -4,10 +4,10 @@
 > 业务与冻结规则以 [Product Spec v1.0](specs/job-radar-product-spec-v1.0.md)、[Technical Architecture v0.1](architecture/job-radar-technical-architecture-v0.1.md)、[DESIGN.md](../DESIGN.md)、[README.md](../README.md) 为准，本文不复制其内容。
 > 维护约定：本文件由 **DSH 作为主要维护者**更新，ChatGPT 负责项目协调与任务状态核对，Codex 读取本文件的交接信息；按任务分配或完成节点更新，避免双方同时编辑，且每次更新都要附实际证据。
 
-- 文件版本：v10
+- 文件版本：v11
 - 最后更新：2026-10-16
 - 最后更新者：DSH
-- 更新节点：PRODUCT-03B 发布前交互修复（一级浏览不再改变筛选）
+- 更新节点：PRODUCT-04A（真实来源扩量试点，只读）完成
 
 ## 1. 当前稳定基线
 
@@ -65,6 +65,7 @@
 | PRODUCT-03A | 472 条真实岗位分类验证（离线分析，无产品代码变更） | DSH | Completed | 分析交付（脚本在 gitignore 目录） | 结论：11 个一级 / 37 个二级；未分类 0.4%；发现 7 类真实误分类并修正。统计不一致经核对为**报告抄录错误**，分类器自洽 |
 | PRODUCT-03B | 岗位大类 → 小类导航（分类模块 + `cat`/`sub` 筛选 + 两级选择器） | DSH | Completed | `work/dsh`（本轮产品提交） | 已通过 531 项测试 / lint / typecheck / build + 154 项组件级浏览器验收（桌面+手机）+ 地点选择器回归 85/85；**真实 `/radar` 发布前验收 PASS（141/141，472 条真实岗位，无 P0/P1）**；证据见 [product-03-job-category.md](reports/product-03-job-category.md)；待发布 |
 | PRODUCT-03B-fix | 发布前交互修复：一级方向只浏览、不改变筛选（「全部X岗位」/二级为确认动作） | DSH | Completed | `work/dsh`（本轮提交） | 最小改动：`category-choice.tsx` 去掉一级点击即应用 + 明确「全部{方向}岗位」入口；组件级交互验收 **184/184**（新增 30 项针对浏览/取消/确认的回归）；定向测试 188 通过 / lint / typecheck / build 通过 |
+| PRODUCT-04A | 真实岗位来源扩量试点（只读 dry-run + 扩量阻断审查） | DSH | Completed | `work/dsh`（本轮提交） | **只读**：小米 intern 50/50 详情+准入、京东 intern 100/100、美团 99/100；上游总量远超库内（小米 564 vs 2）。发现并**最小修复**全量 batch CLI 在 jobs>500 时失败（472→28 余量）；登记 canonicalization 1000 上限、refresh scope 硬编码 intern、page-size 非 workflow 输入、分类器对物流/物业/医疗标题覆盖不足。首批建议：小米 intern 位次 1–40（≈6 次模型调用）。报告见 [product-04a](reports/product-04a-source-expansion-pilot.md)；**待批准 PRODUCT-04B** |
 | — | 当前无进行中的产品开发任务 | — | — | — | 等待 User 分配 |
 
 本表只登记**已授权且有实际证据**的任务；未分配的工作不预填 Owner、不虚构进度。
