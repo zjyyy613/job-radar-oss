@@ -4,10 +4,10 @@
 > 业务与冻结规则以 [Product Spec v1.0](specs/job-radar-product-spec-v1.0.md)、[Technical Architecture v0.1](architecture/job-radar-technical-architecture-v0.1.md)、[DESIGN.md](../DESIGN.md)、[README.md](../README.md) 为准，本文不复制其内容。
 > 维护约定：本文件由 **DSH 作为主要维护者**更新，ChatGPT 负责项目协调与任务状态核对，Codex 读取本文件的交接信息；按任务分配或完成节点更新，避免双方同时编辑，且每次更新都要附实际证据。
 
-- 文件版本：v9
+- 文件版本：v10
 - 最后更新：2026-10-16
 - 最后更新者：DSH
-- 更新节点：PRODUCT-03B（岗位大类→小类导航）完成
+- 更新节点：PRODUCT-03B 发布前交互修复（一级浏览不再改变筛选）
 
 ## 1. 当前稳定基线
 
@@ -63,7 +63,8 @@
 | PRODUCT-02 | 省份分组地点选择器（Radix 地点弹层内的一级→二级导航） | DSH | Completed | `work/dsh` @ `94ed77f` | 已发布；证据见 `province-grouping-v1`（手风琴版，已被 02.1 取代） |
 | PRODUCT-02.1 | 地点归类修订 + 多列展开式选择器（桌面双栏 / 手机分步）+ 发布前文案微修复 | DSH | Completed | `work/dsh` @ `9453ad5` | **真实 `/radar` 页面验收 PASS（88/88，472 条真实岗位）**；已通过 444 项测试 / lint / typecheck / build；文案 P2 已修复；待发布 |
 | PRODUCT-03A | 472 条真实岗位分类验证（离线分析，无产品代码变更） | DSH | Completed | 分析交付（脚本在 gitignore 目录） | 结论：11 个一级 / 37 个二级；未分类 0.4%；发现 7 类真实误分类并修正。统计不一致经核对为**报告抄录错误**，分类器自洽 |
-| PRODUCT-03B | 岗位大类 → 小类导航（分类模块 + `cat`/`sub` 筛选 + 两级选择器） | DSH | Completed | `work/dsh`（本轮产品提交） | 已通过 531 项测试 / lint / typecheck / build + 154 项组件级浏览器验收（桌面+手机）+ 地点选择器回归 85/85；证据见 [product-03-job-category.md](reports/product-03-job-category.md)；待审查 |
+| PRODUCT-03B | 岗位大类 → 小类导航（分类模块 + `cat`/`sub` 筛选 + 两级选择器） | DSH | Completed | `work/dsh`（本轮产品提交） | 已通过 531 项测试 / lint / typecheck / build + 154 项组件级浏览器验收（桌面+手机）+ 地点选择器回归 85/85；**真实 `/radar` 发布前验收 PASS（141/141，472 条真实岗位，无 P0/P1）**；证据见 [product-03-job-category.md](reports/product-03-job-category.md)；待发布 |
+| PRODUCT-03B-fix | 发布前交互修复：一级方向只浏览、不改变筛选（「全部X岗位」/二级为确认动作） | DSH | Completed | `work/dsh`（本轮提交） | 最小改动：`category-choice.tsx` 去掉一级点击即应用 + 明确「全部{方向}岗位」入口；组件级交互验收 **184/184**（新增 30 项针对浏览/取消/确认的回归）；定向测试 188 通过 / lint / typecheck / build 通过 |
 | — | 当前无进行中的产品开发任务 | — | — | — | 等待 User 分配 |
 
 本表只登记**已授权且有实际证据**的任务；未分配的工作不预填 Owner、不虚构进度。
@@ -86,7 +87,7 @@
 | PRODUCT-02 省份分组地点选择器 | Completed | `CityChoice` 内实现一级（省份/直辖市/港澳/境外/其他）→ 二级（城市）导航；复用既有 `regions` 单一数据源，未新增地区数据；只在数据中存在的 56 个地点上分组（31 组）；搜索不依赖展开。无 DB 字段、无 Gate/Evidence/Qualification 改动。证据见 [province-grouping-v1](reports/assets/province-grouping-v1/results.json)（68/68 通过；手风琴版，已被 02.1 取代）。 |
 | PRODUCT-02.1 地点归类与选择器修订 | Completed | ①**展示层归类修复**（不改归一化/匹配）：`浙江`→浙江省并标注「未注明城市」、`海南省-澄迈县`→海南省（保留原始地名）、`中国香港`→香港特别行政区；矛盾组合（如 `广东省-北京市`）与无法归属值才留在「其他地点」。②**交互改为多列展开式**：桌面宽弹层「省份 4 列索引 + 相邻城市面板」，桌面 31 个省份**无需滚动全部可见**；手机改为「省份网格 → 城市」分步（避免嵌套长列表）。搜索、全部地点、已选显示、键盘与焦点恢复全部保留。证据见 [location-picker-v2](reports/assets/location-picker-v2/results.json)（85/85 通过）。 |
 | PRODUCT-02.1 真实页面验收 + 文案微修复 | Completed | **真实 `/radar` 页面验收 PASS：88/88**（由 DSH 在主工作区 `E:\job-radar` 本地构建后执行，桌面 1440×900 + 手机 390×844）。真实数据 **472 条岗位 / 30 个地点分桶**；`广州` 44、`浙江` 1、`海南省-澄迈县` 1、`中国香港` 1；组合筛选 24；深链、返回、清除筛选、详情预览均正常。**「其他地点」已消失**（生产数据不再有无法归属值）。关键回归证据：`香港`=3 与 `中国香港`=1 **未被合并** → 匹配范围未扩大。验收发现的唯一 P2 文案（把省级/县级原始地点称作「具体城市」）已按 User 指定文本修复；未改动归类/结构/URL/筛选/资格。 |
-| PRODUCT-03 岗位类别导航 | Completed | **分类模块**：`src/lib/radar/job-category.ts`（纯函数、无网络/模型/DB、版本号 `job-category-v1`），确定性规则表移植自 PRODUCT-03A 已验证脚本；职能词优先于领域词、含否决词与 `(?<!机器)人事` 碰撞守卫、规则不含任何公司名。**11 个一级 / 37 个二级**，主类别唯一（合计 = 472 且逐级自洽），`其他>未分类` 与 `其他>非岗位公告` 保留在默认列表。**UI**：新增「岗位类别」两级选择器（桌面索引+小类面板、手机分步+返回），复用 PRODUCT-02.1 的共享弹层 CSS；选择一级即筛选，「全部X」回到整个方向，最终选择后弹层关闭以便立刻看到结果。**URL**：新增独立 `cat`/`sub`（稳定 id，不改 `role` 语义），与 q/city/company/status/sort 组合，前进后退/预览/详情返回保留状态；未知或父子不一致的链接有明确提示与「清除类别」，默认列表不丢岗位。**计数**：实时由其他筛选条件下的结果计算，展示数 = 实际结果数，不写死快照。**暂定分类**：30 条标题无法确定职能的岗位保留暂定类别并标注「岗位类别待核实」（与资格的「需要确认」严格区分）。证据见 [product-03-job-category.md](reports/product-03-job-category.md)、[job-category-v1](reports/assets/job-category-v1/results.json)（154/154，组件级）。 |
+| PRODUCT-03 岗位类别导航 | Completed | **分类模块**：`src/lib/radar/job-category.ts`（纯函数、无网络/模型/DB、版本号 `job-category-v1`），确定性规则表移植自 PRODUCT-03A 已验证脚本；职能词优先于领域词、含否决词与 `(?<!机器)人事` 碰撞守卫、规则不含任何公司名。**11 个一级 / 37 个二级**，主类别唯一（合计 = 472 且逐级自洽），`其他>未分类` 与 `其他>非岗位公告` 保留在默认列表。**UI**：新增「岗位类别」两级选择器（桌面索引+小类面板、手机分步+返回），复用 PRODUCT-02.1 的共享弹层 CSS；**点击一级只浏览不改筛选**，「全部X岗位」应用一级（清空二级）、点具体二级应用一级+二级，两者都在确认后关闭弹层；仅浏览后取消/Escape 时筛选、URL 与列表完全不变。**URL**：新增独立 `cat`/`sub`（稳定 id，不改 `role` 语义），与 q/city/company/status/sort 组合，前进后退/预览/详情返回保留状态；未知或父子不一致的链接有明确提示与「清除类别」，默认列表不丢岗位。**计数**：实时由其他筛选条件下的结果计算，展示数 = 实际结果数，不写死快照。**暂定分类**：30 条标题无法确定职能的岗位保留暂定类别并标注「岗位类别待核实」（与资格的「需要确认」严格区分）。证据见 [product-03-job-category.md](reports/product-03-job-category.md)、[job-category-v1](reports/assets/job-category-v1/results.json)（184/184，组件级）。 |
 
 只列关键结果，不复制详细历史；完整过程见 [reports/](reports/)。
 

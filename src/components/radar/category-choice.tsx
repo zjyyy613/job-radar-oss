@@ -63,17 +63,17 @@ export function CategoryChoice({
       : "全部类别";
 
   function openLevel1(id: string) {
-    // A level-1 is a valid filter on its own, so it applies immediately; the
-    // dialog stays open so the level-2 options and their counts remain visible.
+    // Browsing a direction only changes which level-2 options are shown. It must
+    // never touch the URL, the filters or the list, so that looking around and
+    // then cancelling leaves the previous selection exactly as it was.
     setActive(id);
     setShowIndex(false);
-    onChange({ cat: id, sub: "" });
     requestAnimationFrame(() => paneTitleRef.current?.focus());
   }
 
   function choose(catId: string, subId: string) {
-    // A final choice closes the dialog, so the filtered list is immediately
-    // visible instead of hidden behind the modal.
+    // A confirmed choice (a level-2, or the whole direction) closes the dialog,
+    // so the filtered list is immediately visible instead of hidden behind it.
     onChange({ cat: catId, sub: subId });
     setOpen(false);
   }
@@ -183,7 +183,7 @@ export function CategoryChoice({
                   aria-pressed={activeId === cat && !sub}
                   onClick={() => choose(activeId, "")}
                 >
-                  全部{activeLabel}
+                  全部{activeLabel}岗位
                   {countLabel(counts.byL1[activeId] ?? 0)}
                   {activeId === cat && !sub && <span>已选择</span>}
                 </button>

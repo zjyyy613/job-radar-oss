@@ -95,6 +95,8 @@ def index_step(page, narrow: bool) -> None:
 
 
 def open_level1(page, label: str, narrow: bool) -> None:
+    """Browse a direction's level-2 options. This must NOT apply any filter; the
+    level-1 is only applied by the 全部该方向岗位 row or a level-2 choice."""
     open_picker(page)
     index_step(page, narrow)
     page.locator(".category-level1-item", has_text=label).first.click()
@@ -182,15 +184,19 @@ def run(surface: str, width: int, height: int) -> None:
             # level-1 alone must still be reachable without a level-2 choice
             open_picker(page)
             index_step(page, narrow)
+            before_cat, before_sub = param(page, "cat"), param(page, "sub")
+            before_count = shown_count(page)
             open_level1(page, l1, narrow)
-            wait_for_category(page, l1id, "")
-            check(surface, f"{l1}: selecting the direction already applies it", param(page, "cat") == l1id,
-                  page.url)
-            page.locator(".category-options button", has_text=re.compile(rf"^全部{l1}")).first.click()
+            # Browsing the direction must not have applied anything yet.
+            check(surface, f"{l1}: browsing the direction keeps the previous filter",
+                  (param(page, "cat"), param(page, "sub")) == (before_cat, before_sub), page.url)
+            check(surface, f"{l1}: browsing the direction keeps the previous list",
+                  shown_count(page) == before_count, {"before": before_count, "after": shown_count(page)})
+            page.locator(".category-options button", has_text=re.compile(rf"^全部{l1}岗位")).first.click()
             page.locator(".category-dialog").wait_for(state="hidden")
             wait_for_category(page, l1id, "")
-            check(surface, f"{l1}: level-1 alone is selectable", param(page, "cat") == l1id and param(page, "sub") == "",
-                  page.url)
+            check(surface, f"{l1}: 全部该方向岗位 applies the level-1 alone",
+                  param(page, "cat") == l1id and param(page, "sub") == "", page.url)
             check(surface, f"{l1}: level-1 count equals the advertised number", shown_count(page) == advertised_l1,
                   {"shown": shown_count(page), "advertised": advertised_l1})
             # direct clear from the filter bar
@@ -198,6 +204,52 @@ def run(surface: str, width: int, height: int) -> None:
             wait_for_category(page, "", "")
             check(surface, f"{l1}: category clears directly", param(page, "cat") == "" and shown_count(page) == baseline,
                   {"url": page.url, "shown": shown_count(page)})
+
+        # --- B2. browsing must never change the current filter ---------------
+        open_picker(page)
+        index_step(page, narrow)
+        open_level1(page, "技术研发", narrow)
+        check(surface, "browsing a direction keeps the url untouched", param(page, "cat") == "", page.url)
+        check(surface, "browsing a direction keeps the list untouched", shown_count(page) == baseline, shown_count(page))
+        open_level1(page, "产品", narrow)
+        check(surface, "browsing a second direction keeps the url untouched", param(page, "cat") == "", page.url)
+        check(surface, "browsing a second direction keeps the list untouched", shown_count(page) == baseline,
+              shown_count(page))
+        if narrow:
+            page.locator(".category-back").click()
+        page.keyboard.press("Escape")
+        page.locator(".category-dialog").wait_for(state="hidden")
+        check(surface, "escape after browsing changes nothing",
+              param(page, "cat") == "" and param(page, "sub") == "" and shown_count(page) == baseline,
+              {"url": page.url, "shown": shown_count(page)})
+        # the same, but with an existing selection that must survive browsing
+        page.goto(BASE + "?cat=product&sub=product.pm", wait_until="networkidle")
+        page.locator(".result-line").wait_for(state="visible")
+        applied = shown_count(page)
+        open_picker(page)
+        pressed = page.locator(".category-options button[aria-pressed='true']")
+        check(surface, "reopening shows the applied level-2", pressed.count() == 1 and "产品经理" in pressed.first.inner_text(),
+              pressed.first.inner_text() if pressed.count() else None)
+        open_level1(page, "技术研发", narrow)
+        check(surface, "browsing away from the applied category keeps the url",
+              param(page, "cat") == "product" and param(page, "sub") == "product.pm", page.url)
+        check(surface, "browsing away from the applied category keeps the list",
+              shown_count(page) == applied, {"before": applied, "after": shown_count(page)})
+        page.get_by_role("button", name="取消").click()
+        page.locator(".category-dialog").wait_for(state="hidden")
+        check(surface, "取消 after browsing keeps the previous selection",
+              param(page, "cat") == "product" and param(page, "sub") == "product.pm" and shown_count(page) == applied,
+              {"url": page.url, "shown": shown_count(page)})
+        open_picker(page)
+        open_level1(page, "技术研发", narrow)
+        page.keyboard.press("Escape")
+        page.locator(".category-dialog").wait_for(state="hidden")
+        check(surface, "escape after browsing keeps the previous selection",
+              param(page, "sub") == "product.pm" and shown_count(page) == applied,
+              {"url": page.url, "shown": shown_count(page)})
+        page.get_by_role("button", name="取消岗位类别筛选").click()
+        wait_for_category(page, "", "")
+        check(surface, "the previous selection can still be cleared", shown_count(page) == baseline, shown_count(page))
 
         # --- C. single-job subcategories and 其他 -----------------------------
         open_picker(page)
@@ -239,7 +291,7 @@ def run(surface: str, width: int, height: int) -> None:
         index_step(page, narrow)
         advertised = item_count(page, "技术研发")
         open_level1(page, "技术研发", narrow)
-        page.locator(".category-options button", has_text=re.compile("^全部技术研发")).first.click()
+        page.locator(".category-options button", has_text=re.compile("^全部技术研发岗位")).first.click()
         page.locator(".category-dialog").wait_for(state="hidden")
         wait_for_category(page, "tech", "")
         combined = shown_count(page)

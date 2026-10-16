@@ -1,5 +1,5 @@
 {
-  "base": "http://127.0.0.1:3333/radarcheck-tmp",
+  "base": "http://127.0.0.1:3333/catcheck-tmp",
   "results": [
     {
       "surface": "desktop",
@@ -170,7 +170,7 @@
       "check": "算法与AI: writes stable ids to the URL",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech&sub=tech.algo"
+        "url": "http://127.0.0.1:3333/catcheck-tmp?cat=tech&sub=tech.algo"
       }
     },
     {
@@ -184,15 +184,24 @@
     },
     {
       "surface": "desktop",
-      "check": "技术研发: selecting the direction already applies it",
+      "check": "技术研发: browsing the direction keeps the previous filter",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=tech&sub=tech.algo"
     },
     {
       "surface": "desktop",
-      "check": "技术研发: level-1 alone is selectable",
+      "check": "技术研发: browsing the direction keeps the previous list",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech"
+      "detail": {
+        "before": 133,
+        "after": 133
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "技术研发: 全部该方向岗位 applies the level-1 alone",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=tech"
     },
     {
       "surface": "desktop",
@@ -208,7 +217,7 @@
       "check": "技术研发: category clears directly",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "url": "http://127.0.0.1:3333/catcheck-tmp",
         "shown": 472
       }
     },
@@ -235,7 +244,7 @@
       "check": "产品经理: writes stable ids to the URL",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=product&sub=product.pm"
+        "url": "http://127.0.0.1:3333/catcheck-tmp?cat=product&sub=product.pm"
       }
     },
     {
@@ -249,15 +258,24 @@
     },
     {
       "surface": "desktop",
-      "check": "产品: selecting the direction already applies it",
+      "check": "产品: browsing the direction keeps the previous filter",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=product"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=product&sub=product.pm"
     },
     {
       "surface": "desktop",
-      "check": "产品: level-1 alone is selectable",
+      "check": "产品: browsing the direction keeps the previous list",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=product"
+      "detail": {
+        "before": 36,
+        "after": 36
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "产品: 全部该方向岗位 applies the level-1 alone",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=product"
     },
     {
       "surface": "desktop",
@@ -273,7 +291,7 @@
       "check": "产品: category clears directly",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "url": "http://127.0.0.1:3333/catcheck-tmp",
         "shown": 472
       }
     },
@@ -300,7 +318,7 @@
       "check": "机械与结构: writes stable ids to the URL",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=engineering&sub=engineering.mech"
+        "url": "http://127.0.0.1:3333/catcheck-tmp?cat=engineering&sub=engineering.mech"
       }
     },
     {
@@ -314,15 +332,24 @@
     },
     {
       "surface": "desktop",
-      "check": "工程与制造: selecting the direction already applies it",
+      "check": "工程与制造: browsing the direction keeps the previous filter",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=engineering"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=engineering&sub=engineering.mech"
     },
     {
       "surface": "desktop",
-      "check": "工程与制造: level-1 alone is selectable",
+      "check": "工程与制造: browsing the direction keeps the previous list",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=engineering"
+      "detail": {
+        "before": 9,
+        "after": 9
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "工程与制造: 全部该方向岗位 applies the level-1 alone",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=engineering"
     },
     {
       "surface": "desktop",
@@ -338,7 +365,7 @@
       "check": "工程与制造: category clears directly",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "url": "http://127.0.0.1:3333/catcheck-tmp",
         "shown": 472
       }
     },
@@ -365,7 +392,7 @@
       "check": "产品与用户运营: writes stable ids to the URL",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=ops&sub=ops.product_user"
+        "url": "http://127.0.0.1:3333/catcheck-tmp?cat=ops&sub=ops.product_user"
       }
     },
     {
@@ -379,15 +406,24 @@
     },
     {
       "surface": "desktop",
-      "check": "运营: selecting the direction already applies it",
+      "check": "运营: browsing the direction keeps the previous filter",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=ops"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=ops&sub=ops.product_user"
     },
     {
       "surface": "desktop",
-      "check": "运营: level-1 alone is selectable",
+      "check": "运营: browsing the direction keeps the previous list",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=ops"
+      "detail": {
+        "before": 23,
+        "after": 23
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "运营: 全部该方向岗位 applies the level-1 alone",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=ops"
     },
     {
       "surface": "desktop",
@@ -403,9 +439,87 @@
       "check": "运营: category clears directly",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "url": "http://127.0.0.1:3333/catcheck-tmp",
         "shown": 472
       }
+    },
+    {
+      "surface": "desktop",
+      "check": "browsing a direction keeps the url untouched",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp"
+    },
+    {
+      "surface": "desktop",
+      "check": "browsing a direction keeps the list untouched",
+      "pass": true,
+      "detail": 472
+    },
+    {
+      "surface": "desktop",
+      "check": "browsing a second direction keeps the url untouched",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp"
+    },
+    {
+      "surface": "desktop",
+      "check": "browsing a second direction keeps the list untouched",
+      "pass": true,
+      "detail": 472
+    },
+    {
+      "surface": "desktop",
+      "check": "escape after browsing changes nothing",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/catcheck-tmp",
+        "shown": 472
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "reopening shows the applied level-2",
+      "pass": true,
+      "detail": "产品经理\n36\n5 条类别待核实"
+    },
+    {
+      "surface": "desktop",
+      "check": "browsing away from the applied category keeps the url",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=product&sub=product.pm"
+    },
+    {
+      "surface": "desktop",
+      "check": "browsing away from the applied category keeps the list",
+      "pass": true,
+      "detail": {
+        "before": 36,
+        "after": 36
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "取消 after browsing keeps the previous selection",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/catcheck-tmp?cat=product&sub=product.pm",
+        "shown": 36
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "escape after browsing keeps the previous selection",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/catcheck-tmp?cat=product&sub=product.pm",
+        "shown": 36
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "the previous selection can still be cleared",
+      "pass": true,
+      "detail": 472
     },
     {
       "surface": "desktop",
@@ -429,7 +543,7 @@
       "surface": "desktop",
       "check": "single-job category keeps its own url",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=other&sub=other.announcement"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=other&sub=other.announcement"
     },
     {
       "surface": "desktop",
@@ -462,7 +576,7 @@
       "surface": "desktop",
       "check": "combination keeps both params",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?company=%E8%9A%82%E8%9A%81%E9%9B%86%E5%9B%A2&cat=tech"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?company=%E8%9A%82%E8%9A%81%E9%9B%86%E5%9B%A2&cat=tech"
     },
     {
       "surface": "desktop",
@@ -486,14 +600,14 @@
       "surface": "desktop",
       "check": "back restores the previous category state",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?company=%E8%9A%82%E8%9A%81%E9%9B%86%E5%9B%A2&cat=tech"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?company=%E8%9A%82%E8%9A%81%E9%9B%86%E5%9B%A2&cat=tech"
     },
     {
       "surface": "desktop",
       "check": "clearing all filters drops the category",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "url": "http://127.0.0.1:3333/catcheck-tmp",
         "shown": 472
       }
     },
@@ -534,7 +648,7 @@
       "surface": "desktop",
       "check": "an inconsistent pair is not silently trusted",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech&sub=product.pm"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=tech&sub=product.pm"
     },
     {
       "surface": "desktop",
@@ -570,7 +684,7 @@
       "surface": "desktop",
       "check": "preview keeps the category in the url",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?sub=other.unknown&job=00000000-0000-4000-8000-000000000454"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?sub=other.unknown&job=00000000-0000-4000-8000-000000000454"
     },
     {
       "surface": "desktop",
@@ -747,7 +861,7 @@
       "check": "算法与AI: writes stable ids to the URL",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech&sub=tech.algo"
+        "url": "http://127.0.0.1:3333/catcheck-tmp?cat=tech&sub=tech.algo"
       }
     },
     {
@@ -761,15 +875,24 @@
     },
     {
       "surface": "mobile",
-      "check": "技术研发: selecting the direction already applies it",
+      "check": "技术研发: browsing the direction keeps the previous filter",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=tech&sub=tech.algo"
     },
     {
       "surface": "mobile",
-      "check": "技术研发: level-1 alone is selectable",
+      "check": "技术研发: browsing the direction keeps the previous list",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech"
+      "detail": {
+        "before": 133,
+        "after": 133
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "技术研发: 全部该方向岗位 applies the level-1 alone",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=tech"
     },
     {
       "surface": "mobile",
@@ -785,7 +908,7 @@
       "check": "技术研发: category clears directly",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "url": "http://127.0.0.1:3333/catcheck-tmp",
         "shown": 472
       }
     },
@@ -812,7 +935,7 @@
       "check": "产品经理: writes stable ids to the URL",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=product&sub=product.pm"
+        "url": "http://127.0.0.1:3333/catcheck-tmp?cat=product&sub=product.pm"
       }
     },
     {
@@ -826,15 +949,24 @@
     },
     {
       "surface": "mobile",
-      "check": "产品: selecting the direction already applies it",
+      "check": "产品: browsing the direction keeps the previous filter",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=product"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=product&sub=product.pm"
     },
     {
       "surface": "mobile",
-      "check": "产品: level-1 alone is selectable",
+      "check": "产品: browsing the direction keeps the previous list",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=product"
+      "detail": {
+        "before": 36,
+        "after": 36
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "产品: 全部该方向岗位 applies the level-1 alone",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=product"
     },
     {
       "surface": "mobile",
@@ -850,7 +982,7 @@
       "check": "产品: category clears directly",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "url": "http://127.0.0.1:3333/catcheck-tmp",
         "shown": 472
       }
     },
@@ -877,7 +1009,7 @@
       "check": "机械与结构: writes stable ids to the URL",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=engineering&sub=engineering.mech"
+        "url": "http://127.0.0.1:3333/catcheck-tmp?cat=engineering&sub=engineering.mech"
       }
     },
     {
@@ -891,15 +1023,24 @@
     },
     {
       "surface": "mobile",
-      "check": "工程与制造: selecting the direction already applies it",
+      "check": "工程与制造: browsing the direction keeps the previous filter",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=engineering"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=engineering&sub=engineering.mech"
     },
     {
       "surface": "mobile",
-      "check": "工程与制造: level-1 alone is selectable",
+      "check": "工程与制造: browsing the direction keeps the previous list",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=engineering"
+      "detail": {
+        "before": 9,
+        "after": 9
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "工程与制造: 全部该方向岗位 applies the level-1 alone",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=engineering"
     },
     {
       "surface": "mobile",
@@ -915,7 +1056,7 @@
       "check": "工程与制造: category clears directly",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "url": "http://127.0.0.1:3333/catcheck-tmp",
         "shown": 472
       }
     },
@@ -942,7 +1083,7 @@
       "check": "产品与用户运营: writes stable ids to the URL",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=ops&sub=ops.product_user"
+        "url": "http://127.0.0.1:3333/catcheck-tmp?cat=ops&sub=ops.product_user"
       }
     },
     {
@@ -956,15 +1097,24 @@
     },
     {
       "surface": "mobile",
-      "check": "运营: selecting the direction already applies it",
+      "check": "运营: browsing the direction keeps the previous filter",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=ops"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=ops&sub=ops.product_user"
     },
     {
       "surface": "mobile",
-      "check": "运营: level-1 alone is selectable",
+      "check": "运营: browsing the direction keeps the previous list",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=ops"
+      "detail": {
+        "before": 23,
+        "after": 23
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "运营: 全部该方向岗位 applies the level-1 alone",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=ops"
     },
     {
       "surface": "mobile",
@@ -980,9 +1130,87 @@
       "check": "运营: category clears directly",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "url": "http://127.0.0.1:3333/catcheck-tmp",
         "shown": 472
       }
+    },
+    {
+      "surface": "mobile",
+      "check": "browsing a direction keeps the url untouched",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp"
+    },
+    {
+      "surface": "mobile",
+      "check": "browsing a direction keeps the list untouched",
+      "pass": true,
+      "detail": 472
+    },
+    {
+      "surface": "mobile",
+      "check": "browsing a second direction keeps the url untouched",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp"
+    },
+    {
+      "surface": "mobile",
+      "check": "browsing a second direction keeps the list untouched",
+      "pass": true,
+      "detail": 472
+    },
+    {
+      "surface": "mobile",
+      "check": "escape after browsing changes nothing",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/catcheck-tmp",
+        "shown": 472
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "reopening shows the applied level-2",
+      "pass": true,
+      "detail": "产品经理\n36\n5 条类别待核实"
+    },
+    {
+      "surface": "mobile",
+      "check": "browsing away from the applied category keeps the url",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=product&sub=product.pm"
+    },
+    {
+      "surface": "mobile",
+      "check": "browsing away from the applied category keeps the list",
+      "pass": true,
+      "detail": {
+        "before": 36,
+        "after": 36
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "取消 after browsing keeps the previous selection",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/catcheck-tmp?cat=product&sub=product.pm",
+        "shown": 36
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "escape after browsing keeps the previous selection",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/catcheck-tmp?cat=product&sub=product.pm",
+        "shown": 36
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "the previous selection can still be cleared",
+      "pass": true,
+      "detail": 472
     },
     {
       "surface": "mobile",
@@ -1006,7 +1234,7 @@
       "surface": "mobile",
       "check": "single-job category keeps its own url",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=other&sub=other.announcement"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=other&sub=other.announcement"
     },
     {
       "surface": "mobile",
@@ -1039,7 +1267,7 @@
       "surface": "mobile",
       "check": "combination keeps both params",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?company=%E8%9A%82%E8%9A%81%E9%9B%86%E5%9B%A2&cat=tech"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?company=%E8%9A%82%E8%9A%81%E9%9B%86%E5%9B%A2&cat=tech"
     },
     {
       "surface": "mobile",
@@ -1063,14 +1291,14 @@
       "surface": "mobile",
       "check": "back restores the previous category state",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?company=%E8%9A%82%E8%9A%81%E9%9B%86%E5%9B%A2&cat=tech"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?company=%E8%9A%82%E8%9A%81%E9%9B%86%E5%9B%A2&cat=tech"
     },
     {
       "surface": "mobile",
       "check": "clearing all filters drops the category",
       "pass": true,
       "detail": {
-        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "url": "http://127.0.0.1:3333/catcheck-tmp",
         "shown": 472
       }
     },
@@ -1111,7 +1339,7 @@
       "surface": "mobile",
       "check": "an inconsistent pair is not silently trusted",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech&sub=product.pm"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?cat=tech&sub=product.pm"
     },
     {
       "surface": "mobile",
@@ -1153,7 +1381,7 @@
       "surface": "mobile",
       "check": "preview keeps the category in the url",
       "pass": true,
-      "detail": "http://127.0.0.1:3333/radarcheck-tmp?sub=other.unknown&job=00000000-0000-4000-8000-000000000454"
+      "detail": "http://127.0.0.1:3333/catcheck-tmp?sub=other.unknown&job=00000000-0000-4000-8000-000000000454"
     },
     {
       "surface": "mobile",
