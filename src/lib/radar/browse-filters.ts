@@ -1,6 +1,6 @@
 import type { PreferenceProfile } from "../domain/profile";
 import type { RadarState } from "./url-state";
-import { resolveCityFilter, locationOptions } from "./location";
+import { resolveCityFilter, locationOptions, locationQueryNeedle } from "./location";
 
 export const clearedFilters = {
   q: "",
@@ -41,6 +41,6 @@ export function preferenceFilters(
 }
 
 export function searchCities(cities: readonly string[], query: string) {
-  const needle = resolveCityFilter(query.trim()).toLocaleLowerCase();
+  const needle = locationQueryNeedle(query);
   return cities.filter((city) => city.toLocaleLowerCase().includes(needle));
 }

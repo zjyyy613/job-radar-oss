@@ -4,10 +4,10 @@
 > 业务与冻结规则以 [Product Spec v1.0](specs/job-radar-product-spec-v1.0.md)、[Technical Architecture v0.1](architecture/job-radar-technical-architecture-v0.1.md)、[DESIGN.md](../DESIGN.md)、[README.md](../README.md) 为准，本文不复制其内容。
 > 维护约定：本文件由 **DSH 作为主要维护者**更新，ChatGPT 负责项目协调与任务状态核对，Codex 读取本文件的交接信息；按任务分配或完成节点更新，避免双方同时编辑，且每次更新都要附实际证据。
 
-- 文件版本：v5
+- 文件版本：v6
 - 最后更新：2026-10-16
 - 最后更新者：DSH
-- 更新节点：ENGINEERING-02（提取诊断与 partial 状态提示修复）完成
+- 更新节点：PRODUCT-02（省份分组地点选择器）完成
 
 ## 1. 当前稳定基线
 
@@ -16,6 +16,7 @@
 | 项目 | Job Radar | — |
 | 状态 | Product Improvement v1 Released / Frozen | User 确认 |
 | 生产数据快照（最新） | 429 jobs / 13 公司；网易 64、美团 59；腾讯/小米/vivo 各 2；extraction ready 363 / failed 66；`published_at` 2；`internship_type` 0；`recruitment_batch` 0；427 条有职责+要求+申请链接 | **由 ChatGPT 经 Supabase 只读查询确认**（2026-10-15）；DSH 未直接连库 |
+| 生产数据规模（User 通报） | 约 472 jobs / 13 公司（2026-10-16） | **User 提供，DSH 未连库核实**；本文件可核实的最新口径仍为上一行的 429（2026-10-15）。两个数字不可混用 |
 | GitHub 生产分支 | `task-1-m0-contracts` | `git ls-remote --symref origin HEAD` |
 | 生产分支 commit（GitHub） | `18e042297f2b572f160bedad777e5edb5777810d` | 同一次 `ls-remote`，与 DSH 本地基线一致 |
 | 已部署版本（Vercel Production） | `18e042297f2b572f160bedad777e5edb5777810d` | **由 ChatGPT 通过 Vercel 部署接口核实**；DSH 未独立验证 |
@@ -58,6 +59,8 @@
 | DATA-03 | 双来源有限深度验证（`tencent + vivo / intern`，各 20 条） | DSH | Completed | `work/dsh` @ `a0320e6` | 等待下一阶段扩容决策 |
 | ENGINEERING-01 | 提取失败排查 | — | — | **仓库内无记录** | 需 User / ChatGPT 提供其排查结论；DSH 未据此改动 |
 | ENGINEERING-02 | 提取诊断与 partial 运行状态提示修复 | DSH | Completed | `work/dsh`（本轮工程提交） | 已通过 targeted / full / lint / typecheck / build |
+| PRODUCT-01 | 竞品岗位发现机制与职位分类方案（产品研究，无代码变更） | DSH | Completed | 只读研究 | 结论已交付；D1–D3 三项决策待 User 确认，未落盘为仓库文件 |
+| PRODUCT-02 | 省份分组地点选择器（Radix 地点弹层内的一级→二级导航） | DSH | Completed | `work/dsh`（本轮产品提交） | 已通过 440 项测试 / lint / typecheck / build + 68 项浏览器交互验收；待审查 |
 | — | 当前无进行中的产品开发任务 | — | — | — | 等待 User 分配 |
 
 本表只登记**已授权且有实际证据**的任务；未分配的工作不预填 Owner、不虚构进度。
@@ -76,6 +79,8 @@
 | DATA-02 腾讯 intern 扩量验证 | Completed | 实测 2 页 / 10 候选 / 详情 10-10 / 准入 10-10、12.8s、0 失败、停止条件 `max_jobs`、10-10 官方 `join.qq.com` 申请链接；与库内 2 条腾讯 campus 记录 ID 无交集（**库内存在性未核实**）。 |
 | DATA-03 双来源深度验证 | Completed | 腾讯与 vivo 各 20 条（4 页 × 5）：详情 **40/40**、准入 **40/40**、0 失败、墙钟 57.9s；40 条与已知在库 4 条（Task 2 campus）ID 无交集（**待数据库核验**）；方向覆盖扩至金融/税务、咨询/项目管理、设计、行政、机器人。 |
 | ENGINEERING-02 提取诊断与 partial 提示 | Completed | 提取失败新增**内容无关**的结构化诊断（stage / 固定 reason code / 字段路径 / 索引），**对外仍为 `invalid_extraction`**，未放宽任何 Gate、Evidence、Qualification 校验；PARTIAL 显式写入 Step Summary 并发出 Actions warning，**退出码策略不变**。新增 23 项回归测试；全量 27 文件 / 434 项通过，lint、typecheck、build 全绿。 |
+| PRODUCT-01 竞品研究与职位分类方案 | Completed | 三家竞品实地调研（BOSS 三层树 / 智联职类 3 级 + 专业独立轴 / 实习僧两级词表），逐条标注「直接验证 / 仅有搜索摘要 / 未验证-需登录」；在 219 条真实标题语料上实测 4 版规则（朴素关键词优先 4/23 错 → 混合规则 23/23、未分类 2.3%）；推荐 8 一级 + 28 二级 + 数据驱动渲染阈值。**无代码变更、未落盘为仓库文件**。 |
+| PRODUCT-02 省份分组地点选择器 | Completed | `CityChoice` 内实现一级（省份/直辖市/港澳/境外/其他）→ 二级（城市）导航；复用既有 `regions` 单一数据源，未新增地区数据；只在数据中存在的 56 个地点上分组（31 组）；搜索不依赖展开。无 DB 字段、无 Gate/Evidence/Qualification 改动。证据见 [province-grouping-v1](reports/assets/province-grouping-v1/results.json)（68/68 通过）。 |
 
 只列关键结果，不复制详细历史；完整过程见 [reports/](reports/)。
 
@@ -105,6 +110,8 @@
 
 - DSH worktree 已安装 `node_modules`（ENGINEERING-02 经授权执行一次 `npm ci`，未改依赖版本），lint / typecheck / test / build 均可运行；仍缺 `.env.local`，故任何需要真实数据库或模型的命令不可运行。
 - **ENGINEERING-01 的排查结果在仓库内不存在**（全仓库检索无该文档）；DSH 的 ENGINEERING-02 基于本轮自行定位的失败路径实现，未引用其结论。
+- **`/radar` 无法在本 worktree 做真实数据验收**：页面经 server-only 读取 Supabase，缺 `.env.local` 时（`src/lib/data/supabase-server.ts:19`）抛出配置错误。因此 PRODUCT-02 的浏览器验收用了一个**临时 harness 路由**驱动真实 `CityChoice` 组件（真实 56 个地点选项、真实 CSS、真实 Chromium），交付前已删除该路由。可复跑的验收脚本在 `tests/browser/province_grouping.py`，在有 `.env.local` 的工作区可直接指向真实 `/radar`。
+- **删除/新增 `src/app` 路由后必须清 `.next`**：`.next/dev/types/validator.ts` 会残留已删除路由的类型引用，导致 `typecheck` / `build` 报 `TS2307`（本轮已实际踩到并通过删除 `.next` 解决）。
 - Git 全局配置 `http.proxy = http://127.0.0.1:7890` 当前不可用，`fetch/push` 会失败；直连 443 正常。未修改该配置。
 - README 与 AGENTS.md / DESIGN.md 中「本轮只做 Pre-Task7」「M0→M1 backlog 未实施」等**历史阶段文字按 User 决定保留**，不代表当前状态；当前状态以第 1 节为准。
 - 以上各项（除 DSH worktree 依赖准备外）均需单独授权后处理。

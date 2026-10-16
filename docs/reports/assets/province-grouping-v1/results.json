@@ -1,0 +1,515 @@
+{
+  "base": "http://127.0.0.1:3111/citycheck-tmp",
+  "results": [
+    {
+      "surface": "desktop",
+      "check": "dialog opens from keyboard",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "focus moves into the dialog title",
+      "pass": true,
+      "detail": {
+        "tag": "H2",
+        "text": "选择地点"
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "group count",
+      "pass": true,
+      "detail": 31
+    },
+    {
+      "surface": "desktop",
+      "check": "municipalities grouped first",
+      "pass": true,
+      "detail": [
+        "北京市",
+        "上海市",
+        "天津市",
+        "重庆市"
+      ]
+    },
+    {
+      "surface": "desktop",
+      "check": "special buckets last",
+      "pass": true,
+      "detail": [
+        "香港特别行政区",
+        "境外",
+        "其他地点"
+      ]
+    },
+    {
+      "surface": "desktop",
+      "check": "guangdong present",
+      "pass": true,
+      "detail": [
+        "北京市",
+        "上海市",
+        "天津市",
+        "重庆市",
+        "广东省",
+        "江苏省",
+        "浙江省",
+        "安徽省"
+      ]
+    },
+    {
+      "surface": "desktop",
+      "check": "municipality option reachable without expanding",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "province collapsed by default",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "collapsed toggle reports aria-expanded=false",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "expanded toggle reports aria-expanded=true",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "广州 visible after expanding 广东省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "深圳 visible after expanding 广东省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "东莞 visible after expanding 广东省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "unrelated province stays collapsed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "trigger shows the chosen city",
+      "pass": true,
+      "detail": "广州"
+    },
+    {
+      "surface": "desktop",
+      "check": "callback received the city, not the province",
+      "pass": true,
+      "detail": "selected=广州"
+    },
+    {
+      "surface": "desktop",
+      "check": "focus returns to the trigger",
+      "pass": true,
+      "detail": "city-trigger"
+    },
+    {
+      "surface": "desktop",
+      "check": "search resets on reopen",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "expansion resets on reopen",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "selected city keeps its group expanded",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "collapsed province city found by search",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "search narrows to the matching group",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "surface": "desktop",
+      "check": "province search narrows to that province",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "surface": "desktop",
+      "check": "广州 found by province name search",
+      "pass": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "深圳 found by province name search",
+      "pass": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "东莞 found by province name search",
+      "pass": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "tab order starts at 全部地点",
+      "pass": true,
+      "detail": "全部地点"
+    },
+    {
+      "surface": "desktop",
+      "check": "tab reaches the matched option",
+      "pass": true,
+      "detail": "太原"
+    },
+    {
+      "surface": "desktop",
+      "check": "keyboard selection applies",
+      "pass": true,
+      "detail": "太原"
+    },
+    {
+      "surface": "desktop",
+      "check": "empty search states so",
+      "pass": true,
+      "detail": "没有匹配的地点"
+    },
+    {
+      "surface": "desktop",
+      "check": "option list scrolls inside the dialog",
+      "pass": true,
+      "detail": {
+        "scrollHeight": 3410,
+        "clientHeight": 360,
+        "overflowX": 0,
+        "visibleOptions": 11,
+        "minOption": 44
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "no horizontal overflow",
+      "pass": true,
+      "detail": {
+        "scrollHeight": 3410,
+        "clientHeight": 360,
+        "overflowX": 0,
+        "visibleOptions": 11,
+        "minOption": 44
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "measured real option buttons",
+      "pass": true,
+      "detail": {
+        "scrollHeight": 3410,
+        "clientHeight": 360,
+        "overflowX": 0,
+        "visibleOptions": 11,
+        "minOption": 44
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "touch targets >= 44px",
+      "pass": true,
+      "detail": {
+        "scrollHeight": 3410,
+        "clientHeight": 360,
+        "overflowX": 0,
+        "visibleOptions": 11,
+        "minOption": 44
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "dialog opens from keyboard",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "focus moves into the dialog title",
+      "pass": true,
+      "detail": {
+        "tag": "H2",
+        "text": "选择地点"
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "group count",
+      "pass": true,
+      "detail": 31
+    },
+    {
+      "surface": "mobile",
+      "check": "municipalities grouped first",
+      "pass": true,
+      "detail": [
+        "北京市",
+        "上海市",
+        "天津市",
+        "重庆市"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "check": "special buckets last",
+      "pass": true,
+      "detail": [
+        "香港特别行政区",
+        "境外",
+        "其他地点"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "check": "guangdong present",
+      "pass": true,
+      "detail": [
+        "北京市",
+        "上海市",
+        "天津市",
+        "重庆市",
+        "广东省",
+        "江苏省",
+        "浙江省",
+        "安徽省"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "check": "municipality option reachable without expanding",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "province collapsed by default",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "collapsed toggle reports aria-expanded=false",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "expanded toggle reports aria-expanded=true",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "广州 visible after expanding 广东省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "深圳 visible after expanding 广东省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "东莞 visible after expanding 广东省",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "unrelated province stays collapsed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "trigger shows the chosen city",
+      "pass": true,
+      "detail": "广州"
+    },
+    {
+      "surface": "mobile",
+      "check": "callback received the city, not the province",
+      "pass": true,
+      "detail": "selected=广州"
+    },
+    {
+      "surface": "mobile",
+      "check": "focus returns to the trigger",
+      "pass": true,
+      "detail": "city-trigger"
+    },
+    {
+      "surface": "mobile",
+      "check": "search resets on reopen",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "expansion resets on reopen",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "selected city keeps its group expanded",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "collapsed province city found by search",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "search narrows to the matching group",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "surface": "mobile",
+      "check": "province search narrows to that province",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "surface": "mobile",
+      "check": "广州 found by province name search",
+      "pass": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "深圳 found by province name search",
+      "pass": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "东莞 found by province name search",
+      "pass": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "tab order starts at 全部地点",
+      "pass": true,
+      "detail": "全部地点"
+    },
+    {
+      "surface": "mobile",
+      "check": "tab reaches the matched option",
+      "pass": true,
+      "detail": "太原"
+    },
+    {
+      "surface": "mobile",
+      "check": "keyboard selection applies",
+      "pass": true,
+      "detail": "太原"
+    },
+    {
+      "surface": "mobile",
+      "check": "empty search states so",
+      "pass": true,
+      "detail": "没有匹配的地点"
+    },
+    {
+      "surface": "mobile",
+      "check": "option list scrolls inside the dialog",
+      "pass": true,
+      "detail": {
+        "scrollHeight": 3410,
+        "clientHeight": 338,
+        "overflowX": 0,
+        "visibleOptions": 11,
+        "minOption": 44
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "no horizontal overflow",
+      "pass": true,
+      "detail": {
+        "scrollHeight": 3410,
+        "clientHeight": 338,
+        "overflowX": 0,
+        "visibleOptions": 11,
+        "minOption": 44
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "measured real option buttons",
+      "pass": true,
+      "detail": {
+        "scrollHeight": 3410,
+        "clientHeight": 338,
+        "overflowX": 0,
+        "visibleOptions": 11,
+        "minOption": 44
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "touch targets >= 44px",
+      "pass": true,
+      "detail": {
+        "scrollHeight": 3410,
+        "clientHeight": 338,
+        "overflowX": 0,
+        "visibleOptions": 11,
+        "minOption": 44
+      }
+    }
+  ]
+}

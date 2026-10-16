@@ -21,6 +21,59 @@ const other: Record<string, string> = {
   香港: "香港", 香港特别行政区: "香港", 澳门: "澳门", 澳门特别行政区: "澳门",
   巴黎: "巴黎", 慕尼黑: "慕尼黑",
 };
+/** Display labels only for the `other` catalog; membership is derived from `other`
+ * itself so no second geographic mapping is introduced. */
+const specialLabels: Record<string, string> = { 香港: "香港特别行政区", 澳门: "澳门特别行政区" };
+export type LocationGroupKind = "municipality" | "province" | "region" | "overseas" | "other";
+export interface LocationGroup {
+  key: string;
+  label: string;
+  kind: LocationGroupKind;
+  options: string[];
+}
+/** Province of every known mainland city, derived from `regions` (single source of truth). */
+const provinceOfCity = new Map<string, string>();
+for (const [province, cities] of Object.entries(regions)) {
+  for (const name of cities) if (!provinceOfCity.has(name)) provinceOfCity.set(name, province);
+}
+const specialValues = new Set(Object.values(other));
+/** Groups the browse options that actually exist in the current data.
+ *
+ * A municipality is its own group; Hong Kong/Macau, overseas and values that could
+ * not be normalized keep their own bucket so a legacy URL selection stays visible.
+ * Options are never dropped or invented here — grouping is presentational. */
+export function locationGroups(values: readonly string[]): LocationGroup[] {
+  const groups = new Map<string, LocationGroup>();
+  const add = (key: string, label: string, kind: LocationGroupKind, option: string) => {
+    const group = groups.get(key) ?? { key, label, kind, options: [] };
+    if (!group.options.includes(option)) group.options.push(option);
+    groups.set(key, group);
+  };
+  for (const value of values) {
+    const province = provinceOfCity.get(value);
+    if (province) {
+      add(province, province, regions[province].length === 1 && province.endsWith("市") ? "municipality" : "province", value);
+      continue;
+    }
+    const special = specialLabels[value];
+    if (special) { add(value, special, "region", value); continue; }
+    if (specialValues.has(value)) { add("__overseas", "境外", "overseas", value); continue; }
+    add("__other", "其他地点", "other", value);
+  }
+  const ordered: LocationGroup[] = [];
+  for (const province of Object.keys(regions)) if (groups.has(province)) ordered.push(groups.get(province)!);
+  for (const kind of ["region", "overseas", "other"] as const)
+    for (const group of groups.values()) if (group.kind === kind) ordered.push(group);
+  return ordered;
+}
+/** Same normalization the city-name search uses, so name and province queries agree. */
+export function locationQueryNeedle(query: string): string {
+  return resolveCityFilter(query.trim()).toLocaleLowerCase();
+}
+export function groupLabelMatches(label: string, query: string): boolean {
+  const needle = locationQueryNeedle(query);
+  return Boolean(needle) && label.toLocaleLowerCase().includes(needle);
+}
 function city(token: string): string | null {
   if (Object.hasOwn(other, token)) return other[token];
   const name = token.replace(/市$/, "");

@@ -1837,6 +1837,25 @@ blockquote {
 }
 .city-options button[aria-pressed="true"], .city-options button:hover { background: #f1f1ee; }
 .city-options span { font-size: 12px; color: var(--muted); }
+/* Province-grouped location navigation: a scannable index, not a second filter. */
+.city-options .city-group { border-top: 1px solid var(--line); }
+.city-options .city-group:first-of-type { border-top: 0; }
+.city-options .city-group-toggle,
+.city-options .city-group-label {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  width: 100%; min-height: 44px; margin: 0; padding: 10px; text-align: left;
+  color: var(--muted); font-size: 12px; font-weight: 500;
+}
+.city-options .city-group-toggle {
+  background: transparent; border: 0; border-radius: 6px; cursor: pointer;
+}
+.city-options .city-group-toggle:hover { background: #f1f1ee; color: var(--ink); }
+.city-options .city-group-toggle svg { transition: transform 150ms ease; }
+.city-options .city-group-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+.city-options .city-group-options { display: grid; }
+/* An author display rule must not defeat the hidden state. */
+.city-options .city-group-options[hidden] { display: none; }
+.city-options .city-group-options button { padding-left: 22px; }
 .browse-dialog-actions { display: flex; gap: 8px; justify-content: flex-end; }
 @media (max-width: 767px) {
   .filter-city { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 12px; }
