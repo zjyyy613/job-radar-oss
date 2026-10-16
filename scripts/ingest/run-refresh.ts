@@ -9,6 +9,7 @@ import {createBatchStore} from './batch-gate-store';
 import {createDeepSeekModel,deepseekConfig} from './deepseek-responses';
 import {invokeJobPro} from './job-pro-cli';
 import {EXTRACTION_VERSION} from './extract-gates';
+import {buildRefreshReport} from './refresh-report';
 async function main(){
  if(existsSync('.env.local'))process.loadEnvFile('.env.local');
  const options=parseOptions(['--write','--sources',process.env.REFRESH_SOURCES??'alibaba,meituan,jd,netease,kuaishou,oppo,liauto,antgroup','--scope','intern','--limit',process.env.REFRESH_PAGE_SIZE??'2','--max-pages',process.env.REFRESH_MAX_PAGES??'1','--max-jobs',process.env.REFRESH_MAX_JOBS??'2','--global-max-jobs',process.env.REFRESH_GLOBAL_MAX_JOBS??'16']);
@@ -23,8 +24,12 @@ async function main(){
   const store=createCanonicalizationStore(config.url,config.key);
   const result=await refresh(checkpoint,{...store,cli:invokeJobPro,sourceStore:createSourceStore(config.url,config.key),gateStore:createBatchStore(config.url,config.key),model,save,stopped:()=>stopped});
   writeFileSync(resolve(directory,'summary.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
-  if(process.env.GITHUB_STEP_SUMMARY)appendFileSync(process.env.GITHUB_STEP_SUMMARY,`## Job Radar refresh\n\n\`\`\`json\n${JSON.stringify(result,null,2)}\n\`\`\`\n`);
-  if(result.status==='failed')process.exitCode=1;
+  // Visibility only: a PARTIAL run is stated in the Step Summary and raised as an
+  // Actions warning. The exit-code policy is unchanged — only `failed` is non-zero.
+  const report=buildRefreshReport(result);
+  if(process.env.GITHUB_STEP_SUMMARY)appendFileSync(process.env.GITHUB_STEP_SUMMARY,report.markdown);
+  if(report.annotation)console.log(report.annotation);
+  process.exitCode=report.exitCode;
  }finally{process.off('SIGINT',stop);process.off('SIGTERM',stop);closeSync(lock);unlinkSync(resolve(directory,'writer.lock'));}
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)await main().catch(()=>{const failure={status:'failed',error:'refresh_unconfirmed',action:'Inspect checkpoint and database before retry'};mkdirSync('.verification/refresh',{recursive:true});writeFileSync('.verification/refresh/summary.json',JSON.stringify(failure));if(process.env.GITHUB_STEP_SUMMARY)appendFileSync(process.env.GITHUB_STEP_SUMMARY,'## Job Radar refresh FAILED\n\nInspect checkpoint and database before retry. No raw diagnostics logged.\n');console.error(JSON.stringify(failure));process.exitCode=1;});
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)await main().catch(()=>{const failure={status:'failed',error:'refresh_unconfirmed',action:'Inspect checkpoint and database before retry'};mkdirSync('.verification/refresh',{recursive:true});writeFileSync('.verification/refresh/summary.json',JSON.stringify(failure));const report=buildRefreshReport(failure);if(process.env.GITHUB_STEP_SUMMARY)appendFileSync(process.env.GITHUB_STEP_SUMMARY,report.markdown);if(report.annotation)console.log(report.annotation);console.error(JSON.stringify(failure));process.exitCode=report.exitCode;});

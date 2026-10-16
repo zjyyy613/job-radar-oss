@@ -3,6 +3,7 @@ import { extractionIsReady, type ExtractionReadiness } from '../../src/lib/domai
 import { parseGates } from './gate-parser';
 import { validateExtraction } from './gate-extraction-validation';
 import { extractJob, EXTRACTION_VERSION, type ExtractionResult } from './extract-gates';
+import { describeDiagnostic } from './extraction-diagnostics';
 import type { ExtractionModel } from './deepseek-responses';
 export type BatchJob = CanonicalJob & ExtractionReadiness & { extraction_attempted_at: string | null };
 export function classify(job: BatchJob): 'skip' | 'parser' | 'model' | 'invalid' {
@@ -21,11 +22,11 @@ export async function runBatch(jobs: BatchJob[], model: ExtractionModel, store: 
   save: () => void, options: { stopped?: () => boolean; pause?: (ms: number) => Promise<void>; progress?: (row: object) => void } = {}) {
   if (jobs.length > 500 || checkpoint.version !== 1 || checkpoint.extraction_version !== EXTRACTION_VERSION || !Number.isInteger(checkpoint.max_calls) || checkpoint.max_calls < 0 || checkpoint.max_calls > 200 || checkpoint.calls < 0 || checkpoint.calls > checkpoint.max_calls) throw new Error('Invalid batch budget');
   const pause = options.pause ?? (ms => new Promise(resolve => setTimeout(resolve, ms)));
-  const summary: { id: string; status: string; error?: string | null }[] = [];
+  const summary: { id: string; status: string; error?: string | null; diagnostic?: string }[] = [];
   for (const job of jobs) {
     if (options.stopped?.()) break;
     const kind = classify(job), prior = checkpoint.entries[job.id];
-    if (!job.raw_content_hash) { summary.push({ id: job.id, status: 'failed', error: 'missing_content_hash' }); continue; }
+    if (!job.raw_content_hash) { summary.push({ id: job.id, status: 'failed', error: 'missing_content_hash', diagnostic: 'content:missing_content_hash' }); continue; }
     if (kind === 'skip') { summary.push({ id: job.id, status: 'skipped' }); continue; }
     if (prior?.hash === job.raw_content_hash && prior.state === 'done') { summary.push({ id: job.id, status: 'checkpoint_done' }); continue; }
     // An abruptly terminated request may have been billed. Never blindly repeat it on resume.
@@ -56,7 +57,10 @@ export async function runBatch(jobs: BatchJob[], model: ExtractionModel, store: 
     try { await store.write(prepared, result); }
     catch { summary.push({ id: job.id, status: 'store_unconfirmed' }); break; }
     checkpoint.entries[job.id].state = 'done'; save();
-    const row = { id: job.id, status: result.status, error: result.error }; summary.push(row); options.progress?.(row);
+    const row: { id: string; status: string; error: string | null; diagnostic?: string } = { id: job.id, status: result.status, error: result.error };
+    // Located, content-free reason for a rejected extraction; never JD or model text.
+    if (result.status === 'failed' && result.diagnostic) row.diagnostic = describeDiagnostic(result.diagnostic);
+    summary.push(row); options.progress?.(row);
   }
   return summary;
 }

@@ -4,10 +4,10 @@
 > 业务与冻结规则以 [Product Spec v1.0](specs/job-radar-product-spec-v1.0.md)、[Technical Architecture v0.1](architecture/job-radar-technical-architecture-v0.1.md)、[DESIGN.md](../DESIGN.md)、[README.md](../README.md) 为准，本文不复制其内容。
 > 维护约定：本文件由 **DSH 作为主要维护者**更新，ChatGPT 负责项目协调与任务状态核对，Codex 读取本文件的交接信息；按任务分配或完成节点更新，避免双方同时编辑，且每次更新都要附实际证据。
 
-- 文件版本：v4
-- 最后更新：2026-10-15
+- 文件版本：v5
+- 最后更新：2026-10-16
 - 最后更新者：DSH
-- 更新节点：DATA-03（双来源有限深度验证）完成
+- 更新节点：ENGINEERING-02（提取诊断与 partial 状态提示修复）完成
 
 ## 1. 当前稳定基线
 
@@ -19,7 +19,7 @@
 | GitHub 生产分支 | `task-1-m0-contracts` | `git ls-remote --symref origin HEAD` |
 | 生产分支 commit（GitHub） | `18e042297f2b572f160bedad777e5edb5777810d` | 同一次 `ls-remote`，与 DSH 本地基线一致 |
 | 已部署版本（Vercel Production） | `18e042297f2b572f160bedad777e5edb5777810d` | **由 ChatGPT 通过 Vercel 部署接口核实**；DSH 未独立验证 |
-| DSH 本地分支 / HEAD | `work/dsh` / `3016bed…`（纯本地，无 upstream，未推送） | `git rev-parse` |
+| DSH 本地分支 | `work/dsh`（纯本地，无 upstream，未推送；各任务具体 commit 见第 3 节） | `git rev-parse` |
 | 正式网站 | (production deployment not published) | 实测 HTTP 200；`/radar` 已渲染 Radar / Saved / Profile |
 
 **三个版本必须区分**
@@ -55,7 +55,9 @@
 | SETUP-02 | 最小文档状态同步（交接文件 / README / AGENTS.md / DESIGN.md） | DSH | Completed | `work/dsh` @ `40c58e7` | 无 |
 | DATA-01 | 岗位覆盖与数据质量评估（只读分析） | DSH | Completed | 只读，无代码变更 | 方向已通过 User 与 ChatGPT 审查；结果并入 DATA-02 交付报告 |
 | DATA-02 | 现有官方来源小规模扩量验证（`tencent / intern` 有界 dry-run） | DSH | Completed | `work/dsh` @ `d03b736` | 已通过阶段验收 |
-| DATA-03 | 双来源有限深度验证（`tencent + vivo / intern`，各 20 条） | DSH | Completed | `work/dsh`（本轮文档提交） | 等待下一阶段扩容决策 |
+| DATA-03 | 双来源有限深度验证（`tencent + vivo / intern`，各 20 条） | DSH | Completed | `work/dsh` @ `a0320e6` | 等待下一阶段扩容决策 |
+| ENGINEERING-01 | 提取失败排查 | — | — | **仓库内无记录** | 需 User / ChatGPT 提供其排查结论；DSH 未据此改动 |
+| ENGINEERING-02 | 提取诊断与 partial 运行状态提示修复 | DSH | Completed | `work/dsh`（本轮工程提交） | 已通过 targeted / full / lint / typecheck / build |
 | — | 当前无进行中的产品开发任务 | — | — | — | 等待 User 分配 |
 
 本表只登记**已授权且有实际证据**的任务；未分配的工作不预填 Owner、不虚构进度。
@@ -73,6 +75,7 @@
 | DATA-01 数据覆盖评估 | Completed | 只读分析：8 家受调度源占 98.0%；腾讯/小米/vivo 各 2 条；受调度源上游覆盖率约 11.4%；建筑/法学方向样本为 0；`published_at` 2/429。见 [数据覆盖评估](reports/2026-10-15-data-coverage-assessment.md)。 |
 | DATA-02 腾讯 intern 扩量验证 | Completed | 实测 2 页 / 10 候选 / 详情 10-10 / 准入 10-10、12.8s、0 失败、停止条件 `max_jobs`、10-10 官方 `join.qq.com` 申请链接；与库内 2 条腾讯 campus 记录 ID 无交集（**库内存在性未核实**）。 |
 | DATA-03 双来源深度验证 | Completed | 腾讯与 vivo 各 20 条（4 页 × 5）：详情 **40/40**、准入 **40/40**、0 失败、墙钟 57.9s；40 条与已知在库 4 条（Task 2 campus）ID 无交集（**待数据库核验**）；方向覆盖扩至金融/税务、咨询/项目管理、设计、行政、机器人。 |
+| ENGINEERING-02 提取诊断与 partial 提示 | Completed | 提取失败新增**内容无关**的结构化诊断（stage / 固定 reason code / 字段路径 / 索引），**对外仍为 `invalid_extraction`**，未放宽任何 Gate、Evidence、Qualification 校验；PARTIAL 显式写入 Step Summary 并发出 Actions warning，**退出码策略不变**。新增 23 项回归测试；全量 27 文件 / 434 项通过，lint、typecheck、build 全绿。 |
 
 只列关键结果，不复制详细历史；完整过程见 [reports/](reports/)。
 
@@ -88,17 +91,20 @@
 - 迁移历史 debt：本地 `0001_job_radar_m0.sql` ↔ 远端 `20260928013502_job_radar_m0`；禁止重复执行初始 DDL，未做 history repair。
 - 真实库无 `Closed` 样本，且所有 run 均为 `full_list=false`，**不得据此推断任何 Closed**。
 - NCSS 来源无详情与申请链接（`description`/`requirements`/`apply_url`/`deadline` 恒为 null）。
+- 提取失败的**详细诊断不入库**：`write_gate_extraction` RPC 对失败固定写 `extraction_error='extraction_failed'`（`supabase/migrations/20260928175131_gate_extraction.sql:100-101`），故 ENGINEERING-02 的诊断只存在于运行产物（stdout / checkpoint / summary.json）。要按原因从数据库筛选失败岗位，需另行动迁移决策。
 
 **B. 后续产品候选方向（未授权，需 User 决策）**
 
 - 正式扩容决策（每源 20–60 条起）：DATA-02 与 DATA-03 均判定「值得继续」；20–60 条本身安全，但需先决定每日 refresh 额度与上述两个硬上限的处理方式，待 User 决策。
+- 定向补跑（3 个指定 ID + 内容哈希）：现有 `batch` 只能跑全量快照、单条 runner 无 checkpoint 也无调用预算，且**没有**「调用模型前校验当前 content hash 是否等于指定 hash」的步骤。最小能力应是 ID 作用域 + 哈希前置校验 + 复用现有 checkpoint 与 CAS 写入；**本轮未开发**。
 - M1 其余能力：Hide + Undo、Seen/New、inline profile completion、Compare、账号同步。
 - 来源侧：NCSS 扩页、新来源接入（ByteDance / Xiaomi 曾 429，Horizon、NIO 等 Later 项）；实习僧因上游协议限制已 Drop。
 - 更长期：JD Lens。
 
 **C. 环境与文档维护事项**
 
-- DSH worktree 缺 `node_modules`、`.env.local`、`.verification/`，lint / typecheck / test / build 当前无法运行，需先 `npm ci`。
+- DSH worktree 已安装 `node_modules`（ENGINEERING-02 经授权执行一次 `npm ci`，未改依赖版本），lint / typecheck / test / build 均可运行；仍缺 `.env.local`，故任何需要真实数据库或模型的命令不可运行。
+- **ENGINEERING-01 的排查结果在仓库内不存在**（全仓库检索无该文档）；DSH 的 ENGINEERING-02 基于本轮自行定位的失败路径实现，未引用其结论。
 - Git 全局配置 `http.proxy = http://127.0.0.1:7890` 当前不可用，`fetch/push` 会失败；直连 443 正常。未修改该配置。
 - README 与 AGENTS.md / DESIGN.md 中「本轮只做 Pre-Task7」「M0→M1 backlog 未实施」等**历史阶段文字按 User 决定保留**，不代表当前状态；当前状态以第 1 节为准。
 - 以上各项（除 DSH worktree 依赖准备外）均需单独授权后处理。

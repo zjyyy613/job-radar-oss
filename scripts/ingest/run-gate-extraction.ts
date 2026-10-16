@@ -6,6 +6,7 @@ import { extractJob, type ExtractionJob } from "./extract-gates";
 import { createGateExtractionStore } from "./gate-extraction-store";
 import { serverConfig } from "./source-store";
 import { parseGates } from "./gate-parser";
+import { describeDiagnostic } from "./extraction-diagnostics";
 
 export async function runGateExtraction(jobs: ExtractionJob[], model: ExtractionModel, store?: Pick<ReturnType<typeof createGateExtractionStore>, "write">) {
   const summary = [];
@@ -15,7 +16,8 @@ export async function runGateExtraction(jobs: ExtractionJob[], model: Extraction
     if (store && result.status !== "skipped") await store.write(job, result);
     summary.push({ id: job.id, status: result.status, model_calls: result.model_calls, gates: result.gates.length,
       metadata: result.status === "skipped" ? null : result.metadata.length,
-      extractor_type: result.status === "skipped" ? null : result.extractor_type, duration_ms: Math.round(performance.now() - start), error: result.error });
+      extractor_type: result.status === "skipped" ? null : result.extractor_type, duration_ms: Math.round(performance.now() - start), error: result.error,
+      diagnostic: result.status === "failed" && result.diagnostic ? describeDiagnostic(result.diagnostic) : null });
     // Bounded, secret-free progress during slow model requests.
     console.log(JSON.stringify(summary.at(-1)));
   }
