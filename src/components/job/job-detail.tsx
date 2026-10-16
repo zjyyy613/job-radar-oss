@@ -5,6 +5,7 @@ import type { JobReadModel } from "@/lib/data/job-read-model";
 import { safeExternalUrl } from "@/lib/data/job-read-model";
 import { useLocalProfile } from "@/lib/profile/use-local-profile";
 import { emptyGuestProfile } from "@/lib/profile/local-profile";
+import { categorizeTitle, describeCategory } from "@/lib/radar/job-category";
 import {
   evaluateQualification,
   extractionIsReady,
@@ -44,6 +45,9 @@ export function JobDetail({
     displayGatesAreValid(job.gates) &&
     !result.reasons.some((r) => r.code === "qualification_data_unavailable");
   const url = safeExternalUrl(job.apply_url);
+  // Shown so a category is never implied to be certain: titles alone decide it,
+  // and the classifier flags the ones that cannot be settled without the JD.
+  const category = categorizeTitle(job.title);
   return (
     <article className={`job-detail ${full ? "full-detail" : ""}`}>
       <SavedStorageNotice />
@@ -61,6 +65,12 @@ export function JobDetail({
           <p className="meta">{job.recruitment_batch}</p>
         )}
         <p className="meta">招聘状态：{APPLICATION_LABELS[job.application_status]}。{APPLICATION_NOTES[job.application_status]}</p>
+        <p className="meta">
+          岗位类别：{describeCategory(category)}
+          {category.needJd && (
+            <span className="category-tentative">岗位类别待核实</span>
+          )}
+        </p>
         <div className="detail-actions">
           {job.application_status === "closed" ? (
             <p className="muted">岗位已关闭，当前不可申请。{url && <a href={url} target="_blank" rel="noopener noreferrer">查看原始岗位 ↗</a>}</p>

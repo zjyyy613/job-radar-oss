@@ -7,6 +7,8 @@ export const clearedFilters = {
   city: "",
   company: "",
   role: "",
+  cat: "",
+  sub: "",
   status: "all",
 } as const;
 

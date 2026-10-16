@@ -9,6 +9,10 @@ export const radarParsers = {
   city: parseAsString.withDefault(""),
   company: parseAsString.withDefault(""),
   role: parseAsString.withDefault(""),
+  // Job category navigation. Stable category ids, independent of the free-text
+  // `role` keyword: `cat` is a level-1 id, `sub` a level-2 id.
+  cat: parseAsString.withDefault(""),
+  sub: parseAsString.withDefault(""),
   status: parseAsStringLiteral([
     "all",
     "Eligible",

@@ -3,6 +3,8 @@ import { useState, useSyncExternalStore } from "react";
 import { Search, SlidersHorizontal, ChevronDown } from "lucide-react";
 import type { RadarState } from "@/lib/radar/url-state";
 import { CityChoice, PreferenceChoice } from "./browse-dialogs";
+import { CategoryChoice } from "./category-choice";
+import { categoryLabel, level1Label, type CategoryCounts } from "@/lib/radar/job-category";
 import type { PreferenceProfile } from "@/lib/domain/profile";
 import { clearedFilters } from "@/lib/radar/browse-filters";
 import { Button } from "@/components/ui/button";
@@ -16,12 +18,18 @@ export function FilterBar({
   cities,
   companies,
   preferences,
+  categories,
   onChange,
 }: {
   state: RadarState;
   cities: string[];
   companies: string[];
   preferences: PreferenceProfile;
+  categories: {
+    available: CategoryCounts;
+    counts: CategoryCounts;
+    tentativeCount: number;
+  };
   onChange: (value: Partial<RadarState>) => void;
 }) {
   const wide = useSyncExternalStore(
@@ -35,6 +43,7 @@ export function FilterBar({
     state.city ||
     state.company ||
     state.role ||
+    state.cat ||
     state.status !== "all",
   );
   return (
@@ -63,6 +72,16 @@ export function FilterBar({
           <ChevronDown size={14} aria-hidden="true" />
         </summary>
         <div className="filter-selects">
+          <div className="filter-city">
+            <span>岗位类别</span>
+            <CategoryChoice
+              available={categories.available}
+              counts={categories.counts}
+              cat={state.cat}
+              sub={state.sub}
+              onChange={(value) => onChange(value)}
+            />
+          </div>
           <div className="filter-city">
             <span>地点</span>
             <CityChoice
@@ -117,6 +136,28 @@ export function FilterBar({
       </details>
       <div className="browse-actions">
         <PreferenceChoice preferences={preferences} onChange={onChange} />
+        {state.cat && (
+          <span>
+            岗位类别：
+            <span className="category-current">
+              {state.sub
+                ? `${level1Label(state.cat)} · ${categoryLabel(state.sub)}`
+                : level1Label(state.cat)}
+            </span>
+            {state.cat && categories.tentativeCount > 0 && (
+              <span className="category-note">
+                （其中 {categories.tentativeCount} 条岗位类别待核实）
+              </span>
+            )}{" "}
+            <Button
+              variant="ghost"
+              aria-label="取消岗位类别筛选"
+              onClick={() => onChange({ cat: "", sub: "" })}
+            >
+              取消
+            </Button>
+          </span>
+        )}
         {state.role && (
           <span>
             标题包含：{state.role}{" "}

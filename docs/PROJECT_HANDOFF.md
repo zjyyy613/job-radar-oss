@@ -4,10 +4,10 @@
 > 业务与冻结规则以 [Product Spec v1.0](specs/job-radar-product-spec-v1.0.md)、[Technical Architecture v0.1](architecture/job-radar-technical-architecture-v0.1.md)、[DESIGN.md](../DESIGN.md)、[README.md](../README.md) 为准，本文不复制其内容。
 > 维护约定：本文件由 **DSH 作为主要维护者**更新，ChatGPT 负责项目协调与任务状态核对，Codex 读取本文件的交接信息；按任务分配或完成节点更新，避免双方同时编辑，且每次更新都要附实际证据。
 
-- 文件版本：v8
+- 文件版本：v9
 - 最后更新：2026-10-16
 - 最后更新者：DSH
-- 更新节点：PRODUCT-02.1 发布前文案微修复（真实页面验收 PASS 后的 P2 收尾）
+- 更新节点：PRODUCT-03B（岗位大类→小类导航）完成
 
 ## 1. 当前稳定基线
 
@@ -61,7 +61,9 @@
 | ENGINEERING-02 | 提取诊断与 partial 运行状态提示修复 | DSH | Completed | `work/dsh`（本轮工程提交） | 已通过 targeted / full / lint / typecheck / build |
 | PRODUCT-01 | 竞品岗位发现机制与职位分类方案（产品研究，无代码变更） | DSH | Completed | 只读研究 | 结论已交付；D1–D3 三项决策待 User 确认，未落盘为仓库文件 |
 | PRODUCT-02 | 省份分组地点选择器（Radix 地点弹层内的一级→二级导航） | DSH | Completed | `work/dsh` @ `94ed77f` | 已发布；证据见 `province-grouping-v1`（手风琴版，已被 02.1 取代） |
-| PRODUCT-02.1 | 地点归类修订 + 多列展开式选择器（桌面双栏 / 手机分步）+ 发布前文案微修复 | DSH | Completed | `work/dsh`（本轮产品提交） | **真实 `/radar` 页面验收 PASS（88/88，472 条真实岗位）**；已通过 444 项测试 / lint / typecheck / build；文案 P2 已修复；待发布 |
+| PRODUCT-02.1 | 地点归类修订 + 多列展开式选择器（桌面双栏 / 手机分步）+ 发布前文案微修复 | DSH | Completed | `work/dsh` @ `9453ad5` | **真实 `/radar` 页面验收 PASS（88/88，472 条真实岗位）**；已通过 444 项测试 / lint / typecheck / build；文案 P2 已修复；待发布 |
+| PRODUCT-03A | 472 条真实岗位分类验证（离线分析，无产品代码变更） | DSH | Completed | 分析交付（脚本在 gitignore 目录） | 结论：11 个一级 / 37 个二级；未分类 0.4%；发现 7 类真实误分类并修正。统计不一致经核对为**报告抄录错误**，分类器自洽 |
+| PRODUCT-03B | 岗位大类 → 小类导航（分类模块 + `cat`/`sub` 筛选 + 两级选择器） | DSH | Completed | `work/dsh`（本轮产品提交） | 已通过 531 项测试 / lint / typecheck / build + 154 项组件级浏览器验收（桌面+手机）+ 地点选择器回归 85/85；证据见 [product-03-job-category.md](reports/product-03-job-category.md)；待审查 |
 | — | 当前无进行中的产品开发任务 | — | — | — | 等待 User 分配 |
 
 本表只登记**已授权且有实际证据**的任务；未分配的工作不预填 Owner、不虚构进度。
@@ -84,6 +86,7 @@
 | PRODUCT-02 省份分组地点选择器 | Completed | `CityChoice` 内实现一级（省份/直辖市/港澳/境外/其他）→ 二级（城市）导航；复用既有 `regions` 单一数据源，未新增地区数据；只在数据中存在的 56 个地点上分组（31 组）；搜索不依赖展开。无 DB 字段、无 Gate/Evidence/Qualification 改动。证据见 [province-grouping-v1](reports/assets/province-grouping-v1/results.json)（68/68 通过；手风琴版，已被 02.1 取代）。 |
 | PRODUCT-02.1 地点归类与选择器修订 | Completed | ①**展示层归类修复**（不改归一化/匹配）：`浙江`→浙江省并标注「未注明城市」、`海南省-澄迈县`→海南省（保留原始地名）、`中国香港`→香港特别行政区；矛盾组合（如 `广东省-北京市`）与无法归属值才留在「其他地点」。②**交互改为多列展开式**：桌面宽弹层「省份 4 列索引 + 相邻城市面板」，桌面 31 个省份**无需滚动全部可见**；手机改为「省份网格 → 城市」分步（避免嵌套长列表）。搜索、全部地点、已选显示、键盘与焦点恢复全部保留。证据见 [location-picker-v2](reports/assets/location-picker-v2/results.json)（85/85 通过）。 |
 | PRODUCT-02.1 真实页面验收 + 文案微修复 | Completed | **真实 `/radar` 页面验收 PASS：88/88**（由 DSH 在主工作区 `E:\job-radar` 本地构建后执行，桌面 1440×900 + 手机 390×844）。真实数据 **472 条岗位 / 30 个地点分桶**；`广州` 44、`浙江` 1、`海南省-澄迈县` 1、`中国香港` 1；组合筛选 24；深链、返回、清除筛选、详情预览均正常。**「其他地点」已消失**（生产数据不再有无法归属值）。关键回归证据：`香港`=3 与 `中国香港`=1 **未被合并** → 匹配范围未扩大。验收发现的唯一 P2 文案（把省级/县级原始地点称作「具体城市」）已按 User 指定文本修复；未改动归类/结构/URL/筛选/资格。 |
+| PRODUCT-03 岗位类别导航 | Completed | **分类模块**：`src/lib/radar/job-category.ts`（纯函数、无网络/模型/DB、版本号 `job-category-v1`），确定性规则表移植自 PRODUCT-03A 已验证脚本；职能词优先于领域词、含否决词与 `(?<!机器)人事` 碰撞守卫、规则不含任何公司名。**11 个一级 / 37 个二级**，主类别唯一（合计 = 472 且逐级自洽），`其他>未分类` 与 `其他>非岗位公告` 保留在默认列表。**UI**：新增「岗位类别」两级选择器（桌面索引+小类面板、手机分步+返回），复用 PRODUCT-02.1 的共享弹层 CSS；选择一级即筛选，「全部X」回到整个方向，最终选择后弹层关闭以便立刻看到结果。**URL**：新增独立 `cat`/`sub`（稳定 id，不改 `role` 语义），与 q/city/company/status/sort 组合，前进后退/预览/详情返回保留状态；未知或父子不一致的链接有明确提示与「清除类别」，默认列表不丢岗位。**计数**：实时由其他筛选条件下的结果计算，展示数 = 实际结果数，不写死快照。**暂定分类**：30 条标题无法确定职能的岗位保留暂定类别并标注「岗位类别待核实」（与资格的「需要确认」严格区分）。证据见 [product-03-job-category.md](reports/product-03-job-category.md)、[job-category-v1](reports/assets/job-category-v1/results.json)（154/154，组件级）。 |
 
 只列关键结果，不复制详细历史；完整过程见 [reports/](reports/)。
 
@@ -113,8 +116,10 @@
 
 - DSH worktree 已安装 `node_modules`（ENGINEERING-02 经授权执行一次 `npm ci`，未改依赖版本），lint / typecheck / test / build 均可运行；仍缺 `.env.local`，故任何需要真实数据库或模型的命令不可运行。
 - **ENGINEERING-01 的排查结果在仓库内不存在**（全仓库检索无该文档）；DSH 的 ENGINEERING-02 基于本轮自行定位的失败路径实现，未引用其结论。
-- **`/radar` 无法在本 worktree 做真实数据验收**：页面经 server-only 读取 Supabase，缺 `.env.local` 时（`src/lib/data/supabase-server.ts:19`）抛出配置错误。因此 PRODUCT-02 与 PRODUCT-02.1 的浏览器验收都用了一个**临时 harness 路由**驱动真实 `CityChoice` 组件（真实 56/58 个地点选项、真实 CSS、真实 Chromium），交付前均已删除该路由。可复跑的验收脚本在 `tests/browser/province_grouping.py`，在有 `.env.local` 的工作区可直接指向真实 `/radar`（`CITY_BASE_URL`）。
-- **验收产物目录**：`docs/reports/assets/province-grouping-v1`（PRODUCT-02 手风琴版，历史）、`docs/reports/assets/location-picker-v2`（PRODUCT-02.1 多列/分步版，当前）。两者都对应各自的 commit，v2 取代 v1 的交互。
+- **`/radar` 无法在本 worktree 做真实数据验收**：页面经 server-only 读取 Supabase，缺 `.env.local` 时（`src/lib/data/supabase-server.ts:19`）抛出配置错误。因此 PRODUCT-02、PRODUCT-02.1 与 **PRODUCT-03B** 的浏览器验收都用**临时 harness 路由**驱动真实组件（PRODUCT-03B 用的是真实 `RadarClient` + 真实 472 条标题），交付前均已删除该路由。可复跑脚本：`tests/browser/province_grouping.py`（地点）与 `tests/browser/job-category.py`（岗位类别），在有凭据的工作区或 harness 上用 `CITY_BASE_URL` 指向目标页面。
+- **PRODUCT-03B 的浏览器验收是组件级，不是真实页面端到端**：harness 中岗位/公司/标题真实（来自 2026-10-16 快照），但 id 由 `snapshot_row` 派生、地点按公司合成、`gates` 为空。因此分类筛选、计数一致性、零结果、URL 与交互已验收；**真实数据下的地点/资格维度来自 PRODUCT-02.1 的真实页面验收**，两者不可互相替代。
+- **PRODUCT-03A/03B 的分析资产不入库**：`Job_Radar_PRODUCT03_472_titles_2026-10-16.json`（仓库根，未提交）与 `.verification/product03/`（已被 gitignore，含分类脚本、审计、TS↔Python 全量比对）都不在版本控制内。入库的是**内嵌金标测试** `tests/radar/job-category.test.ts`（81 例真实标题）与 `tests/radar/radar.test.ts` 的计数一致性用例。**全量 472 条不变式检查目前不在 CI 内**。
+- **验收产物目录**：`docs/reports/assets/province-grouping-v1`（PRODUCT-02 手风琴版，历史）、`docs/reports/assets/location-picker-v2`（PRODUCT-02.1 多列/分步版）、`docs/reports/assets/job-category-v1`（PRODUCT-03B 岗位类别）。各自对应其 commit。
 - **真实 `/radar` 数据验收已在主工作区完成**（PRODUCT-02.1）：由 DSH 在 `E:\job-radar` 用其既有 `.env.local` 本地 `npm run build` + `npm start -p 3322` 后，用 Playwright 对真实页面执行 **88 项检查全部通过**（真实 472 条岗位）。**该验收脚本未入库**（按本轮"不创建 commit"之外的边界，脚本与截图放在系统临时目录，两个工作区均未留下文件）；如需长期复跑，可把 `tests/browser/province_grouping.py` 的 `CITY_BASE_URL` 指向真实 `/radar`。注意：真实页面验收**必须在有 `.env.local` 的工作区**进行（`E:\job-radar`），`E:\job-radar-dsh` 缺该文件。
 - **删除/新增 `src/app` 路由后必须清 `.next`**：`.next/dev/types/validator.ts` 会残留已删除路由的类型引用，导致 `typecheck` / `build` 报 `TS2307`（本轮已实际踩到并通过删除 `.next` 解决）。
 - Git 全局配置 `http.proxy = http://127.0.0.1:7890` 当前不可用，`fetch/push` 会失败；直连 443 正常。未修改该配置。

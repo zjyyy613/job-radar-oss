@@ -13,6 +13,7 @@ import {
 } from "../domain/profile-values";
 import type { RadarState } from "./url-state";
 import { matchesCity } from "./location";
+import { categorizeTitle } from "./job-category";
 export const FIELD_LABELS: Record<GateField, string> = {
   student_status: "学生状态",
   graduation_year: "毕业年份",
@@ -80,6 +81,9 @@ export function selectJobs(
         (state.status === "all" || result.status === state.status) &&
         matchesCity(job.location, state.city) &&
         (!state.company || job.company === state.company) &&
+        // Exactly one primary category per job; `sub` narrows within `cat`.
+        (!state.cat || categorizeTitle(job.title).l1 === state.cat) &&
+        (!state.sub || categorizeTitle(job.title).l2 === state.sub) &&
         (!state.role ||
           job.title
             .toLocaleLowerCase()

@@ -5,6 +5,13 @@ import type { RadarData } from "@/lib/data/job-read-model";
 import { radarParsers, fullDetailUrl } from "@/lib/radar/url-state";
 import { selectJobs } from "@/lib/radar/presentation";
 import { locationOptions, resolveCityFilter } from "@/lib/radar/location";
+import {
+  categorizeTitle,
+  categoryLabel,
+  countCategories,
+  level1Label,
+  resolveCategoryFilter,
+} from "@/lib/radar/job-category";
 import { companyOptions, clearedFilters } from "@/lib/radar/browse-filters";
 import { useLocalProfile } from "@/lib/profile/use-local-profile";
 import { emptyGuestProfile } from "@/lib/profile/local-profile";
@@ -21,7 +28,29 @@ export function RadarClient({ data }: { data: RadarData }) {
   const snapshot = useLocalProfile();
   const profile =
     snapshot.data?.qualification ?? emptyGuestProfile().qualification;
-  const rows = selectJobs(data.jobs, profile, state);
+  // Stale or inconsistent category links degrade to "all categories" instead of
+  // rendering a broken state; the notice below explains what happened.
+  const category = resolveCategoryFilter(state.cat, state.sub);
+  const staleCategory = Boolean(
+    (state.cat && !category.cat) || (state.sub && !category.sub),
+  );
+  const effective = { ...state, cat: category.cat, sub: category.sub };
+  const rows = selectJobs(data.jobs, profile, effective);
+  // Which categories exist (stable menu) versus how many match right now (counts
+  // shown in the menu). Counts exclude the category filter itself, so a number
+  // never contradicts the list the user is about to get.
+  const available = countCategories(data.jobs.map((job) => job.title));
+  const counts = countCategories(
+    selectJobs(data.jobs, profile, { ...effective, cat: "", sub: "" }).map(
+      (row) => row.job.title,
+    ),
+  );
+  const categoryName = category.sub
+    ? `${level1Label(category.cat)} · ${categoryLabel(category.sub)}`
+    : level1Label(category.cat);
+  const tentativeCount = rows.filter(
+    (row) => categorizeTitle(row.job.title).needJd,
+  ).length;
   const selected = data.jobs.find((job) => job.id === state.job);
   const cities = locationOptions(data.jobs, state.city);
   const incomplete =
@@ -52,20 +81,36 @@ export function RadarClient({ data }: { data: RadarData }) {
       ) : (
         <div className="empty-state">
           <h2>
-            {data.jobs.length ? "没有符合筛选条件的岗位" : "暂时没有收录岗位"}
+            {data.jobs.length
+              ? categoryName
+                ? `「${categoryName}」下没有符合当前条件的岗位`
+                : "没有符合筛选条件的岗位"
+              : "暂时没有收录岗位"}
           </h2>
           <p>
             {data.jobs.length
-              ? "试试其他关键词，或清除筛选。"
+              ? categoryName
+                ? "试试其他类别、关键词，或清除筛选。"
+                : "试试其他关键词，或清除筛选。"
               : "稍后刷新查看来源更新。"}
           </p>
           {data.jobs.length > 0 && (
-            <Button
-              variant="outline"
-              onClick={() => void setState(clearedFilters)}
-            >
-              清除筛选
-            </Button>
+            <div className="browse-actions">
+              {categoryName && (
+                <Button
+                  variant="outline"
+                  onClick={() => void setState({ cat: "", sub: "" })}
+                >
+                  清除类别
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                onClick={() => void setState(clearedFilters)}
+              >
+                清除筛选
+              </Button>
+            </div>
           )}
         </div>
       )}
@@ -112,12 +157,21 @@ export function RadarClient({ data }: { data: RadarData }) {
         </div>
       )}
       <FilterBar
-        state={{ ...state, city: resolveCityFilter(state.city) }}
+        state={{ ...state, city: resolveCityFilter(state.city), cat: category.cat, sub: category.sub }}
         cities={cities}
         companies={companyOptions(data.jobs, state.company)}
         preferences={snapshot.data?.preferences ?? emptyGuestProfile().preferences}
+        categories={{ available, counts, tentativeCount }}
         onChange={(value) => void setState(value)}
       />
+      {staleCategory && (
+        <p className="selection-note" role="status">
+          该岗位类别链接已失效，现按全部类别显示。
+          <Button variant="ghost" onClick={() => void setState({ cat: "", sub: "" })}>
+            清除类别
+          </Button>
+        </p>
+      )}
       {state.job && !selected && (
         <div className="source-warning" role="status">
           该岗位不存在或已不可读取。

@@ -24,6 +24,8 @@ import {
   APPLICATION_NOTES,
 } from "../../src/lib/radar/presentation";
 import { emptyGuestProfile } from "../../src/lib/profile/local-profile";
+import { countCategories } from "../../src/lib/radar/job-category";
+import { clearedFilters } from "../../src/lib/radar/browse-filters";
 import { evaluateQualification } from "../../src/lib/domain/qualification-engine";
 import { record } from "../fixtures/canonical";
 import type { Gate } from "../../src/lib/domain/gate";
@@ -431,5 +433,77 @@ describe("acquisition dates and application clarity", () => {
     expect(evaluateQualification(profile,unknown.gates,unknown.application_status,unknown).status).toBe("Eligible");
     expect(APPLICATION_LABELS.unknown).toBe("开放状态未核实");expect(APPLICATION_NOTES.unknown).toContain("不等于已关闭");
     expect(APPLICATION_NOTES.open).toContain("不代表持续有效");expect(APPLICATION_LABELS.closed).toBe("已关闭");
+  });
+});
+
+describe("job category navigation", () => {
+  const jobs = [
+    job("algo", { title: "大模型算法实习生", company: "美团", location: ["北京"] }),
+    job("pm", { title: "AI产品经理", company: "美团", location: ["北京"] }),
+    job("mech", { title: "结构工程师（机器人方向）", company: "理想汽车", location: ["上海"] }),
+    job("unknown", { title: "时空实验室实习生", company: "阿里巴巴", location: ["杭州"] }),
+    job("announce", { title: "某某公司2027年校园招聘公告", company: "中国银行", location: [] }),
+  ];
+  const ids = (state: Parameters<typeof selectJobs>[2]) =>
+    selectJobs(jobs, profile, state).map((row) => row.job.id);
+
+  it("filters by level-1 and narrows further by level-2", () => {
+    expect(ids(loadRadarState({ cat: "tech" }))).toEqual(["algo"]);
+    expect(ids(loadRadarState({ sub: "tech.algo" }))).toEqual(["algo"]);
+    expect(ids(loadRadarState({ cat: "product" }))).toEqual(["pm"]);
+    expect(ids(loadRadarState({ cat: "engineering" }))).toEqual(["mech"]);
+    // a level-2 that belongs elsewhere does not widen the level-1 selection
+    expect(ids(loadRadarState({ cat: "product", sub: "tech.algo" }))).toEqual([]);
+  });
+
+  it("keeps unclassified and announcement rows in the default list", () => {
+    const all = ids(loadRadarState({}));
+    expect(all).toContain("unknown");
+    expect(all).toContain("announce");
+    expect(ids(loadRadarState({ cat: "other" })).sort()).toEqual(["announce", "unknown"]);
+  });
+
+  it("combines with keyword, city, company and status filters", () => {
+    expect(ids(loadRadarState({ cat: "tech", city: "北京", company: "美团", q: "算法" }))).toEqual(["algo"]);
+    expect(ids(loadRadarState({ cat: "tech", city: "上海" }))).toEqual([]);
+    expect(ids(loadRadarState({ cat: "product", status: "Blocked" }))).toEqual([]);
+    expect(ids(loadRadarState({ cat: "product", status: "Eligible" }))).toEqual(["pm"]);
+  });
+
+  it("shows counts that equal the rows they produce, with no double counting", () => {
+    const available = countCategories(jobs.map((j) => j.title));
+    const counts = countCategories(
+      selectJobs(jobs, profile, loadRadarState({})).map((row) => row.job.title),
+    );
+    for (const [l2, n] of Object.entries(counts.byL2)) {
+      expect(ids(loadRadarState({ sub: l2 }))).toHaveLength(n);
+    }
+    // one primary category per job: level-1 totals equal the sum of their level-2
+    for (const [l1, n] of Object.entries(available.byL1)) {
+      const inner = Object.entries(available.byL2)
+        .filter(([id]) => id.startsWith(`${l1}.`))
+        .reduce((total, [, value]) => total + value, 0);
+      expect(inner).toBe(n);
+    }
+    expect(Object.values(available.byL1).reduce((a, b) => a + b, 0)).toBe(jobs.length);
+  });
+
+  it("counts the other filters' context, excluding the category filter itself", () => {
+    const facetRows = selectJobs(jobs, profile, loadRadarState({ cat: "", sub: "" }));
+    expect(facetRows).toHaveLength(jobs.length);
+    // Other categories stay countable while one is selected.
+    expect(countCategories(facetRows.map((row) => row.job.title)).byL2["product.pm"]).toBe(1);
+    const narrowed = selectJobs(jobs, profile, loadRadarState({ cat: "tech" }));
+    expect(narrowed).toHaveLength(1);
+  });
+
+  it("clears the category together with the other filters", () => {
+    expect(clearedFilters.cat).toBe("");
+    expect(clearedFilters.sub).toBe("");
+    const cleared = loadRadarState({ ...clearedFilters });
+    expect(cleared.cat).toBe("");
+    expect(cleared.sub).toBe("");
+    expect(cleared.city).toBe("");
+    expect(cleared.role).toBe("");
   });
 });

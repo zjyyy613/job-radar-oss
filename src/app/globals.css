@@ -1795,7 +1795,7 @@ blockquote {
   color: #53534e;
   font-size: 12px;
 }
-.city-trigger {
+.city-trigger, .category-trigger {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1846,63 +1846,84 @@ blockquote {
 .city-options .city-group-options { display: grid; }
 .city-options .city-group-options button { padding-left: 22px; }
 /* Location picker: a multi-column province index with the chosen province beside it. */
-.city-dialog { max-width: min(480px, calc(100% - 32px)); }
-.city-picker { display: grid; gap: 14px; }
-.city-index, .city-cities { display: grid; gap: 10px; align-content: start; min-width: 0; }
+/* Shared dialog layout for the location picker and the job-category picker:
+   one wide index + one adjacent pane on desktop, one step at a time on narrow. */
+.city-dialog, .category-dialog { max-width: min(480px, calc(100% - 32px)); }
+.city-picker, .category-picker { display: grid; gap: 14px; }
+.city-index, .city-cities, .category-index, .category-level2 { display: grid; gap: 10px; align-content: start; min-width: 0; }
 .city-quick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
-.city-provinces { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px;
-  max-height: 44dvh; overflow-y: auto; overscroll-behavior: contain; }
-.city-pane-options { display: grid; max-height: 44dvh; overflow-y: auto; overscroll-behavior: contain; }
-.city-all, .city-quick button, .city-province, .city-pane-options button {
+.city-provinces, .category-level1 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; max-height: 44dvh; overflow-y: auto; overscroll-behavior: contain; }
+.city-pane-options, .category-options { display: grid; max-height: 44dvh; overflow-y: auto; overscroll-behavior: contain; }
+.city-all, .category-all, .city-quick button, .city-province, .category-level1-item,
+.city-pane-options button, .category-options button {
   display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;
   min-height: 44px; padding: 10px; text-align: left; cursor: pointer; border-radius: 6px;
   background: transparent; color: var(--ink); border: 1px solid transparent; font-size: 13px;
 }
-/* Compact chips must never wrap a place name onto a second line. */
-.city-quick button, .city-province { white-space: nowrap; overflow: hidden; }
-.city-quick button svg, .city-province svg, .city-pane-options button svg { flex: 0 0 auto; }
-.city-all, .city-province { border-color: var(--line); }
+/* Compact chips must never wrap a place or category name onto a second line. */
+.city-quick button, .city-province, .category-level1-item { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.city-quick button svg, .city-province svg, .city-pane-options button svg,
+.category-level1-item svg, .category-options button svg { flex: 0 0 auto; }
+.city-all, .city-province, .category-all, .category-level1-item { border-color: var(--line); }
 .city-quick button { font-size: 12px; }
 .city-all:hover, .city-quick button:hover, .city-province:hover, .city-pane-options button:hover,
+.category-all:hover, .category-level1-item:hover, .category-options button:hover,
 .city-all[aria-pressed="true"], .city-quick button[aria-pressed="true"],
-.city-pane-options button[aria-pressed="true"] { background: #f1f1ee; }
-.city-province[aria-current="true"] { background: #f1f1ee; border-color: #b9b9af; }
-.city-pane-title { margin: 0; color: var(--muted); font-size: 12px; font-weight: 500; }
-.city-pane-empty { margin: 0; color: var(--muted); font-size: 12px; }
-.city-hint { font-size: 11px; color: var(--muted); }
-.city-back { display: none; }
+.city-pane-options button[aria-pressed="true"], .category-all[aria-pressed="true"],
+.category-options button[aria-pressed="true"] { background: #f1f1ee; }
+.city-province[aria-current="true"], .category-level1-item[aria-current="true"] { background: #f1f1ee; border-color: #b9b9af; }
+.city-pane-title, .category-pane-title { margin: 0; color: var(--muted); font-size: 12px; font-weight: 500; }
+.city-pane-empty, .category-pane-empty { margin: 0; color: var(--muted); font-size: 12px; }
+.city-hint, .category-hint { font-size: 11px; color: var(--muted); }
+.city-back, .category-back { display: none; }
+/* Category-only details: the count is a quiet number, never a KPI. */
+.category-count { margin-left: auto; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.category-options button[data-empty="true"], .category-level1-item[data-empty="true"] { color: var(--muted); }
+.category-current { color: var(--ink); }
+.category-note { color: var(--muted); }
+.category-tentative {
+  margin-left: 8px; padding: 1px 6px; border: 1px solid var(--line); border-radius: 6px;
+  color: var(--muted); font-size: 11px;
+}
 @media (min-width: 768px) {
-  .city-dialog { max-width: min(680px, calc(100% - 32px)); }
-  .city-picker { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 16px; }
+  .city-dialog, .category-dialog { max-width: min(680px, calc(100% - 32px)); }
+  .city-picker, .category-picker { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 16px; }
   .city-quick { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   /* Desktop is pointer-driven; DESIGN.md's 44px minimum is a touch rule. */
-  .city-all, .city-quick button, .city-province, .city-pane-options button { min-height: 40px; padding: 8px 10px; }
-  .city-provinces, .city-pane-options { max-height: 52dvh; }
+  .city-all, .category-all, .city-quick button, .city-province, .category-level1-item,
+  .city-pane-options button, .category-options button { min-height: 40px; padding: 8px 10px; }
+  .city-provinces, .category-level1, .city-pane-options, .category-options { max-height: 52dvh; }
 }
 @media (min-width: 1024px) {
-  .city-dialog { max-width: min(880px, calc(100% - 64px)); }
+  .city-dialog, .category-dialog { max-width: min(880px, calc(100% - 64px)); }
   .city-quick { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .city-provinces { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .city-provinces, .category-level1 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 /* Narrow: one step at a time instead of nesting two scrollable lists. */
 @media (max-width: 767px) {
-  .city-picker[data-step="index"] .city-cities { display: none; }
-  .city-picker[data-step="cities"] .city-index { display: none; }
-  .city-picker[data-step="cities"] .city-back {
+  .city-picker[data-step="index"] .city-cities,
+  .category-picker[data-step="index"] .category-level2 { display: none; }
+  .city-picker[data-step="cities"] .city-index,
+  .category-picker[data-step="cities"] .category-index { display: none; }
+  .city-picker[data-step="cities"] .city-back,
+  .category-picker[data-step="cities"] .category-back {
     display: flex; align-items: center; gap: 6px; width: 100%; min-height: 44px; padding: 10px;
     background: transparent; border: 1px solid var(--line); border-radius: 6px;
     color: var(--ink); font-size: 13px; cursor: pointer; text-align: left;
   }
-  .city-back:hover { background: #f1f1ee; }
+  .city-back:hover, .category-back:hover { background: #f1f1ee; }
   /* Keep the dialog itself free of scrolling so 取消 stays reachable. */
   .city-quick { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .city-provinces { max-height: 28dvh; }
-  .city-pane-options { max-height: 46dvh; }
+  /* Category names are longer than city names, so give them two columns: the grid
+     scrolls rather than clipping a direction the user must be able to read. */
+  .category-level1 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .city-provinces, .category-level1 { max-height: 28dvh; }
+  .city-pane-options, .category-options { max-height: 46dvh; }
 }
 .browse-dialog-actions { display: flex; gap: 8px; justify-content: flex-end; }
 @media (max-width: 767px) {
-  .filter-city { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 12px; }
-  .city-trigger, .browse-actions button, .browse-dialog button { min-height: 44px; }
+  .filter-city { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; }
+  .city-trigger, .category-trigger, .browse-actions button, .browse-dialog button { min-height: 44px; }
 }
 
 .brand-mark {

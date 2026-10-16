@@ -1,0 +1,1233 @@
+{
+  "base": "http://127.0.0.1:3333/radarcheck-tmp",
+  "results": [
+    {
+      "surface": "desktop",
+      "check": "default list shows every job",
+      "pass": true,
+      "detail": {
+        "shown": 472,
+        "expected": 472
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "opening the picker focuses its title",
+      "pass": true,
+      "detail": "H2"
+    },
+    {
+      "surface": "desktop",
+      "check": "level-1 index populated",
+      "pass": true,
+      "detail": 11
+    },
+    {
+      "surface": "desktop",
+      "check": "技术研发 present",
+      "pass": true,
+      "detail": [
+        "技术研发",
+        "运营",
+        "产品",
+        "设计",
+        "工程与制造",
+        "市场与商务",
+        "人力与行政",
+        "金融与财务",
+        "战略与商业分析",
+        "服务与零售",
+        "其他"
+      ]
+    },
+    {
+      "surface": "desktop",
+      "check": "产品 present",
+      "pass": true,
+      "detail": [
+        "技术研发",
+        "运营",
+        "产品",
+        "设计",
+        "工程与制造",
+        "市场与商务",
+        "人力与行政",
+        "金融与财务",
+        "战略与商业分析",
+        "服务与零售",
+        "其他"
+      ]
+    },
+    {
+      "surface": "desktop",
+      "check": "工程与制造 present",
+      "pass": true,
+      "detail": [
+        "技术研发",
+        "运营",
+        "产品",
+        "设计",
+        "工程与制造",
+        "市场与商务",
+        "人力与行政",
+        "金融与财务",
+        "战略与商业分析",
+        "服务与零售",
+        "其他"
+      ]
+    },
+    {
+      "surface": "desktop",
+      "check": "运营 present",
+      "pass": true,
+      "detail": [
+        "技术研发",
+        "运营",
+        "产品",
+        "设计",
+        "工程与制造",
+        "市场与商务",
+        "人力与行政",
+        "金融与财务",
+        "战略与商业分析",
+        "服务与零售",
+        "其他"
+      ]
+    },
+    {
+      "surface": "desktop",
+      "check": "其他 present",
+      "pass": true,
+      "detail": [
+        "技术研发",
+        "运营",
+        "产品",
+        "设计",
+        "工程与制造",
+        "市场与商务",
+        "人力与行政",
+        "金融与财务",
+        "战略与商业分析",
+        "服务与零售",
+        "其他"
+      ]
+    },
+    {
+      "surface": "desktop",
+      "check": "no zero-job level-1 category is listed",
+      "pass": true,
+      "detail": 11
+    },
+    {
+      "surface": "desktop",
+      "check": "cancel reachable without scrolling",
+      "pass": true,
+      "detail": {
+        "x": 305,
+        "y": 599.3984375,
+        "width": 830,
+        "height": 44
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "wide: index and level-2 pane together",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "wide: multi-column index",
+      "pass": true,
+      "detail": 4
+    },
+    {
+      "surface": "desktop",
+      "check": "技术研发: index advertises a real count",
+      "pass": true,
+      "detail": 193
+    },
+    {
+      "surface": "desktop",
+      "check": "技术研发: level-2 pane lists 算法与AI",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "算法与AI: number is not hidden for being small",
+      "pass": true,
+      "detail": 133
+    },
+    {
+      "surface": "desktop",
+      "check": "算法与AI: writes stable ids to the URL",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech&sub=tech.algo"
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "算法与AI: shown count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 133,
+        "advertised": 133
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "技术研发: selecting the direction already applies it",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech"
+    },
+    {
+      "surface": "desktop",
+      "check": "技术研发: level-1 alone is selectable",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech"
+    },
+    {
+      "surface": "desktop",
+      "check": "技术研发: level-1 count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 193,
+        "advertised": 193
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "技术研发: category clears directly",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "shown": 472
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "产品: index advertises a real count",
+      "pass": true,
+      "detail": 53
+    },
+    {
+      "surface": "desktop",
+      "check": "产品: level-2 pane lists 产品经理",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "产品经理: number is not hidden for being small",
+      "pass": true,
+      "detail": 36
+    },
+    {
+      "surface": "desktop",
+      "check": "产品经理: writes stable ids to the URL",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=product&sub=product.pm"
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "产品经理: shown count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 36,
+        "advertised": 36
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "产品: selecting the direction already applies it",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=product"
+    },
+    {
+      "surface": "desktop",
+      "check": "产品: level-1 alone is selectable",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=product"
+    },
+    {
+      "surface": "desktop",
+      "check": "产品: level-1 count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 53,
+        "advertised": 53
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "产品: category clears directly",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "shown": 472
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "工程与制造: index advertises a real count",
+      "pass": true,
+      "detail": 35
+    },
+    {
+      "surface": "desktop",
+      "check": "工程与制造: level-2 pane lists 机械与结构",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "机械与结构: number is not hidden for being small",
+      "pass": true,
+      "detail": 9
+    },
+    {
+      "surface": "desktop",
+      "check": "机械与结构: writes stable ids to the URL",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=engineering&sub=engineering.mech"
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "机械与结构: shown count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 9,
+        "advertised": 9
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "工程与制造: selecting the direction already applies it",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=engineering"
+    },
+    {
+      "surface": "desktop",
+      "check": "工程与制造: level-1 alone is selectable",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=engineering"
+    },
+    {
+      "surface": "desktop",
+      "check": "工程与制造: level-1 count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 35,
+        "advertised": 35
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "工程与制造: category clears directly",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "shown": 472
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "运营: index advertises a real count",
+      "pass": true,
+      "detail": 69
+    },
+    {
+      "surface": "desktop",
+      "check": "运营: level-2 pane lists 产品与用户运营",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "产品与用户运营: number is not hidden for being small",
+      "pass": true,
+      "detail": 23
+    },
+    {
+      "surface": "desktop",
+      "check": "产品与用户运营: writes stable ids to the URL",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=ops&sub=ops.product_user"
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "产品与用户运营: shown count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 23,
+        "advertised": 23
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "运营: selecting the direction already applies it",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=ops"
+    },
+    {
+      "surface": "desktop",
+      "check": "运营: level-1 alone is selectable",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=ops"
+    },
+    {
+      "surface": "desktop",
+      "check": "运营: level-1 count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 69,
+        "advertised": 69
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "运营: category clears directly",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "shown": 472
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "其他 > 未分类 is offered",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "其他 > 非岗位公告 is offered",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "single-job category is reachable",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "surface": "desktop",
+      "check": "single-job category keeps its own url",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=other&sub=other.announcement"
+    },
+    {
+      "surface": "desktop",
+      "check": "the announcement is the row shown",
+      "pass": true,
+      "detail": "中国银行股份有限公司2027年全球校园招聘公告\n中国银行股份有限公司\n北京\n获取 2026/10/10\n→"
+    },
+    {
+      "surface": "desktop",
+      "check": "unclassified stays browsable",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "surface": "desktop",
+      "check": "全部类别 restores the full list",
+      "pass": true,
+      "detail": 472
+    },
+    {
+      "surface": "desktop",
+      "check": "category count follows the other filters",
+      "pass": true,
+      "detail": {
+        "combined": 41,
+        "advertised": 41
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "combination keeps both params",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?company=%E8%9A%82%E8%9A%81%E9%9B%86%E5%9B%A2&cat=tech"
+    },
+    {
+      "surface": "desktop",
+      "check": "impossible combination returns zero rows",
+      "pass": true,
+      "detail": 0
+    },
+    {
+      "surface": "desktop",
+      "check": "empty state names the active category",
+      "pass": true,
+      "detail": "「技术研发」下没有符合当前条件的岗位"
+    },
+    {
+      "surface": "desktop",
+      "check": "empty state offers a category-specific recovery",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "back restores the previous category state",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?company=%E8%9A%82%E8%9A%81%E9%9B%86%E5%9B%A2&cat=tech"
+    },
+    {
+      "surface": "desktop",
+      "check": "clearing all filters drops the category",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "shown": 472
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "a stale category link does not break the list",
+      "pass": true,
+      "detail": 472
+    },
+    {
+      "surface": "desktop",
+      "check": "a stale category link says so",
+      "pass": true,
+      "detail": "该岗位类别链接已失效，现按全部类别显示。清除类别"
+    },
+    {
+      "surface": "desktop",
+      "check": "an inconsistent pair keeps only the level-1 filter",
+      "pass": true,
+      "detail": {
+        "shown": 193,
+        "tech": 193
+      }
+    },
+    {
+      "surface": "desktop",
+      "check": "an inconsistent pair shows the level-1 on the trigger",
+      "pass": true,
+      "detail": "技术研发"
+    },
+    {
+      "surface": "desktop",
+      "check": "an inconsistent pair explains the recovery",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "an inconsistent pair is not silently trusted",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech&sub=product.pm"
+    },
+    {
+      "surface": "desktop",
+      "check": "keyboard opens the picker onto its title",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "desktop",
+      "check": "escape restores focus to the trigger",
+      "pass": true,
+      "detail": "category-trigger"
+    },
+    {
+      "surface": "desktop",
+      "check": "wide: focus follows into the level-2 pane",
+      "pass": true,
+      "detail": "city-pane-title category-pane-title"
+    },
+    {
+      "surface": "desktop",
+      "check": "preview shows the job category",
+      "pass": true,
+      "detail": "岗位预览\n\n阿\n阿里巴巴\n\n时空实验室实习生\n\n杭州\n\n招聘状态：开放状态未核实。不等于已关闭，投递前请到原始来源确认。\n\n岗位类别：其他 · 未分类岗位类别待核实\n\n申请链接未提供，请查看原始来源。\n\n收藏\n查看完整岗位详情 →\n\n资格核"
+    },
+    {
+      "surface": "desktop",
+      "check": "a tentative category is marked as unverified",
+      "pass": true,
+      "detail": "岗位预览\n\n阿\n阿里巴巴\n\n时空实验室实习生\n\n杭州\n\n招聘状态：开放状态未核实。不等于已关闭，投递前请到原始来源确认。\n\n岗位类别：其他 · 未分类岗位类别待核实\n\n申请链接未提供，请查看原始来源。\n\n收藏\n查看完整岗位详情 →\n\n资格核对\n\n当前条件无明显冲突\n\n仅核对已识别的资格条件，不代表岗位当前可投递；最终要求以招聘方原文为准。\n\n原文未提取出可核对的 M0 资格条件，请继续阅读完整岗位"
+    },
+    {
+      "surface": "desktop",
+      "check": "preview keeps the category in the url",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?sub=other.unknown&job=00000000-0000-4000-8000-000000000454"
+    },
+    {
+      "surface": "desktop",
+      "check": "full detail link carries the category back",
+      "pass": true,
+      "detail": "/jobs/00000000-0000-4000-8000-000000000454?returnTo=/radar?sub=other.unknown&job=00000000-0000-4000-8000-000000000454"
+    },
+    {
+      "surface": "desktop",
+      "check": "the filter bar states how many categories are tentative",
+      "pass": true,
+      "detail": "岗位类别：其他 · 未分类（其中 1 条岗位类别待核实） 取消\n清除全部筛选"
+    },
+    {
+      "surface": "mobile",
+      "check": "default list shows every job",
+      "pass": true,
+      "detail": {
+        "shown": 472,
+        "expected": 472
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "opening the picker focuses its title",
+      "pass": true,
+      "detail": "H2"
+    },
+    {
+      "surface": "mobile",
+      "check": "level-1 index populated",
+      "pass": true,
+      "detail": 11
+    },
+    {
+      "surface": "mobile",
+      "check": "技术研发 present",
+      "pass": true,
+      "detail": [
+        "技术研发",
+        "运营",
+        "产品",
+        "设计",
+        "工程与制造",
+        "市场与商务",
+        "人力与行政",
+        "金融与财务",
+        "战略与商业分析",
+        "服务与零售",
+        "其他"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "check": "产品 present",
+      "pass": true,
+      "detail": [
+        "技术研发",
+        "运营",
+        "产品",
+        "设计",
+        "工程与制造",
+        "市场与商务",
+        "人力与行政",
+        "金融与财务",
+        "战略与商业分析",
+        "服务与零售",
+        "其他"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "check": "工程与制造 present",
+      "pass": true,
+      "detail": [
+        "技术研发",
+        "运营",
+        "产品",
+        "设计",
+        "工程与制造",
+        "市场与商务",
+        "人力与行政",
+        "金融与财务",
+        "战略与商业分析",
+        "服务与零售",
+        "其他"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "check": "运营 present",
+      "pass": true,
+      "detail": [
+        "技术研发",
+        "运营",
+        "产品",
+        "设计",
+        "工程与制造",
+        "市场与商务",
+        "人力与行政",
+        "金融与财务",
+        "战略与商业分析",
+        "服务与零售",
+        "其他"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "check": "其他 present",
+      "pass": true,
+      "detail": [
+        "技术研发",
+        "运营",
+        "产品",
+        "设计",
+        "工程与制造",
+        "市场与商务",
+        "人力与行政",
+        "金融与财务",
+        "战略与商业分析",
+        "服务与零售",
+        "其他"
+      ]
+    },
+    {
+      "surface": "mobile",
+      "check": "no zero-job level-1 category is listed",
+      "pass": true,
+      "detail": 11
+    },
+    {
+      "surface": "mobile",
+      "check": "cancel reachable without scrolling",
+      "pass": true,
+      "detail": {
+        "x": 41,
+        "y": 635.5546875,
+        "width": 308,
+        "height": 44
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "narrow: one step at a time",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "技术研发: index advertises a real count",
+      "pass": true,
+      "detail": 193
+    },
+    {
+      "surface": "mobile",
+      "check": "技术研发: level-2 pane lists 算法与AI",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "算法与AI: number is not hidden for being small",
+      "pass": true,
+      "detail": 133
+    },
+    {
+      "surface": "mobile",
+      "check": "算法与AI: writes stable ids to the URL",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech&sub=tech.algo"
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "算法与AI: shown count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 133,
+        "advertised": 133
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "技术研发: selecting the direction already applies it",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech"
+    },
+    {
+      "surface": "mobile",
+      "check": "技术研发: level-1 alone is selectable",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech"
+    },
+    {
+      "surface": "mobile",
+      "check": "技术研发: level-1 count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 193,
+        "advertised": 193
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "技术研发: category clears directly",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "shown": 472
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "产品: index advertises a real count",
+      "pass": true,
+      "detail": 53
+    },
+    {
+      "surface": "mobile",
+      "check": "产品: level-2 pane lists 产品经理",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "产品经理: number is not hidden for being small",
+      "pass": true,
+      "detail": 36
+    },
+    {
+      "surface": "mobile",
+      "check": "产品经理: writes stable ids to the URL",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=product&sub=product.pm"
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "产品经理: shown count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 36,
+        "advertised": 36
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "产品: selecting the direction already applies it",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=product"
+    },
+    {
+      "surface": "mobile",
+      "check": "产品: level-1 alone is selectable",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=product"
+    },
+    {
+      "surface": "mobile",
+      "check": "产品: level-1 count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 53,
+        "advertised": 53
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "产品: category clears directly",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "shown": 472
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "工程与制造: index advertises a real count",
+      "pass": true,
+      "detail": 35
+    },
+    {
+      "surface": "mobile",
+      "check": "工程与制造: level-2 pane lists 机械与结构",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "机械与结构: number is not hidden for being small",
+      "pass": true,
+      "detail": 9
+    },
+    {
+      "surface": "mobile",
+      "check": "机械与结构: writes stable ids to the URL",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=engineering&sub=engineering.mech"
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "机械与结构: shown count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 9,
+        "advertised": 9
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "工程与制造: selecting the direction already applies it",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=engineering"
+    },
+    {
+      "surface": "mobile",
+      "check": "工程与制造: level-1 alone is selectable",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=engineering"
+    },
+    {
+      "surface": "mobile",
+      "check": "工程与制造: level-1 count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 35,
+        "advertised": 35
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "工程与制造: category clears directly",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "shown": 472
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "运营: index advertises a real count",
+      "pass": true,
+      "detail": 69
+    },
+    {
+      "surface": "mobile",
+      "check": "运营: level-2 pane lists 产品与用户运营",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "产品与用户运营: number is not hidden for being small",
+      "pass": true,
+      "detail": 23
+    },
+    {
+      "surface": "mobile",
+      "check": "产品与用户运营: writes stable ids to the URL",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp?cat=ops&sub=ops.product_user"
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "产品与用户运营: shown count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 23,
+        "advertised": 23
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "运营: selecting the direction already applies it",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=ops"
+    },
+    {
+      "surface": "mobile",
+      "check": "运营: level-1 alone is selectable",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=ops"
+    },
+    {
+      "surface": "mobile",
+      "check": "运营: level-1 count equals the advertised number",
+      "pass": true,
+      "detail": {
+        "shown": 69,
+        "advertised": 69
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "运营: category clears directly",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "shown": 472
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "其他 > 未分类 is offered",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "其他 > 非岗位公告 is offered",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "single-job category is reachable",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "surface": "mobile",
+      "check": "single-job category keeps its own url",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=other&sub=other.announcement"
+    },
+    {
+      "surface": "mobile",
+      "check": "the announcement is the row shown",
+      "pass": true,
+      "detail": "中国银行股份有限公司2027年全球校园招聘公告\n中国银行股份有限公司\n北京\n获取 2026/10/10\n→"
+    },
+    {
+      "surface": "mobile",
+      "check": "unclassified stays browsable",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "surface": "mobile",
+      "check": "全部类别 restores the full list",
+      "pass": true,
+      "detail": 472
+    },
+    {
+      "surface": "mobile",
+      "check": "category count follows the other filters",
+      "pass": true,
+      "detail": {
+        "combined": 41,
+        "advertised": 41
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "combination keeps both params",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?company=%E8%9A%82%E8%9A%81%E9%9B%86%E5%9B%A2&cat=tech"
+    },
+    {
+      "surface": "mobile",
+      "check": "impossible combination returns zero rows",
+      "pass": true,
+      "detail": 0
+    },
+    {
+      "surface": "mobile",
+      "check": "empty state names the active category",
+      "pass": true,
+      "detail": "「技术研发」下没有符合当前条件的岗位"
+    },
+    {
+      "surface": "mobile",
+      "check": "empty state offers a category-specific recovery",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "back restores the previous category state",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?company=%E8%9A%82%E8%9A%81%E9%9B%86%E5%9B%A2&cat=tech"
+    },
+    {
+      "surface": "mobile",
+      "check": "clearing all filters drops the category",
+      "pass": true,
+      "detail": {
+        "url": "http://127.0.0.1:3333/radarcheck-tmp",
+        "shown": 472
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "a stale category link does not break the list",
+      "pass": true,
+      "detail": 472
+    },
+    {
+      "surface": "mobile",
+      "check": "a stale category link says so",
+      "pass": true,
+      "detail": "该岗位类别链接已失效，现按全部类别显示。清除类别"
+    },
+    {
+      "surface": "mobile",
+      "check": "an inconsistent pair keeps only the level-1 filter",
+      "pass": true,
+      "detail": {
+        "shown": 193,
+        "tech": 193
+      }
+    },
+    {
+      "surface": "mobile",
+      "check": "an inconsistent pair shows the level-1 on the trigger",
+      "pass": true,
+      "detail": "技术研发"
+    },
+    {
+      "surface": "mobile",
+      "check": "an inconsistent pair explains the recovery",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "an inconsistent pair is not silently trusted",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?cat=tech&sub=product.pm"
+    },
+    {
+      "surface": "mobile",
+      "check": "keyboard opens the picker onto its title",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "surface": "mobile",
+      "check": "escape restores focus to the trigger",
+      "pass": true,
+      "detail": "category-trigger"
+    },
+    {
+      "surface": "mobile",
+      "check": "narrow: focus follows into the level-2 pane",
+      "pass": true,
+      "detail": "city-pane-title category-pane-title"
+    },
+    {
+      "surface": "mobile",
+      "check": "narrow: back returns focus to the index",
+      "pass": true,
+      "detail": "city-provinces category-level1"
+    },
+    {
+      "surface": "mobile",
+      "check": "preview shows the job category",
+      "pass": true,
+      "detail": "时空实验室实习生\n\n岗位资格与原文证据预览\n\n岗位预览\n返回列表\n\n阿\n阿里巴巴\n\n时空实验室实习生\n\n杭州\n\n招聘状态：开放状态未核实。不等于已关闭，投递前请到原始来源确认。\n\n岗位类别：其他 · 未分类岗位类别待核实\n\n申请链接未提供，"
+    },
+    {
+      "surface": "mobile",
+      "check": "a tentative category is marked as unverified",
+      "pass": true,
+      "detail": "时空实验室实习生\n\n岗位资格与原文证据预览\n\n岗位预览\n返回列表\n\n阿\n阿里巴巴\n\n时空实验室实习生\n\n杭州\n\n招聘状态：开放状态未核实。不等于已关闭，投递前请到原始来源确认。\n\n岗位类别：其他 · 未分类岗位类别待核实\n\n申请链接未提供，请查看原始来源。\n\n收藏\n查看完整岗位详情 →\n\n资格核对\n\n当前条件无明显冲突\n\n仅核对已识别的资格条件，不代表岗位当前可投递；最终要求以招聘方原文为准。\n\n"
+    },
+    {
+      "surface": "mobile",
+      "check": "preview keeps the category in the url",
+      "pass": true,
+      "detail": "http://127.0.0.1:3333/radarcheck-tmp?sub=other.unknown&job=00000000-0000-4000-8000-000000000454"
+    },
+    {
+      "surface": "mobile",
+      "check": "full detail link carries the category back",
+      "pass": true,
+      "detail": "/jobs/00000000-0000-4000-8000-000000000454?returnTo=/radar?sub=other.unknown&job=00000000-0000-4000-8000-000000000454"
+    },
+    {
+      "surface": "mobile",
+      "check": "the filter bar states how many categories are tentative",
+      "pass": true,
+      "detail": "岗位类别：其他 · 未分类（其中 1 条岗位类别待核实） 取消\n清除全部筛选"
+    }
+  ],
+  "observations": [
+    {
+      "surface": "desktop",
+      "observation": "算法与AI count",
+      "detail": 133
+    },
+    {
+      "surface": "desktop",
+      "observation": "产品经理 count",
+      "detail": 36
+    },
+    {
+      "surface": "desktop",
+      "observation": "机械与结构 count",
+      "detail": 9
+    },
+    {
+      "surface": "desktop",
+      "observation": "产品与用户运营 count",
+      "detail": 23
+    },
+    {
+      "surface": "desktop",
+      "observation": "蚂蚁集团 rows before category",
+      "detail": 49
+    },
+    {
+      "surface": "desktop",
+      "observation": "技术研发 + 蚂蚁集团 rows",
+      "detail": 41
+    },
+    {
+      "surface": "mobile",
+      "observation": "算法与AI count",
+      "detail": 133
+    },
+    {
+      "surface": "mobile",
+      "observation": "产品经理 count",
+      "detail": 36
+    },
+    {
+      "surface": "mobile",
+      "observation": "机械与结构 count",
+      "detail": 9
+    },
+    {
+      "surface": "mobile",
+      "observation": "产品与用户运营 count",
+      "detail": 23
+    },
+    {
+      "surface": "mobile",
+      "observation": "蚂蚁集团 rows before category",
+      "detail": 49
+    },
+    {
+      "surface": "mobile",
+      "observation": "技术研发 + 蚂蚁集团 rows",
+      "detail": 41
+    }
+  ]
+}
