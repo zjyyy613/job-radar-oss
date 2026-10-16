@@ -106,30 +106,57 @@
 
 **第二批（需授权）**：小鹏 campus 位次 1–25（补 `工艺与质量`/`汽车与整车`）——需先支持 campus scope；第三批：京东/美团 intern 第 51–100 位（需 page-size 或两次运行）。三批合计 ≈ 115 条，约 18 次模型调用。
 
+### 7.1 执行前预检（按生产 workflow 的真实分页参数）
+
+```
+node --import tsx scripts/ingest/run-job-pro.ts --dry-run --sources xiaomi --scope intern --limit 2 --max-pages 20 --max-jobs 40 --global-max-jobs 40
+```
+
+结果：**status success / 20 页 / listed 40 / unique 40（重复 0）/ 详情 40/40 / 准入 40/40 / 拒绝 0 / 失败原因 {} / stop_reason=max_jobs / 89.7s**。
+
+- **与 PRODUCT-04A 已验证样本的重合**：40 条**全部**落在 04A 的 75 条小米样本内，且**恰好是位次 1–40、顺序完全一致**（`新40 ∩ 旧前40 = 40/40`，`不在旧样本内 = 0`）；本轮**未出现上游顺序漂移**。这不代表未来运行必然相同——执行时仍应以当次 `mapped_ids` 为准。
+- **`max_jobs` 缺失的后果已被代码验证**：`max_jobs` 默认 2 时，`pageSize = min(limit, 50, maxJobs, …) = 2`，第 1 页取满 2 条后即 `metrics.listed >= maxJobs` → `stop_reason=max_jobs`，**只写入 2 条**。因此生产命令必须显式带 `max_jobs=40`。
+- 成本复核：40 条 / 89.7s ≈ **2.2s/条**（含 20 次 search + 40 次 detail）；模型调用仍按 0.15 次/条估算 ≈ **6 次**。
+
 ## 8. 最小可执行的生产写入、核对与失败回退方案
 
 **写入（Route A，推荐；使用既有审计路径，不改调度、不改 Secrets）**
 
 ```
 gh workflow run refresh.yml \
-  -f sources=xiaomi -f max_pages=20 -f global_cap=40 -f model_cap=20
+  --ref task-1-m0-contracts \
+  -f sources=xiaomi -f max_jobs=40 -f max_pages=20 -f global_cap=40 -f model_cap=20
 ```
 
+- **必须显式 `--ref task-1-m0-contracts`**：否则 GitHub 默认在仓库默认分支上取 workflow 定义，可能执行到与审核版本不同的代码。
+- **必须显式 `max_jobs=40`**：该 workflow 输入默认值只有 2（见 workflow `REFRESH_MAX_JOBS`），缺省会只抓 2 条（第 7.1 节已用代码路径与 dry-run 双重确认）。
 - 效果：intern、page-size 2 × 20 页 = 小米位次 1–40；写入 `source_records` → canonicalize → 仅提取 pending（≤40 条）→ 生成 `summary.json` 与 Step Summary。
 - 不改：cron、来源白名单默认值、Secrets、Qualification/Gate/Evidence、分类规则。
+
+**写入前基线（必须先记录，用于事后核对）**
+
+`summary.json` 自带 `baseline: {records, jobs, ready}`（运行开始时快照），因此**无需额外写操作**；另建议在执行前只读记录一份该来源的 ID 基线：
+
+```sql
+select count(*) from public.source_records where source = 'job-pro:xiaomi';          -- 基线条数
+select source_job_id from public.source_records where source = 'job-pro:xiaomi';    -- 基线 ID 集合
+select count(*) from public.jobs;                                                   -- 基线岗位数
+```
 
 **核对（写入后按顺序）**
 
 1. `summary.json`：`inserted / updated / unchanged`（真实净新增）、`detail_success / admitted`、`extraction_pending`、`parser_only` 与 `model_calls`、`ready_jobs`、`evidence_quotes_verified`、`application_status` 分布。
-2. 分类影响：`/radar` 默认总数应 +（净新增），类别计数里**工程与制造 / 金融与财务 / 人力与行政**应有增量，`其他>未分类` 增量与第 4 节预测量级一致（小米样本约 12%）。
-3. 抽 3 条新岗位打开详情：确认 JD、官方申请链接（`xiaomi.jobs.f.mioffice.cn` 且含 post_id）、地点可辨认。
+2. ID 差集（唯一可靠的"本批新增"口径）：`事后 ID 集合 − 写入前 ID 集合`。
+3. 分类影响：`/radar` 默认总数应 +（净新增），类别计数里**工程与制造 / 金融与财务 / 人力与行政**应有增量，`其他>未分类` 增量与第 4 节预测量级一致（小米样本约 12%）。
+4. 抽 3 条新岗位打开详情：确认 JD、官方申请链接（`xiaomi.jobs.f.mioffice.cn` 且含 post_id）、地点可辨认。
 
-**回退**
+**失败处理（修正后）**
 
-- 写入是**追加式 upsert**，不改写既有岗位内容；canonicalization 以快照 token 防并发、按 id 精确比对。
-- 若本批质量不合格：按 `source = 'job-pro:xiaomi'` 且 `fetched_at` 落在本次运行窗口删除新插入的 `source_records`（**生产写操作，需单独授权**），再手工触发一次 refresh 让 canonicalize 收敛。
-- 若提取预算耗尽：`budget_deferred` 不会写入错误结果，checkpoint 保留；下次（或 `workflow_dispatch` 调大 `model_cap`）继续。
-- 硬保护：禁止改动 cron/白名单默认值；禁止 `--write` 绕过 checkpoint/报告；单次 pending >500 时 `runBatch` 仍会拒绝（本轮修复不削弱该守卫）。
+- **PARTIAL 可能以退出码 0 结束**（`refresh-report.ts` 明确：只有 `failed` 非零；PARTIAL 通过 Step Summary 与 Actions warning 提示）。**不得只凭 Actions 绿色认定成功**，必须读 `summary.json` 与 Step Summary 中的 PARTIAL 段落。
+- 运行中/失败时：**保留 checkpoint 与 summary 原样**（workflow 已归档 `refresh-checkpoint` artifact）。
+- 随后**只做只读核对**（上述第 1–4 项），**不自动删除、不盲目重跑**。盲目重跑会把"疑似已写入"的记录再次 merge，覆盖其 `fetched_at/last_seen_at/raw_hash`，掩盖现场。
+- 若确需回退：**不能按 `source + fetched_at` 删除**。`upsertRecord` 是 `on_conflict=source,source_job_id` 的 **merge-duplicates**：本批中被重新抓到的**既有**记录也会把 `fetched_at/last_seen_at` 刷新为本次时间戳，按时间戳删除会连带删掉原本存在的记录（真实数据丢失）。正确口径是**按写入前记录的 ID 差集**精确删除 `source_job_id`，然后重新触发一次 refresh 让 canonicalize 收敛（`apply_canonicalization` 会按计划移除不再存在的岗位）。该删除属生产写操作，**需单独授权**。
+- 预算耗尽时 `budget_deferred` 不写错误结果，checkpoint 保留，可用 `workflow_dispatch` 调大 `model_cap` 续跑。
 
 ## 附：本轮边界遵守
 
