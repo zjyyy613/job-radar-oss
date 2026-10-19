@@ -29,6 +29,33 @@ describe("Spike six-job regression", () => {
   it("rejects real out-of-scope output instead of silently accepting duplicate/full-JD extraction", () => {
     expect(() => validateExtraction(outOfScope.output, samples[4], parseGates(samples[4]).unresolved)).toThrow();
   });
+  it("pins the production rejection traps and accepts the prompt-conforming alternative", () => {
+    // PRODUCT-04B: these classes rejected the whole extraction in production. The
+    // validator is NOT relaxed; the prompt now steers the model away from them.
+    const code = (fn: () => unknown) => { try { fn(); return "accepted"; } catch (error) { return (error as { diagnostic?: { code?: string } }).diagnostic?.code; } };
+    const text = (requirements: string) => ({ title: "实习生", description: null, requirements });
+    // Templates come from the parser, so each gate satisfies the frozen contract.
+    const template = (requirements: string, field: string) => {
+      const found = parseGates(text(requirements)).gates.find(g => g.field === field);
+      if (!found) throw new Error(`no ${field} gate parsed from ${requirements}`);
+      return found;
+    };
+    const clone = (base: object, quote: string, over: Record<string, unknown>) => ({ ...base, ...over, evidence: [{ quote, source: "requirements", context: null }] });
+    const days = template("每周3天到岗", "days_per_week");
+    // 1. a "minimum" gate whose quote states the number in Chinese numerals
+    const chinese = text("每周三天到岗");
+    expect(code(() => validateExtraction({ gates: [clone(days, "每周三天到岗", { requirement: "ambiguous" })], metadata: [] }, chinese))).toBe("minimum_not_confirmed_by_quote");
+    // ...the prompt-conforming alternative (nonblocking metadata) is accepted
+    expect(code(() => validateExtraction({ gates: [], metadata: parseGates(chinese).unresolved.map(c => ({ kind: "unsupported", requirement: "ambiguous", evidence: { quote: c.quote, source: c.source, context: null }, branches: [] })) }, chinese, parseGates(chinese).unresolved))).toBe("accepted");
+    // 2. student_status inferred from a year instead of explicit enrolment wording
+    const status = template("在校生", "student_status");
+    expect(code(() => validateExtraction({ gates: [clone(status, "2027届毕业", { requirement: "ambiguous" })], metadata: [] }, text("2027届毕业")))).toBe("student_status_not_confirmed_by_quote");
+    // 3. a preference marked as mandatory
+    const major = template("理工科专业", "major");
+    expect(code(() => validateExtraction({ gates: [clone(major, "有相关经验优先", { requirement: "required" })], metadata: [] }, text("有相关经验优先")))).toBe("preferred_context_marked_mandatory");
+    // 4. a hard gate with no deterministic confirmation (the model only sees unresolved clauses)
+    expect(code(() => validateExtraction({ gates: [clone(days, "到岗 3 天", { requirement: "required" })], metadata: [] }, text("到岗 3 天")))).toBe("required_without_deterministic_confirmation");
+  });
   it("keeps required STEM and does not infer student status from internship labels", () => {
     const result = parseGates(samples[0]);
     expect(result.gates).toEqual(expect.arrayContaining([expect.objectContaining({ field: "major", requirement: "required", value: { kind: "one_of", values: ["stem"] } })]));

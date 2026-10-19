@@ -14,7 +14,14 @@ Reuse audited Spike v2 semantics: explicit-only, required/preferred/ambiguous; �
 Do not infer missing values. No new fields, skills, tools, language, papers or soft traits as gates. Evidence quote MUST equal the full supplied clause verbatim, source must match; context null. No paraphrasing or whitespace normalization.
 The frozen M0 Gate supports primitive conditions and simple OR only. Compound (A AND B) OR (C AND D), especially 博士相关方向，或具备长期科研意愿的硕士, MUST remain nonblocking metadata kind compound_or. Preserve the entire quote and branches obtained by splitting at 或 and removing its preceding comma and surrounding whitespace. NEVER flatten into education/major gates. Unsupported conditions or unsupported vocabulary go to metadata kind unsupported, branches []. Experience preference goes to metadata kind experience, requirement preferred, branches [].
 Research vocabulary excludes ml; do not narrow a list by dropping an unsupported alternative. Preserve that entire clause as unsupported metadata.
-Every unresolved clause must be covered. If unsure, retain original clause as nonblocking unsupported metadata. Hard gates require deterministic semantic confirmation by an independent validator. Return only {gates,metadata}; use [] when absent.`;
+Every unresolved clause must be covered. If unsure, retain original clause as nonblocking unsupported metadata. Hard gates require deterministic semantic confirmation by an independent validator. Return only {gates,metadata}; use [] when absent.
+Validator invariants — violating one rejects the WHOLE extraction, so prefer metadata when unsure:
+1. NEVER emit requirement "required". A hard gate is only accepted when the deterministic parser already produced the identical condition, and you only receive clauses that parser could not resolve. Use "ambiguous", or "preferred" for a preference.
+2. student_status: emit only when the clause itself contains 在校生/在读学生/在读本科/在读硕士/在读博士 (enrolled) or 已毕业 (graduated). Otherwise metadata.
+3. days_per_week/duration_months "minimum": emit only when the clause states the number in ARABIC DIGITS with 天/个月 (e.g. 每周3天, 实习6个月). Chinese numerals (三天/六个月) or ranges go to metadata.
+4. education_minimum: the quote must contain the degree word AND 及以上/以上.
+5. Any 优先/更佳/加分/优选 in the quote forces requirement "preferred" (metadata and gates alike).
+6. branches: exact substrings of the quote only; for any kind other than compound_or, branches MUST be [].`;
 
 export function createDeepSeekModel(config: ReturnType<typeof deepseekConfig>, request: typeof fetch = fetch): ExtractionModel {
   return async (job, unresolved) => {

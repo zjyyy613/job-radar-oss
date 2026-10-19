@@ -128,4 +128,24 @@ describe("bounded job-pro runner (offline)", () => {
     expect(parseOptions(["--write"]).dryRun).toBe(false);
     expect(() => parseOptions(["--write", "--dry-run"])).toThrow();
   });
+
+  it("reports content-free stage totals so a timeout can be attributed", async () => {
+    const persistence = store();
+    persistence.upsertRecord.mockImplementation(async () => { await new Promise((resolve) => setTimeout(resolve, 15)); return "new"; });
+    const bounded = { sources: ["xiaomi"] as const, scope: "intern" as const, limit: 1, maxJobs: 1 };
+    const boundedRun = await runIngestion(bounded, { cli: fixtureCli, store: persistence, now: clock });
+    const metrics = boundedRun.sources[0].metrics;
+    for (const key of ["search_ms", "detail_ms", "upsert_ms"] as const) {
+      expect(Number.isInteger(metrics[key])).toBe(true);
+      expect(metrics[key]).toBeGreaterThanOrEqual(0);
+    }
+    // Stage totals are subsets of the run; allow the per-stage rounding (±ms).
+    expect(metrics.search_ms + metrics.detail_ms + metrics.upsert_ms).toBeLessThanOrEqual(metrics.duration_ms + 3);
+    expect(metrics.detail_attempted).toBe(1);
+    // The persistence stage is really measured, not just reported as zero.
+    expect(metrics.upsert_ms).toBeGreaterThanOrEqual(10);
+    // A dry run performs no persistence, so that stage stays zero.
+    const dry = await runIngestion(bounded, { cli: fixtureCli, now: clock });
+    expect(dry.sources[0].metrics.upsert_ms).toBe(0);
+  });
 });

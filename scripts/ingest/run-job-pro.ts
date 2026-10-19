@@ -41,7 +41,10 @@ export async function runIngestion(options: RunOptions, { cli, store, now = () =
     };
     const metrics = { pages_fetched: 0, listed: 0, response_records: 0, duplicate_ids: 0,
       detail_attempted: 0, detail_success: 0, admission_passed: 0, admission_rejected: 0,
-      duration_ms: 0, stop_reason: "max_pages", failure_reasons: {} as Record<string, number> };
+      duration_ms: 0, stop_reason: "max_pages", failure_reasons: {} as Record<string, number>,
+      // Content-free stage totals, so a timeout can be attributed to search, detail
+      // or persistence instead of being guessed at.
+      search_ms: 0, detail_ms: 0, upsert_ms: 0 };
     const result = { run, metrics, records_mapped: 0, records_written: 0, mapped_ids: [] as string[],
       rejections: [] as { source_job_id: string | null; reason: string }[], audit_written: false, audit_error: null as string | null };
     const errors: string[] = [];
@@ -55,7 +58,9 @@ export async function runIngestion(options: RunOptions, { cli, store, now = () =
       if (performance.now() >= sourceDeadline) { fail("source_timeout"); metrics.stop_reason = "source_timeout"; break; }
       let search: Record<string, unknown>;
       try {
+        const searchStarted = performance.now();
         search = upstreamObject(await cli([source, "search", "", "--scope", options.scope, "--page-size", String(pageSize), "--page", String(page), "--compact"]));
+        metrics.search_ms += Math.round(performance.now() - searchStarted);
         if (search.ok !== true || search.source !== JOB_PRO_SOURCES[source].upstream || !Array.isArray(search.positions) || !Number.isInteger(search.total) || Number(search.total) < 0) throw new Error("Invalid search");
         if (Number(search.total) < search.positions.length || (!search.positions.length && (page - 1) * pageSize < Number(search.total))) throw new Error("Inconsistent search");
       } catch (error) {
@@ -76,7 +81,9 @@ export async function runIngestion(options: RunOptions, { cli, store, now = () =
           if (seen.has(id)) { metrics.duplicate_ids++; continue; }
           seen.add(id); newIds++;
           stage = "detail_failed"; metrics.detail_attempted++;
+          const detailStarted = performance.now();
           const detail = upstreamObject(await cli([source, "detail", id, "--compact"]));
+          metrics.detail_ms += Math.round(performance.now() - detailStarted);
           if (detail.ok !== true || detail.source !== JOB_PRO_SOURCES[source].upstream) throw new Error("Invalid detail");
           metrics.detail_success++; stage = "invalid_record";
           const record = mapJobProRecord(detail, source, now());
@@ -86,7 +93,9 @@ export async function runIngestion(options: RunOptions, { cli, store, now = () =
           metrics.admission_passed++; result.records_mapped++; result.mapped_ids.push(id);
           if (store) {
             stage = "write_failed";
+            const upsertStarted = performance.now();
             const disposition = await store.upsertRecord(record);
+            metrics.upsert_ms += Math.round(performance.now() - upsertStarted);
             if (disposition === "new") run.records_new++; else run.records_updated++;
             result.records_written++;
           }

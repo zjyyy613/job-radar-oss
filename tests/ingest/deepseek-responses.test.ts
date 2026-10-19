@@ -1,8 +1,20 @@
 import { expect, it, vi } from "vitest";
-import { createDeepSeekModel, deepseekConfig } from "../../scripts/ingest/deepseek-responses";
+import { createDeepSeekModel, deepseekConfig, extractionPrompt } from "../../scripts/ingest/deepseek-responses";
 
 const job = { title: "27届", requirements: "复杂要求", description: null };
 const config = { base: "https://api.deepseek.com", key: "test-key", model: "deepseek-flash" };
+it("keeps the validator invariants stated in the prompt", () => {
+  // Each statement prevents a rejection class seen in production. Dropping one
+  // silently reintroduces those failures, so the contract is pinned here.
+  expect(extractionPrompt).toContain('NEVER emit requirement "required"');
+  expect(extractionPrompt).toContain("ARABIC DIGITS");
+  expect(extractionPrompt).toContain("在校生");
+  expect(extractionPrompt).toContain("及以上/以上");
+  expect(extractionPrompt).toContain("branches MUST be []");
+  expect(extractionPrompt).toContain("优先/更佳/加分/优选");
+  // Success rate must never be raised by relaxing a frozen rule.
+  expect(extractionPrompt).not.toMatch(/skip validation|ignore evidence|do not validate/i);
+});
 it("uses Responses structured output exclusively, closed schema, bounded transport", async () => {
   const payload = { gates: [], metadata: [] };
   const request = vi.fn<typeof fetch>().mockResolvedValue(new Response(JSON.stringify({ status: "completed", output: [{ type: "message", content: [{ type: "output_text", text: JSON.stringify(payload) }] }] })));
