@@ -63,7 +63,7 @@
 
 **为什么 `source_timeout`**：`run-job-pro.ts:35` 给每个来源 **5 分钟**预算；本次 38 条已用 303s（≈8s/条），第 39–40 条在 `:76` 处被 `source_timeout` 截断 → 与观测的「19 页 38 条 + stop_reason=source_timeout」完全一致。
 
-**修复方向（本轮不改超时、不加并发）**：`run-refresh.ts` 已支持 `REFRESH_PAGE_SIZE` 环境变量，但 workflow 未传入（默认 2）。若把 page-size 提到 25，40 条只需 2 次 search，可省掉 ≈17 次上游往返（本地 ≈28s；runner 上足以在 300s 内完成）→ **一行 workflow env 变更即可，属生产调度改动，需授权**。
+**修复方向（本轮不改超时、不加并发）**：`run-refresh.ts` 已支持 `REFRESH_PAGE_SIZE` 环境变量，但 workflow 未传入（默认 2）。**注意分页边界**：`run-job-pro.ts` 在每个来源开始时固定 `pageSize`，若 `listed + pageSize > maxJobs` 就停止（`run-job-pro.ts:53`），因此 **page_size 必须整除 max_jobs**：`page_size=25, max_jobs=40` **只会处理 25 条**；`page_size=20, max_jobs=40` 才能取满 40 条。正确做法是 **page_size=20、max_pages=2 → 2 次 search 取满 40 条**（相对 page_size=2 的 20 次 search 省掉 ≈18 次上游往返；本地 ≈28s，runner 上足以在 300s 内完成）。该 env 传递已在 ENGINEERING-03.1 落地（见下节）。
 
 ## 5. 最小修改及测试结果
 
@@ -100,7 +100,25 @@
 3. 修复后可把 #1（4 条）与 #3（2 条）转为可用的非阻断 metadata/ambiguous，预计模型实际成功率从 0% 回到 ~50-60%（保守估计，不承诺具体数字）；
 4. 阶段耗时让下一次超时**可归因**（search vs detail vs upsert），避免再次靠猜。
 
-**下一批扩容前建议同时决定**（均需另行授权，本轮未做）：① workflow 增加 `REFRESH_PAGE_SIZE` 传递（解决超时的最小改动）；② 是否把 10 条失败按新提示词重试一次（需授权，会新增 10 次模型调用）。
+**下一批扩容前建议同时决定**（均需另行授权，本轮未做）：① workflow 增加 `REFRESH_PAGE_SIZE` 传递（已由 ENGINEERING-03.1 落地，见下节）；② 是否把 10 条失败按新提示词重试一次（需授权，会新增 10 次模型调用）。
+
+## ENGINEERING-03.1 补充：分页配置修正
+
+**问题**：分页大小在每个来源开始时固定，若 `listed + pageSize > maxJobs` 直接停止（`run-job-pro.ts:53`），所以 **page_size 必须整除 max_jobs**：
+
+| 配置 | 实际处理 | stop_reason | 是否会误称 40 条 |
+| --- | --- | --- | --- |
+| `page_size=25, max_pages=2, max_jobs=40` | **25 条**（第 2 页 `25+25>40` 触发停止） | `max_jobs` | **会** —— 不得据此宣称 40 条 |
+| `page_size=20, max_pages=2, max_jobs=40` | **40 条**（两页各 20） | `max_jobs` | 不会 |
+| `page_size=2, max_pages=1, max_jobs=2`（每日） | 2 条 | `max_jobs` | — |
+
+**修改**（唯一代码面改动在 workflow）：`.github/workflows/refresh.yml` 的 `workflow_dispatch.inputs` 新增可选 `page_size`（`type: number`，**默认 2**），并传递到既有 `REFRESH_PAGE_SIZE: ${{ inputs.page_size || '2' }}`。schedule 触发时无 inputs → 恒为 2；来源白名单、cron、`model_cap`、Secrets、`permissions`、`timeout-minutes`、并发组**均未改动**；`run-job-pro.ts` 的分页规则、5 分钟来源超时、并发度**均未改动**。
+
+**兼容性**：`run-refresh.ts` 早已读取 `process.env.REFRESH_PAGE_SIZE ?? '2'` 并作为 `--limit` 传给 `parseOptions`，后者校验 `--limit 1–50`、`--max-pages 1–20`、`--max-jobs/--global-max-jobs 1–500`、来源必须在白名单内 → 页大小无法绕过既有预算与来源边界；且 checkpoint 会比对 `options`，**改变 page_size 后不能续跑旧 checkpoint**（`Resume configuration differs`），避免混用不同窗口。
+
+**40 条试点参数（仅为可用参数，本轮未授权执行）**：`page_size=20, max_jobs=40, max_pages=2, global_cap=40`（模型预算沿用 `model_cap=20`）。
+
+**验证**：新增 `tests/ingest/refresh-workflow.test.ts`（7 项）——静态核查 workflow 的输入/默认值/env 传递/每日边界/白名单/cron/权限/超时，并用真实 `runIngestion` 复现上表三种分页窗口的 `listed`、`pages_fetched`、`stop_reason`。全量 **543 通过**、lint 0 warning、typecheck 通过。
 
 ## 附：本轮边界
 

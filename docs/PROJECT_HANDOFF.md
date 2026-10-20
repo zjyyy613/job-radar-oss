@@ -4,10 +4,10 @@
 > 业务与冻结规则以 [Product Spec v1.0](specs/job-radar-product-spec-v1.0.md)、[Technical Architecture v0.1](architecture/job-radar-technical-architecture-v0.1.md)、[DESIGN.md](../DESIGN.md)、[README.md](../README.md) 为准，本文不复制其内容。
 > 维护约定：本文件由 **DSH 作为主要维护者**更新，ChatGPT 负责项目协调与任务状态核对，Codex 读取本文件的交接信息；按任务分配或完成节点更新，避免双方同时编辑，且每次更新都要附实际证据。
 
-- 文件版本：v12
-- 最后更新：2026-10-19
+- 文件版本：v13
+- 最后更新：2026-10-20
 - 最后更新者：DSH
-- 更新节点：ENGINEERING-03（提取质量与采集超时专项）完成
+- 更新节点：ENGINEERING-03.1（refresh workflow 可选 page_size）完成，准备统一发布
 
 ## 1. 当前稳定基线
 
@@ -16,7 +16,7 @@
 | 项目 | Job Radar | — |
 | 状态 | Product Improvement v1 Released / Frozen | User 确认 |
 | 生产数据快照（最新） | 429 jobs / 13 公司；网易 64、美团 59；腾讯/小米/vivo 各 2；extraction ready 363 / failed 66；`published_at` 2；`internship_type` 0；`recruitment_batch` 0；427 条有职责+要求+申请链接 | **由 ChatGPT 经 Supabase 只读查询确认**（2026-10-15）；DSH 未直接连库 |
-| 生产数据规模（User 通报） | 约 472 jobs / 13 公司（2026-10-16） | **User 提供，DSH 未连库核实**；本文件可核实的最新口径仍为上一行的 429（2026-10-15）。两个数字不可混用 |
+| 生产数据规模（当前实时基线） | **518 jobs**（2026-10-20） | User/ChatGPT 只读核查；扩量轨迹 **429（10-15）→ 472（10-16）→ 510（首批小米扩容后）→ 518（当前）**；各数字对应不同时点，**不可混用**，也不得再把 472/510 当作当前实时基线 |
 | GitHub 生产分支 | `task-1-m0-contracts` | `git ls-remote --symref origin HEAD` |
 | 生产分支 commit（GitHub） | `18e042297f2b572f160bedad777e5edb5777810d` | 同一次 `ls-remote`，与 DSH 本地基线一致 |
 | 已部署版本（Vercel Production） | `18e042297f2b572f160bedad777e5edb5777810d` | **由 ChatGPT 通过 Vercel 部署接口核实**；DSH 未独立验证 |
@@ -67,6 +67,7 @@
 | PRODUCT-03B-fix | 发布前交互修复：一级方向只浏览、不改变筛选（「全部X岗位」/二级为确认动作） | DSH | Completed | `work/dsh`（本轮提交） | 最小改动：`category-choice.tsx` 去掉一级点击即应用 + 明确「全部{方向}岗位」入口；组件级交互验收 **184/184**（新增 30 项针对浏览/取消/确认的回归）；定向测试 188 通过 / lint / typecheck / build 通过 |
 | PRODUCT-04A | 真实岗位来源扩量试点（只读 dry-run + 扩量阻断审查） | DSH | Completed | `work/dsh`（本轮提交） | **只读**：小米 intern 50/50 详情+准入、京东 intern 100/100、美团 99/100；上游总量远超库内（小米 564 vs 2）。发现并**最小修复**全量 batch CLI 在 jobs>500 时失败（472→28 余量）；登记 canonicalization 1000 上限、refresh scope 硬编码 intern、page-size 非 workflow 输入、分类器对物流/物业/医疗标题覆盖不足。首批建议：小米 intern 位次 1–40（≈6 次模型调用）。**04B 预检（只读）已完成**：按生产真实分页参数 `--limit 2 --max-pages 20 --max-jobs 40` 复跑 dry-run → 20 页 / 40 条 / 详情 40/40 / **准入 40/40** / 0 失败 / 89.7s，且与 04A 样本**位次 1–40、顺序完全一致**；据此修正两处计划缺陷：① 生产命令缺 `max_jobs=40` 只会抓 2 条（已由代码路径与 dry-run 双重确认）；② **不能按 `source+fetched_at` 回退**（upsert 为 merge-duplicates，会刷新既有记录的 fetched_at → 误删真实数据），改为按写入前 ID 差集核对/精确删除；并明确 **PARTIAL 退出码为 0**，不得只凭 Actions 绿色判成功。报告见 [product-04a](reports/product-04a-source-expansion-pilot.md)；**已按修正后命令执行首批扩容（510 条）** |
 | ENGINEERING-03 | 新增岗位提取质量与采集超时专项（只读分析 + 提示词/观测最小修复） | DSH | Completed | `work/dsh`（本轮提交） | 生产首批 38 条中提取失败 10 条，**逐类归因：全部不是校验器误判**，根因＝「提示词从未声明校验器不变量」+ 两个结构性必败路径（①`required` 对未解析子句不可能获得确定性确认 ②中文数字 minimum 被解析器推给模型后必然无法被引文确认）。**修复＝纯提示词 6 条不变量 + 阶段耗时观测**（`search_ms/detail_ms/upsert_ms`），未改校验器/Gate/Evidence、未改 `EXTRACTION_VERSION`、零模型调用。**超时归因**：单次调用成本稳定（search≈1.7s、detail≈1.2s），page-size 2 使 search 占墙钟 41%（page-size 25 仅 5%），叠加 runner 网络与每记录 2 次 Supabase 往返 → 38 条耗尽 5 分钟来源预算。**小米 2 条 open→unknown 符合既有保守语义**（bounded 运行 `absence_not_proven`，永不判 closed）。测试 **536 通过** / lint / typecheck。报告见 [engineering-03](reports/engineering-03-extraction-quality-and-timeout.md) |
+| ENGINEERING-03.1 | refresh workflow 新增可选 `page_size`（默认 2）+ 分页窗口边界核查 | DSH | Completed | `work/dsh`（本轮提交） | **只改 `.github/workflows/refresh.yml`**：`workflow_dispatch.inputs.page_size`（number，默认 **2**）→ `REFRESH_PAGE_SIZE: ${{ inputs.page_size \|\| '2' }}`；schedule 无 inputs 故恒为 2，每日节奏/白名单/模型预算/Secrets/权限/超时**均未改**。**分页边界已核实并写入回归**：`page_size=20 × max_pages=2` → 恰好 40 条（`stop_reason=max_jobs`）；`page_size=25, max_jobs=40` → **只处理 25 条**（`25+25>40` 触发 `max_jobs`），**不得据此宣称 40 条**。40 条试点参数：`page_size=20, max_jobs=40, max_pages=2, global_cap=40`（仅为可用参数，**未授权执行**）。测试 **543 通过**（536+7）。 |
 | — | 当前无进行中的产品开发任务 | — | — | — | 等待 User 分配 |
 
 本表只登记**已授权且有实际证据**的任务；未分配的工作不预填 Owner、不虚构进度。

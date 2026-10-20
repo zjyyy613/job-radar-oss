@@ -9,13 +9,17 @@ on:
         type: string
         default: alibaba,meituan,jd,netease,kuaishou,oppo,liauto,antgroup
       max_jobs:
-        description: Per-source job cap (1–500); page size 2
+        description: Per-source job cap (1–500); the window is page_size × max_pages
         type: number
         default: 2
       max_pages:
         description: Per-source page cap (1–20)
         type: number
         default: 1
+      page_size:
+        description: Records per page (1–50); max_jobs must be a multiple of it to be reached
+        type: number
+        default: 2
       global_cap:
         description: Global list cap (1–500)
         type: number
@@ -64,6 +68,9 @@ jobs:
           REFRESH_SOURCES: ${{ inputs.sources || 'alibaba,meituan,jd,netease,kuaishou,oppo,liauto,antgroup' }}
           REFRESH_MAX_JOBS: ${{ inputs.max_jobs || '2' }}
           REFRESH_MAX_PAGES: ${{ inputs.max_pages || '1' }}
+          # A scheduled run has no inputs, so this always falls back to the daily
+          # page size of 2. page_size=0 is invalid downstream, hence `||`.
+          REFRESH_PAGE_SIZE: ${{ inputs.page_size || '2' }}
           REFRESH_GLOBAL_MAX_JOBS: ${{ inputs.global_cap || '16' }}
           REFRESH_MODEL_CAP: ${{ github.event_name == 'workflow_dispatch' && format('{0}', inputs.model_cap) || '8' }}
         run: node --import tsx scripts/ingest/run-refresh.ts
