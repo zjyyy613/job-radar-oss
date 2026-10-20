@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { parseOptions, runIngestion } from "../../scripts/ingest/run-job-pro";
+import { sameWindowOptions } from "../../scripts/ingest/run-refresh";
 
 /**
  * ENGINEERING-03.1: the refresh workflow may accept an optional `page_size`, but
@@ -45,6 +46,16 @@ describe("refresh workflow page_size input", () => {
     expect(refreshScript).toContain("process.env.REFRESH_GLOBAL_MAX_JOBS??'16'");
   });
 
+  it("exposes start_page as an optional number that defaults to page 1", () => {
+    expect(inputBlock("start_page")).not.toBeNull();
+    expect(inputBlock("start_page")).toMatch(/type:\s*number/);
+    expect(inputDefault("start_page")).toBe("1");
+    expect(envLine("REFRESH_START_PAGE")).toBe("${{ inputs.start_page || '1' }}");
+    // Scheduled runs (no inputs) pass page 1, and the script defaults to page 1.
+    expect(refreshScript).toContain("process.env.REFRESH_START_PAGE??'1'");
+    expect(refreshScript).toContain("'--start-page'");
+  });
+
   it("keeps the schedule, allowlist, model budget, permissions and timeout unchanged", () => {
     expect(workflow).toContain("cron: '17 23 * * *'");
     expect(inputDefault("sources")).toBe("alibaba,meituan,jd,netease,kuaishou,oppo,liauto,antgroup");
@@ -70,7 +81,7 @@ describe("refresh workflow page_size input", () => {
     expect(() => parseOptions(["--write", "--sources", "all"])).toThrow();
     // The intended 40-record pilot is accepted verbatim (source stays allowlisted).
     expect(parseOptions(["--write", "--sources", "xiaomi", "--scope", "intern", "--limit", "20", "--max-pages", "2", "--max-jobs", "40", "--global-max-jobs", "40"]))
-      .toEqual({ sources: ["xiaomi"], scope: "intern", limit: 20, maxPages: 2, maxJobs: 40, globalMaxJobs: 40, dryRun: false });
+      .toEqual({ sources: ["xiaomi"], scope: "intern", limit: 20, maxPages: 2, maxJobs: 40, globalMaxJobs: 40, startPage: 1, dryRun: false });
   });
 });
 
@@ -115,5 +126,104 @@ describe("pagination window arithmetic", () => {
     const result = await runIngestion({ sources: ["xiaomi"], scope: "intern", limit: 2, maxPages: 1, maxJobs: 2, globalMaxJobs: 16 }, { cli: paged(2) });
     expect(result.sources[0].metrics.listed).toBe(2);
     expect(result.sources[0].metrics.pages_fetched).toBe(1);
+  });
+});
+
+describe("start_page window", () => {
+  const fixture = (name: string) => JSON.parse(readFileSync(`tests/fixtures/job-pro/${name}.json`, "utf8"));
+  /** Records every requested page and returns `pageSize` distinct ids per page. */
+  const recording = (pageSize: number, total = 100) => {
+    const pages: number[] = [];
+    const cli = async (args: readonly string[]) => {
+      if (args[1] === "search") {
+        const page = Number(args[args.indexOf("--page") + 1]);
+        pages.push(page);
+        const base = fixture("xiaomi-search").positions[0];
+        const offset = (page - 1) * pageSize;
+        const remaining = Math.max(0, total - offset);
+        return {
+          ...fixture("xiaomi-search"), total,
+          positions: Array.from({ length: Math.min(pageSize, remaining) }, (_, index) => ({ ...base, post_id: String(page * 1000 + index) })),
+        };
+      }
+      return { ...fixture("xiaomi-detail"), post_id: args[2], apply_url: `https://xiaomi.jobs.f.mioffice.cn/campus/position/${args[2]}/detail` };
+    };
+    return { cli, pages };
+  };
+
+  it("fetches only the requested page and never re-reads earlier pages", async () => {
+    const { cli, pages } = recording(25);
+    const result = await runIngestion({ sources: ["xiaomi"], scope: "intern", limit: 25, maxPages: 1, maxJobs: 25, globalMaxJobs: 25, startPage: 3 }, { cli });
+    const source = result.sources[0];
+    expect(pages).toEqual([3]);
+    expect(source.metrics.pages_fetched).toBe(1);
+    expect(source.metrics.listed).toBe(25);
+    expect(source.metrics.detail_attempted).toBe(25);
+    expect(source.metrics.admission_passed).toBe(25);
+    // max_jobs equals page_size, so the job budget is what stops the run.
+    expect(source.metrics.stop_reason).toBe("max_jobs");
+    // records_seen counts processed records, not the positions skipped before page 3.
+    expect(source.run.records_seen).toBe(25);
+    expect(result.globally_listed).toBe(25);
+    expect(result.limits.startPage).toBe(3);
+    // With headroom left, the single-page budget is what ends the run.
+    const roomy = await runIngestion({ sources: ["xiaomi"], scope: "intern", limit: 25, maxPages: 1, maxJobs: 50, globalMaxJobs: 50, startPage: 3 }, { cli: recording(25).cli });
+    expect(roomy.sources[0].metrics.stop_reason).toBe("max_pages");
+    expect(roomy.sources[0].metrics.listed).toBe(25);
+  });
+
+  it("keeps the default daily window exactly as before", async () => {
+    const { cli, pages } = recording(2);
+    const result = await runIngestion({ sources: ["xiaomi"], scope: "intern", limit: 2, maxPages: 1, maxJobs: 2, globalMaxJobs: 16 }, { cli });
+    expect(pages).toEqual([1]);
+    expect(result.limits.startPage).toBe(1);
+    expect(result.sources[0].run.records_seen).toBe(2);
+  });
+
+  it("reports query_exhausted when the start page is past the last record", async () => {
+    const { cli } = recording(25, 60);
+    const result = await runIngestion({ sources: ["xiaomi"], scope: "intern", limit: 25, maxPages: 2, maxJobs: 50, globalMaxJobs: 50, startPage: 3 }, { cli });
+    expect(result.sources[0].metrics.listed).toBe(10);
+    expect(result.sources[0].metrics.stop_reason).toBe("query_exhausted");
+    expect(result.sources[0].run.records_seen).toBe(10);
+  });
+
+  it("still detects a repeated page and the job budget from a later start", async () => {
+    const base = fixture("xiaomi-search").positions[0];
+    const same = { ...fixture("xiaomi-search"), total: 100, positions: [base, base].map((item, index) => ({ ...item, post_id: String(index) })) };
+    const repeated = await runIngestion({ sources: ["xiaomi"], scope: "intern", limit: 2, maxPages: 3, maxJobs: 6, globalMaxJobs: 6, startPage: 2 }, {
+      cli: async (args: readonly string[]) => args[1] === "search" ? same : fixture("xiaomi-detail"),
+    });
+    expect(repeated.sources[0].metrics.stop_reason).toBe("repeated_page");
+
+    const { cli } = recording(25);
+    const capped = await runIngestion({ sources: ["xiaomi"], scope: "intern", limit: 25, maxPages: 2, maxJobs: 40, globalMaxJobs: 40, startPage: 3 }, { cli });
+    // 25 records fit; the next page would exceed the 40-job budget, so it stops short.
+    expect(capped.sources[0].metrics.listed).toBe(25);
+    expect(capped.sources[0].metrics.stop_reason).toBe("max_jobs");
+  });
+
+  it("rejects a start page outside the controlled range", async () => {
+    const { cli } = recording(2);
+    for (const startPage of [0, 21]) {
+      await expect(runIngestion({ sources: ["xiaomi"], scope: "intern", limit: 2, maxJobs: 2, startPage }, { cli })).rejects.toThrow(/start page/i);
+    }
+    // start_page + max_pages − 1 must stay within the 20-page range.
+    await expect(runIngestion({ sources: ["xiaomi"], scope: "intern", limit: 2, maxPages: 10, maxJobs: 2, startPage: 15 }, { cli })).rejects.toThrow(/page range/i);
+    expect(() => parseOptions(["--write", "--start-page", "0"])).toThrow();
+    expect(() => parseOptions(["--write", "--start-page", "21"])).toThrow();
+    expect(parseOptions(["--write", "--start-page", "20"]).startPage).toBe(20);
+    expect(parseOptions(["--write"]).startPage).toBe(1);
+  });
+
+  it("refuses to resume a checkpoint whose window changed", () => {
+    const daily = parseOptions(["--write", "--sources", "xiaomi", "--scope", "intern", "--limit", "2", "--max-pages", "1", "--max-jobs", "2", "--global-max-jobs", "16"]);
+    // A checkpoint written before start_page existed resumes as page 1.
+    expect(sameWindowOptions({ ...daily, startPage: undefined }, daily)).toBe(true);
+    expect(sameWindowOptions({ ...daily }, daily)).toBe(true);
+    // Changing the start page, page size or caps must be rejected.
+    expect(sameWindowOptions({ ...daily, startPage: 3 }, daily)).toBe(false);
+    expect(sameWindowOptions({ ...daily, limit: 25 }, daily)).toBe(false);
+    expect(sameWindowOptions({ ...daily, maxJobs: 40 }, daily)).toBe(false);
   });
 });

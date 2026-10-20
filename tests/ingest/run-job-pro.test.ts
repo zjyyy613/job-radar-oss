@@ -124,7 +124,7 @@ describe("bounded job-pro runner (offline)", () => {
   });
 
   it("requires explicit dry-run or write mode and supports a bounded manual subset", () => {
-    expect(parseOptions(["--dry-run", "--sources", "tencent,vivo", "--limit", "2"])).toEqual({ sources: ["tencent", "vivo"], scope: "campus", limit: 2, maxPages: 1, maxJobs: 5, globalMaxJobs: 15, dryRun: true });
+    expect(parseOptions(["--dry-run", "--sources", "tencent,vivo", "--limit", "2"])).toEqual({ sources: ["tencent", "vivo"], scope: "campus", limit: 2, maxPages: 1, maxJobs: 5, globalMaxJobs: 15, startPage: 1, dryRun: true });
     expect(parseOptions(["--write"]).dryRun).toBe(false);
     expect(() => parseOptions(["--write", "--dry-run"])).toThrow();
   });

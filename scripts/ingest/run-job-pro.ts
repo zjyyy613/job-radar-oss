@@ -12,15 +12,23 @@ export interface RunOptions {
   sources: readonly JobProSource[]; scope: JobProScope;
   /** Page size; legacy --limit remains supported. */
   limit: number; maxPages?: number; maxJobs?: number; globalMaxJobs?: number;
+  /** First page to fetch (1-based). Lets a run target a later window. */
+  startPage?: number;
 }
 interface Dependencies { cli: (args: readonly string[]) => Promise<unknown>; store?: IngestionStore; now?: () => string }
+/** Hard ceiling for the controlled pagination range (page index is 1-based). */
+const MAX_PAGE = 20;
 function bounds(options: RunOptions) {
-  const limits = { maxPages: options.maxPages ?? 1, maxJobs: options.maxJobs ?? options.limit, globalMaxJobs: options.globalMaxJobs ?? 15 };
+  const limits = { maxPages: options.maxPages ?? 1, maxJobs: options.maxJobs ?? options.limit, globalMaxJobs: options.globalMaxJobs ?? 15,
+    startPage: options.startPage ?? 1 };
   if (!options.sources.length || options.sources.some(source => !isJobProSource(source)) || new Set(options.sources).size !== options.sources.length) throw new Error("Invalid source allowlist selection");
   if (!["campus", "intern"].includes(options.scope)) throw new Error("Use campus/intern");
-  for (const [value, max] of [[options.limit, 50], [limits.maxPages, 20], [limits.maxJobs, 500], [limits.globalMaxJobs, 500]]) {
+  for (const [value, max] of [[options.limit, 50], [limits.maxPages, MAX_PAGE], [limits.maxJobs, 500], [limits.globalMaxJobs, 500]]) {
     if (!Number.isInteger(value) || value < 1 || value > max) throw new Error("Invalid pagination budget");
   }
+  if (!Number.isInteger(limits.startPage) || limits.startPage < 1 || limits.startPage > MAX_PAGE) throw new Error("Invalid start page");
+  // A window may never reach past the controlled pagination range.
+  if (limits.startPage + limits.maxPages - 1 > MAX_PAGE) throw new Error("Start page and page budget exceed the page range");
   return limits;
 }
 
@@ -52,7 +60,10 @@ export async function runIngestion(options: RunOptions, { cli, store, now = () =
     const seen = new Set<string>();
     // Keep page size constant: shrinking later pages would change offset and repeat/skip IDs.
     const pageSize = Math.min(options.limit, source === "antgroup" ? 49 : 50, limits.maxJobs, limits.globalMaxJobs - globallyListed);
-    pages: for (let page = 1; page <= limits.maxPages; page++) {
+    // Start at the requested page; skipped pages are never fetched, so records_seen
+    // reflects only the records this run actually processed.
+    const lastPage = limits.startPage + limits.maxPages - 1;
+    pages: for (let page = limits.startPage; page <= lastPage; page++) {
       if (metrics.listed + pageSize > limits.maxJobs) { metrics.stop_reason = "max_jobs"; break; }
       if (globallyListed + pageSize > limits.globalMaxJobs) { metrics.stop_reason = "global_max_jobs"; break; }
       if (performance.now() >= sourceDeadline) { fail("source_timeout"); metrics.stop_reason = "source_timeout"; break; }
@@ -129,7 +140,7 @@ export async function runIngestion(options: RunOptions, { cli, store, now = () =
 }
 
 export function parseOptions(args: string[]): RunOptions & { dryRun: boolean } {
-  const options: RunOptions & { dryRun: boolean } = { sources: ["tencent", "xiaomi", "vivo"], scope: "campus", limit: 5, maxPages: 1, maxJobs: 5, globalMaxJobs: 15, dryRun: false };
+  const options: RunOptions & { dryRun: boolean } = { sources: ["tencent", "xiaomi", "vivo"], scope: "campus", limit: 5, maxPages: 1, maxJobs: 5, globalMaxJobs: 15, startPage: 1, dryRun: false };
   let mode: string | undefined;
   const used = new Set<string>();
   for (let i = 0; i < args.length; i++) {
@@ -139,12 +150,13 @@ export function parseOptions(args: string[]): RunOptions & { dryRun: boolean } {
     if (key === "--write" || key === "--dry-run") {
       if (mode) throw new Error("Choose exactly one of --write / --dry-run");
       mode = key; options.dryRun = key === "--dry-run";
-    } else if (["--sources", "--scope", "--limit", "--max-pages", "--max-jobs", "--global-max-jobs"].includes(key)) {
+    } else if (["--sources", "--scope", "--limit", "--max-pages", "--max-jobs", "--global-max-jobs", "--start-page"].includes(key)) {
       const value = args[++i];
       if (!value) throw new Error("Missing option value");
       if (key === "--sources") options.sources = value.split(",") as JobProSource[];
       if (key === "--scope") options.scope = value as JobProScope;
       if (key === "--limit") options.limit = Number(value);
+      if (key === "--start-page") options.startPage = Number(value);
       if (key === "--max-pages") options.maxPages = Number(value);
       if (key === "--max-jobs") options.maxJobs = Number(value);
       if (key === "--global-max-jobs") options.globalMaxJobs = Number(value);
@@ -171,7 +183,7 @@ async function main() {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   main().catch(() => {
-    console.error("job-pro ingestion could not start. Check server-only Supabase configuration and options: --dry-run or --write, --sources <allowlisted companies>, --scope campus|intern, --limit 1–50, --max-pages 1–20, --max-jobs 1–500, --global-max-jobs 1–500.");
+    console.error("job-pro ingestion could not start. Check server-only Supabase configuration and options: --dry-run or --write, --sources <allowlisted companies>, --scope campus|intern, --limit 1–50, --max-pages 1–20, --start-page 1–20 (start-page + max-pages − 1 ≤ 20), --max-jobs 1–500, --global-max-jobs 1–500.");
     process.exitCode = 1;
   });
 }
