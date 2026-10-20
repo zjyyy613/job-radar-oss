@@ -4,10 +4,10 @@
 > 业务与冻结规则以 [Product Spec v1.0](specs/job-radar-product-spec-v1.0.md)、[Technical Architecture v0.1](architecture/job-radar-technical-architecture-v0.1.md)、[DESIGN.md](../DESIGN.md)、[README.md](../README.md) 为准，本文不复制其内容。
 > 维护约定：本文件由 **DSH 作为主要维护者**更新，ChatGPT 负责项目协调与任务状态核对，Codex 读取本文件的交接信息；按任务分配或完成节点更新，避免双方同时编辑，且每次更新都要附实际证据。
 
-- 文件版本：v15
+- 文件版本：v16
 - 最后更新：2026-10-20
 - 最后更新者：DSH
-- 更新节点：PRODUCT-04D（小鹏官方实习来源接入试点）完成
+- 更新节点：AUTOMATION-01（自主扩容审查工作流 v1）完成
 
 ## 1. 当前稳定基线
 
@@ -70,6 +70,8 @@
 | ENGINEERING-03.1 | refresh workflow 新增可选 `page_size`（默认 2）+ 分页窗口边界核查 | DSH | Completed | `work/dsh`（本轮提交） | **只改 `.github/workflows/refresh.yml`**：`workflow_dispatch.inputs.page_size`（number，默认 **2**）→ `REFRESH_PAGE_SIZE: ${{ inputs.page_size \|\| '2' }}`；schedule 无 inputs 故恒为 2，每日节奏/白名单/模型预算/Secrets/权限/超时**均未改**。**分页边界已核实并写入回归**：`page_size=20 × max_pages=2` → 恰好 40 条（`stop_reason=max_jobs`）；`page_size=25, max_jobs=40` → **只处理 25 条**（`25+25>40` 触发 `max_jobs`），**不得据此宣称 40 条**。40 条试点参数：`page_size=20, max_jobs=40, max_pages=2, global_cap=40`（仅为可用参数，**未授权执行**）。测试 **543 通过**（536+7）。 |
 | PRODUCT-04C-A | 采集 `start_page` 最小能力 + 京东 intern 第 3 页只读试点 | DSH | Completed | `work/dsh`（本轮提交） | **`start_page`（默认 1）**：`run-job-pro` 参数/循环、`run-refresh` 的 `REFRESH_START_PAGE`、workflow 输入三处打通；`startPage + maxPages − 1 ≤ 20` 受控；checkpoint 逐字段比对窗口（旧 checkpoint 缺该字段按 1 续跑，改动即拒）。**实测**（`jd/intern/start_page=3/page_size=25/max_pages=1/max_jobs=25`）：**1 页 / 25 条 / records_seen 25**、详情 **25/25**、准入 **25/25**、重复 0、26.3s（search 13% / detail 87%）；与 04A 旧快照比对：**与已覆盖前 50 位重叠 0/25**、与旧第 3 页切片 **25/25 顺序一致**（上游无漂移）。分类增益：技术研发 +14、运营 +3、工程与制造 +1、市场与商务 +1、**未分类 +6（24%）**（其中 4 条为分类器缺口、2 条真实歧义，**按边界未改分类器**）。**未连库、未做生产去重**：交付 25 条 ID 清单供独立比对。测试 **550 通过**/lint/typecheck。报告见 [product-04c-a](reports/product-04c-a-jd-deep-page-pilot.md)；**待生产写入授权** |
 | PRODUCT-04D | 小鹏官方实习来源接入试点（来源核实 + 最小接入 + 只读 dry-run） | DSH | Completed | `work/dsh`（本轮提交） | **来源已证**：`@ha7ch/job-pro@1.2.1`（未升级）返回 `source=xiaopeng.jobs.feishu.cn`，适配器基于飞书工厂且**已弃用海外 Greenhouse**；intern total **82**、campus **632**；post_id 为 19 位数字、链接 `…/campus/position/<id>/detail`、intern 标签 100%「实习」。**接入**：白名单新增 `xpeng`（`ADAPTER_VERSION` → `adapter-3`）+ **关键修复**（飞书 detail 的 `work_cities` 是对象数组，仅加白名单会让每条记录被拒）+ 2 个真实 fixture + 4 处测试。**dry-run**：1 页 25 条、详情 **25/25**、准入 **25/25**、0 重复、77.9s（search 8% / detail 92%）。**关键结论**：intern 池 **工程与制造 0/25**（9/25 为交付/新零售/售后，无对应类目），**campus 12/25（工艺与质量 9、机械与结构 2、机器人 1）** → 「补齐汽车/工艺方向」无法仅靠 intern，需正式校招 scope（本轮按边界未做）。测试 **554 通过**/lint/typecheck。报告见 [product-04d](reports/product-04d-xpeng-source-pilot.md)；**待发布审查与写入授权** |
+| PRODUCT-04D-B | 小鹏 intern 全量标题覆盖核查（只读） | DSH | Completed | 分析交付（无 commit） | 全量 **82 条 / 0 跨页重复**、total 稳定 82、81 个唯一标题、招聘标签 82/82 实习。**一级分布**：技术研发 15、运营 8、产品 4、人力 5、市场 2、工程与制造 **0**、**未分类 48（58.5%）**。**工程制造候选 6 条**（压铸顶岗、三电设备、智造×3、顶岗三电厂），详情核实 4 条准入、1 条因 JD 为「--」被拒；4 条实为**产线操作（中专）与设备维护**且两两 JD 文本相同，**无汽车设计/机械结构/工艺工程师岗**。未分类拆分：35 条体系外职能、8 条分类器词表缺口、5 条需人工判断。建议首批写入 **第 1–2 页各 25 条分两批**（全部 15 条技术研发都在前两页；50 条一次在 runner 上会顶到 5 分钟预算）。**已核实**：`机器人VLA大模型算法实习生` 属算法岗，不应据「机器人」关键词判为制造 |
+| AUTOMATION-01 | 自主扩容审查工作流 v1（候选审查 + 结果核验） | DSH | Completed | `work/dsh`（本轮提交） | 新增**只读** `candidate-audit.yml`（手动触发、**零 DB 凭据、无 `secrets.`、`permissions: contents: read`、无模型调用**）+ `scripts/ingest/candidate-audit.ts`（复用 `runIngestion`/`detailAdmission`/`job-category-v1`，以 collector store 替代写入）+ `scripts/ingest/refresh-audit.ts`（复用 summary/checkpoint 与 `buildRefreshReport`）+ `refresh.yml` 最小增强（审计步骤 `continue-on-error`，不改采集逻辑）。**规则固定可测**：STOP = 来源级失败/零准入/窗口越界/预计超时；REVIEW = 未核实生产去重/未分类 ≥30%/被拒候选/招聘类型混入/非官方链接/预算窗口不足/耗时 80–100%；PASS 需**已完成只读去重**，故本工作流上限为 **REVIEW**。**实跑**：小鹏 intern 第 2 页 → REVIEW（24 准入/1 拒 `insufficient_detail`/未分类 50%/净新增未确认）；小米首批历史证据 → **PARTIAL + REVIEW + 退出码 0**（38 新增、28/10 提取、10/20 调用、`source_timeout` 303.1s）。测试 **574 通过**/lint/typecheck。报告见 [automation-01](reports/automation-01-audit-workflow.md) |
 | — | 当前无进行中的产品开发任务 | — | — | — | 等待 User 分配 |
 
 本表只登记**已授权且有实际证据**的任务；未分配的工作不预填 Owner、不虚构进度。

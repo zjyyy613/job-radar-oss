@@ -1,0 +1,122 @@
+{
+  "internal_status": "partial",
+  "exit_code": 0,
+  "verdict": "REVIEW",
+  "baseline": {
+    "records": 473,
+    "jobs": 472,
+    "ready": 414
+  },
+  "writes": {
+    "inserted": 38,
+    "updated": 0,
+    "unchanged": 0,
+    "canonical_new": 38,
+    "canonical_changed": 0
+  },
+  "extraction": {
+    "pending": 38,
+    "parser_only": 6,
+    "success": 28,
+    "failure": 10,
+    "deferred": 0,
+    "ready_jobs": 34,
+    "evidence_quotes_verified": 34
+  },
+  "model": {
+    "calls": 10,
+    "cap": 20,
+    "budget_used_ratio": 0.5
+  },
+  "timing": {
+    "total_ms": 303114,
+    "per_source": [
+      {
+        "source": "job-pro:xiaomi",
+        "status": "partial",
+        "duration_ms": 303114,
+        "search_ms": 41200,
+        "detail_ms": 248900,
+        "upsert_ms": 12900,
+        "stop_reason": "source_timeout"
+      }
+    ]
+  },
+  "failures": [
+    {
+      "source": "job-pro:xiaomi",
+      "reason": "source_timeout",
+      "count": 1
+    }
+  ],
+  "extractions": [
+    {
+      "id": "0e0b1f2a-0000-4000-8000-000000000001",
+      "status": "failed",
+      "diagnostic": "required_without_deterministic_confirmation"
+    },
+    {
+      "id": "0e0b1f2a-0000-4000-8000-000000000002",
+      "status": "failed",
+      "diagnostic": "required_without_deterministic_confirmation"
+    },
+    {
+      "id": "0e0b1f2a-0000-4000-8000-000000000003",
+      "status": "failed",
+      "diagnostic": "required_without_deterministic_confirmation"
+    },
+    {
+      "id": "0e0b1f2a-0000-4000-8000-000000000004",
+      "status": "failed",
+      "diagnostic": "required_without_deterministic_confirmation"
+    },
+    {
+      "id": "0e0b1f2a-0000-4000-8000-000000000005",
+      "status": "failed",
+      "diagnostic": "minimum_not_confirmed_by_quote"
+    },
+    {
+      "id": "0e0b1f2a-0000-4000-8000-000000000006",
+      "status": "failed",
+      "diagnostic": "minimum_not_confirmed_by_quote"
+    },
+    {
+      "id": "0e0b1f2a-0000-4000-8000-000000000007",
+      "status": "failed",
+      "diagnostic": "student_status_not_confirmed_by_quote"
+    },
+    {
+      "id": "0e0b1f2a-0000-4000-8000-000000000008",
+      "status": "failed",
+      "diagnostic": "preferred_context_marked_mandatory"
+    },
+    {
+      "id": "0e0b1f2a-0000-4000-8000-000000000009",
+      "status": "failed",
+      "diagnostic": "metadata_branches_ungrounded"
+    },
+    {
+      "id": "0e0b1f2a-0000-4000-8000-00000000000a",
+      "status": "failed",
+      "diagnostic": "unsupported_branches_present"
+    },
+    {
+      "id": "0e0b1f2a-0000-4000-8000-00000000000b",
+      "status": "success",
+      "diagnostic": null
+    },
+    {
+      "id": "0e0b1f2a-0000-4000-8000-00000000000c",
+      "status": "parser_only",
+      "diagnostic": null
+    }
+  ],
+  "human_actions": [
+    "内部状态为 PARTIAL，但流水线退出码仍为 0：**不要仅凭 Actions 绿色判定成功**，以本报告与 summary.json 为准",
+    "10 条资格提取失败：已被 attempt hash 记录，**不得无授权重试模型**，需人工复核诊断后另行授权",
+    "来源 job-pro:xiaomi 触发 source_timeout：本批少采集，需评估分页/预算后另开新批次"
+  ],
+  "caveats": [
+    "净新增以数据库 upsert 判定的 inserted 为准，候选数不能替代"
+  ]
+}

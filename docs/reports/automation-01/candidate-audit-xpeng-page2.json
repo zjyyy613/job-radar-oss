@@ -1,0 +1,535 @@
+{
+  "generated_at": "2026-10-20T14:21:39.340Z",
+  "mode": "read-only",
+  "sources": [
+    "xpeng"
+  ],
+  "scope": "intern",
+  "window": {
+    "startPage": 2,
+    "pageSize": 25,
+    "maxPages": 1,
+    "maxJobs": 25,
+    "globalMaxJobs": 25,
+    "effective_window": 25,
+    "window_under_budget": false
+  },
+  "counts": {
+    "candidates": 24,
+    "unique_ids": 24,
+    "duplicate_ids": 0,
+    "detail_attempted": 25,
+    "detail_success": 25,
+    "admission_passed": 24,
+    "admission_rejected": 1,
+    "admission_rate": 0.96,
+    "empty_location": 0,
+    "unofficial_urls": 0,
+    "thin_jd": 0,
+    "mixed_recruit_signals": 0
+  },
+  "categories": {
+    "level1": [
+      {
+        "id": "tech",
+        "label": "技术研发",
+        "count": 9
+      },
+      {
+        "id": "ops",
+        "label": "运营",
+        "count": 2
+      },
+      {
+        "id": "product",
+        "label": "产品",
+        "count": 1
+      },
+      {
+        "id": "other",
+        "label": "其他",
+        "count": 12
+      }
+    ],
+    "level2": [
+      {
+        "id": "tech.algo",
+        "label": "算法与AI",
+        "count": 8
+      },
+      {
+        "id": "tech.data",
+        "label": "数据与分析",
+        "count": 1
+      },
+      {
+        "id": "ops.content",
+        "label": "内容与新媒体运营",
+        "count": 1
+      },
+      {
+        "id": "ops.business",
+        "label": "业务与策略运营",
+        "count": 1
+      },
+      {
+        "id": "product.pm",
+        "label": "产品经理",
+        "count": 1
+      },
+      {
+        "id": "other.unknown",
+        "label": "未分类",
+        "count": 12
+      }
+    ],
+    "unclassified": 12,
+    "unclassified_ratio": 0.5
+  },
+  "timing": {
+    "total_ms": 75144,
+    "search_ms": 4088,
+    "detail_ms": 71043,
+    "upsert_ms": 0,
+    "per_record_ms": 3131,
+    "projected_ms": 78275,
+    "budget_ms": 300000,
+    "projected_ratio": 0.261
+  },
+  "duplicates": [],
+  "failures": [
+    {
+      "source_job_id": "7589451831748151579",
+      "reason": "insufficient_detail"
+    }
+  ],
+  "verdict": "REVIEW",
+  "reasons": [
+    {
+      "code": "production_dedup_unverified",
+      "severity": "review",
+      "message": "未与生产 source_records 比对（本工作流无只读库凭据），不能确认净新增"
+    },
+    {
+      "code": "unclassified_heavy",
+      "severity": "review",
+      "message": "未分类 12/24（50.0%）≥ 30%，需人工判断这些岗位是否值得收录"
+    },
+    {
+      "code": "rejected_candidates",
+      "severity": "review",
+      "message": "1 条候选未通过准入：insufficient_detail"
+    }
+  ],
+  "caveats": [
+    "净新增未确认：候选数不等于新增数，需在具备只读凭据的环境核对 ID 差集"
+  ],
+  "candidates": [
+    {
+      "source_job_id": "7662954587057768740",
+      "company": "小鹏汽车",
+      "title": "VLA大模型算法实习生",
+      "location": [
+        "深圳"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7662954587057768740/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 348,
+      "l1": "tech",
+      "l2": "tech.algo",
+      "l1_label": "技术研发",
+      "l2_label": "算法与AI"
+    },
+    {
+      "source_job_id": "7661888157235202350",
+      "company": "小鹏汽车",
+      "title": "产品实习生（体验 AI 自动化评测方向）",
+      "location": [
+        "上海"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7661888157235202350/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 412,
+      "l1": "product",
+      "l2": "product.pm",
+      "l1_label": "产品",
+      "l2_label": "产品经理"
+    },
+    {
+      "source_job_id": "7658229808334162222",
+      "company": "小鹏汽车",
+      "title": "机器人VLA大模型算法实习生",
+      "location": [
+        "上海"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7658229808334162222/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 658,
+      "l1": "tech",
+      "l2": "tech.algo",
+      "l1_label": "技术研发",
+      "l2_label": "算法与AI"
+    },
+    {
+      "source_job_id": "7646794393773164826",
+      "company": "小鹏汽车",
+      "title": "顶岗实习生—广州三电厂",
+      "location": [
+        "广州"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7646794393773164826/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 200,
+      "l1": "other",
+      "l2": "other.unknown",
+      "l1_label": "其他",
+      "l2_label": "未分类"
+    },
+    {
+      "source_job_id": "7645140009230649663",
+      "company": "小鹏汽车",
+      "title": "售后实习生（北京大区）",
+      "location": [
+        "天津"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7645140009230649663/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 276,
+      "l1": "other",
+      "l2": "other.unknown",
+      "l1_label": "其他",
+      "l2_label": "未分类"
+    },
+    {
+      "source_job_id": "7641856476033648937",
+      "company": "小鹏汽车",
+      "title": "【27届暑期】具身智能灵巧手算法实习生",
+      "location": [
+        "深圳"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7641856476033648937/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 641,
+      "l1": "tech",
+      "l2": "tech.algo",
+      "l1_label": "技术研发",
+      "l2_label": "算法与AI"
+    },
+    {
+      "source_job_id": "7640096033099712804",
+      "company": "小鹏汽车",
+      "title": "2026年校园大使",
+      "location": [
+        "广州",
+        "北京",
+        "上海",
+        "深圳",
+        "武汉"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7640096033099712804/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 344,
+      "l1": "other",
+      "l2": "other.unknown",
+      "l1_label": "其他",
+      "l2_label": "未分类"
+    },
+    {
+      "source_job_id": "7639617891126823214",
+      "company": "小鹏汽车",
+      "title": "救援服务实习生",
+      "location": [
+        "广州"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7639617891126823214/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 373,
+      "l1": "other",
+      "l2": "other.unknown",
+      "l1_label": "其他",
+      "l2_label": "未分类"
+    },
+    {
+      "source_job_id": "7639248060526889257",
+      "company": "小鹏汽车",
+      "title": "【27届暑期】销售运营培训生",
+      "location": [
+        "广州"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7639248060526889257/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 541,
+      "l1": "ops",
+      "l2": "ops.business",
+      "l1_label": "运营",
+      "l2_label": "业务与策略运营"
+    },
+    {
+      "source_job_id": "7638968605111929098",
+      "company": "小鹏汽车",
+      "title": "具身大模型量化与部署实习生",
+      "location": [
+        "深圳"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7638968605111929098/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 898,
+      "l1": "tech",
+      "l2": "tech.algo",
+      "l1_label": "技术研发",
+      "l2_label": "算法与AI"
+    },
+    {
+      "source_job_id": "7632196929774209316",
+      "company": "小鹏汽车",
+      "title": "具身大模型算法实习生（上海/深圳）",
+      "location": [
+        "深圳",
+        "上海"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7632196929774209316/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 492,
+      "l1": "tech",
+      "l2": "tech.algo",
+      "l1_label": "技术研发",
+      "l2_label": "算法与AI"
+    },
+    {
+      "source_job_id": "7631028702494820614",
+      "company": "小鹏汽车",
+      "title": "数据工程实习生",
+      "location": [
+        "北京",
+        "上海",
+        "深圳"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7631028702494820614/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 425,
+      "l1": "tech",
+      "l2": "tech.data",
+      "l1_label": "技术研发",
+      "l2_label": "数据与分析"
+    },
+    {
+      "source_job_id": "7627121367213001006",
+      "company": "小鹏汽车",
+      "title": "具身软件系统实习生",
+      "location": [
+        "深圳",
+        "上海"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7627121367213001006/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 712,
+      "l1": "tech",
+      "l2": "tech.algo",
+      "l1_label": "技术研发",
+      "l2_label": "算法与AI"
+    },
+    {
+      "source_job_id": "7619141202503518483",
+      "company": "小鹏汽车",
+      "title": "具身智能灵巧操作算法实习生",
+      "location": [
+        "深圳"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7619141202503518483/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 979,
+      "l1": "tech",
+      "l2": "tech.algo",
+      "l1_label": "技术研发",
+      "l2_label": "算法与AI"
+    },
+    {
+      "source_job_id": "7619137926345214235",
+      "company": "小鹏汽车",
+      "title": "运动控制算法实习生（强化学习方向）",
+      "location": [
+        "深圳",
+        "北京",
+        "上海"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7619137926345214235/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 778,
+      "l1": "tech",
+      "l2": "tech.algo",
+      "l1_label": "技术研发",
+      "l2_label": "算法与AI"
+    },
+    {
+      "source_job_id": "7560993811104319790",
+      "company": "小鹏汽车",
+      "title": "新零售实习生（东北大区）",
+      "location": [
+        "沈阳"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7560993811104319790/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 254,
+      "l1": "other",
+      "l2": "other.unknown",
+      "l1_label": "其他",
+      "l2_label": "未分类"
+    },
+    {
+      "source_job_id": "7548297610593241383",
+      "company": "小鹏汽车",
+      "title": "海外产销管理实习生",
+      "location": [
+        "广州"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7548297610593241383/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 249,
+      "l1": "other",
+      "l2": "other.unknown",
+      "l1_label": "其他",
+      "l2_label": "未分类"
+    },
+    {
+      "source_job_id": "7547596064486344970",
+      "company": "小鹏汽车",
+      "title": "售后实习生（湘鄂赣大区）",
+      "location": [
+        "武汉",
+        "长沙",
+        "黄石",
+        "襄阳",
+        "十堰"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7547596064486344970/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 278,
+      "l1": "other",
+      "l2": "other.unknown",
+      "l1_label": "其他",
+      "l2_label": "未分类"
+    },
+    {
+      "source_job_id": "7537604726969174335",
+      "company": "小鹏汽车",
+      "title": "三电设备实习生-广州基地",
+      "location": [
+        "广州"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7537604726969174335/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 200,
+      "l1": "other",
+      "l2": "other.unknown",
+      "l1_label": "其他",
+      "l2_label": "未分类"
+    },
+    {
+      "source_job_id": "7533469094504515882",
+      "company": "小鹏汽车",
+      "title": "新媒体实习生（上海大区）",
+      "location": [
+        "上海"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7533469094504515882/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 406,
+      "l1": "ops",
+      "l2": "ops.content",
+      "l1_label": "运营",
+      "l2_label": "内容与新媒体运营"
+    },
+    {
+      "source_job_id": "7520199223359932726",
+      "company": "小鹏汽车",
+      "title": "企业文化实习生（设计方向）",
+      "location": [
+        "广州"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7520199223359932726/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 208,
+      "l1": "other",
+      "l2": "other.unknown",
+      "l1_label": "其他",
+      "l2_label": "未分类"
+    },
+    {
+      "source_job_id": "7516766215387531539",
+      "company": "小鹏汽车",
+      "title": "2026年校园大使",
+      "location": [
+        "广州",
+        "北京",
+        "上海",
+        "深圳",
+        "武汉"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7516766215387531539/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 344,
+      "l1": "other",
+      "l2": "other.unknown",
+      "l1_label": "其他",
+      "l2_label": "未分类"
+    },
+    {
+      "source_job_id": "7516746238848764199",
+      "company": "小鹏汽车",
+      "title": "交付实习生（渝贵大区）",
+      "location": [
+        "重庆"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7516746238848764199/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 442,
+      "l1": "other",
+      "l2": "other.unknown",
+      "l1_label": "其他",
+      "l2_label": "未分类"
+    },
+    {
+      "source_job_id": "7512754716649441587",
+      "company": "小鹏汽车",
+      "title": "新零售实习生（渝贵大区）",
+      "location": [
+        "重庆"
+      ],
+      "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7512754716649441587/detail",
+      "url_is_official": true,
+      "url_carries_id": true,
+      "jd_chars": 253,
+      "l1": "other",
+      "l2": "other.unknown",
+      "l1_label": "其他",
+      "l2_label": "未分类"
+    }
+  ],
+  "net_new": {
+    "confirmed": false,
+    "note": "候选 ≠ 净新增；需只读比对生产 source_records 的 ID 差集后才能声明新增"
+  }
+}

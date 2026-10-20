@@ -1,0 +1,88 @@
+name: Candidate Audit (read-only)
+
+# Pre-expansion candidate audit. Read-only on purpose:
+#   - no database credentials at all (nothing can be written, and "production
+#     de-duplication" is therefore reported as unverified),
+#   - no model calls,
+#   - no production refresh, no push, no deploy.
+# A PASS here only means "the automated checks passed"; it never authorises a
+# production write, which still needs an explicit human decision.
+on:
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: Existing job-pro allowlist, comma separated
+        type: string
+        default: xpeng
+      scope:
+        description: campus or intern
+        type: choice
+        options: [intern, campus]
+        default: intern
+      start_page:
+        description: First page to audit (1–20); start_page + max_pages − 1 ≤ 20
+        type: number
+        default: 2
+      page_size:
+        description: Records per page (1–50)
+        type: number
+        default: 25
+      max_pages:
+        description: Page cap for this audit (1–20)
+        type: number
+        default: 1
+      max_jobs:
+        description: Candidate cap (1–500)
+        type: number
+        default: 25
+      global_cap:
+        description: Global cap (1–500)
+        type: number
+        default: 25
+permissions:
+  contents: read
+concurrency:
+  group: candidate-audit
+  cancel-in-progress: true
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Audit candidates (read-only)
+        id: audit
+        run: |
+          node --import tsx scripts/ingest/candidate-audit.ts \
+            --sources "${{ inputs.sources }}" \
+            --scope "${{ inputs.scope }}" \
+            --start-page "${{ inputs.start_page }}" \
+            --page-size "${{ inputs.page_size }}" \
+            --max-pages "${{ inputs.max_pages }}" \
+            --max-jobs "${{ inputs.max_jobs }}" \
+            --global-max-jobs "${{ inputs.global_cap }}" \
+            --out .verification/audit
+      - name: Publish report to the run summary
+        if: always()
+        run: |
+          if [ -f .verification/audit/audit.md ]; then
+            cat .verification/audit/audit.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::warning::audit report was not produced; inspect the job log"
+          fi
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidate-audit
+          path: |
+            .verification/audit/audit.md
+            .verification/audit/audit.json
+          include-hidden-files: true
+          retention-days: 14
+          if-no-files-found: warn

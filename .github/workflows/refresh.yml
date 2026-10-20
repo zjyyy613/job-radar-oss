@@ -80,6 +80,21 @@ jobs:
           REFRESH_GLOBAL_MAX_JOBS: ${{ inputs.global_cap || '16' }}
           REFRESH_MODEL_CAP: ${{ github.event_name == 'workflow_dispatch' && format('{0}', inputs.model_cap) || '8' }}
         run: node --import tsx scripts/ingest/run-refresh.ts
+      # Reporting only: summarises the summary.json the run already produced and
+      # surfaces PARTIAL explicitly. It cannot change the run's own verdict.
+      - name: Audit the refresh result
+        if: always()
+        continue-on-error: true
+        run: |
+          node --import tsx scripts/ingest/refresh-audit.ts \
+            --summary .verification/refresh/summary.json \
+            --out .verification/refresh
+      - name: Publish refresh audit to the run summary
+        if: always()
+        run: |
+          if [ -f .verification/refresh/refresh-audit.md ]; then
+            cat .verification/refresh/refresh-audit.md >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Preserve recovery checkpoint and summary
         if: always()
         uses: actions/upload-artifact@v4
@@ -88,6 +103,8 @@ jobs:
           path: |
             .verification/refresh/checkpoint.json
             .verification/refresh/summary.json
+            .verification/refresh/refresh-audit.md
+            .verification/refresh/refresh-audit.json
           include-hidden-files: true
           retention-days: 14
           if-no-files-found: warn
