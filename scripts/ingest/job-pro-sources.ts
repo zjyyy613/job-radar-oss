@@ -1,5 +1,6 @@
 export const JOB_PRO_VERSION = "1.2.1";
-export const ADAPTER_VERSION = "job-pro-1.2.1/adapter-2";
+// adapter-3 adds xpeng (Feishu Hire); existing sources map exactly as in adapter-2.
+export const ADAPTER_VERSION = "job-pro-1.2.1/adapter-3";
 
 // Only verified official company endpoints. Expansion requires new fixtures/smoke.
 export const JOB_PRO_SOURCES = {
@@ -14,6 +15,8 @@ export const JOB_PRO_SOURCES = {
   oppo: { company: "OPPO", upstream: "careers.oppo.com" },
   liauto: { company: "理想汽车", upstream: "www.lixiang.com" },
   antgroup: { company: "蚂蚁集团", upstream: "hrcareersweb.antgroup.com" },
+  // China campus site on Feishu Hire; the US Greenhouse board is not used.
+  xpeng: { company: "小鹏汽车", upstream: "xiaopeng.jobs.feishu.cn" },
 } as const;
 export type JobProSource = keyof typeof JOB_PRO_SOURCES;
 export type JobProScope = "campus" | "intern";

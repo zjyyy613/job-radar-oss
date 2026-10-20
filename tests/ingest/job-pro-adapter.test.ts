@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { mapJobProRecord } from "../../scripts/ingest/job-pro-adapter";
+import { detailAdmission, mapJobProRecord } from "../../scripts/ingest/job-pro-adapter";
 
 const fixture = (name: string) => JSON.parse(readFileSync(`tests/fixtures/job-pro/${name}.json`, "utf8"));
 const fetchedAt = "2026-09-27T16:50:02.000Z";
@@ -10,6 +10,7 @@ describe("job-pro 1.2.1 adapter against real CLI fixtures", () => {
     ["tencent", "1282707398326592512", "腾讯", ["深圳总部", "北京", "上海", "广州", "成都", "杭州"]],
     ["xiaomi", "7689291997559884086", "小米", ["巴黎"]],
     ["vivo", "561286383", "vivo", ["广东省·深圳市", "浙江省·杭州市"]],
+    ["xpeng", "7698647256014489898", "小鹏汽车", ["北京"]],
   ] as const)("maps %s provenance, identity and verbatim detail", (source, id, company, location) => {
     const raw = fixture(`${source}-detail`);
     const result = mapJobProRecord(raw, source, fetchedAt);
@@ -85,5 +86,26 @@ describe("job-pro 1.2.1 adapter against real CLI fixtures", () => {
 
   it("rejects a source outside the allowlist at runtime", () => {
     expect(() => mapJobProRecord(fixture("tencent-detail"), "not-allowed" as "tencent")).toThrow();
+  });
+
+  it("accepts both Feishu city shapes for xpeng, so one whitelist line is not assumed enough", () => {
+    // Search returns a plain string, the detail endpoint returns city objects.
+    expect(mapJobProRecord(fixture("xpeng-search").positions[0], "xpeng", fetchedAt).location).toEqual(["北京"]);
+    expect(mapJobProRecord(fixture("xpeng-detail"), "xpeng", fetchedAt).location).toEqual(["北京"]);
+    const multi = { ...fixture("xpeng-detail"), work_cities: [{ name: "广州" }, { name: "上海" }, { name: "深圳" }] };
+    expect(mapJobProRecord(multi, "xpeng", fetchedAt).location).toEqual(["广州", "上海", "深圳"]);
+    // An unnamed city object is still rejected rather than silently dropped.
+    expect(() => mapJobProRecord({ ...fixture("xpeng-detail"), work_cities: [{ code: "CT_1" }] }, "xpeng", fetchedAt)).toThrow();
+  });
+
+  it("admits the real xpeng intern detail with its official campus locator", () => {
+    const record = mapJobProRecord(fixture("xpeng-detail"), "xpeng", fetchedAt);
+    expect(record).toMatchObject({ source: "job-pro:xpeng", company: "小鹏汽车", source_tier: "authoritative" });
+    expect(new URL(record.source_url!).hostname).toBe("xiaopeng.jobs.feishu.cn");
+    expect(decodeURIComponent(record.source_url!)).toContain(record.source_job_id);
+    expect(record.location.length).toBeGreaterThan(0);
+    // The intern listing is a 校招/实习 posting, so recruit labels must not claim 正式.
+    expect(String(fixture("xpeng-detail").recruit_label)).toContain("实习");
+    expect(detailAdmission(record, "xpeng")).toBeNull();
   });
 });

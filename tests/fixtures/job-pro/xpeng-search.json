@@ -1,0 +1,39 @@
+{
+ "ok": true,
+ "source": "xiaopeng.jobs.feishu.cn",
+ "query": {
+  "keyword": "",
+  "limit": 25,
+  "offset": 0,
+  "portal_type": 3,
+  "portal_entrance": 1,
+  "language": "zh",
+  "recruitment_id_list": [
+   "202"
+  ]
+ },
+ "scope": "intern",
+ "page": 1,
+ "page_size": 25,
+ "total": 82,
+ "positions": [
+  {
+   "post_id": "7698647256014489898",
+   "title": "Agent 产品经理实习生（Agent 对话体验方向）",
+   "project": "互联网 / 电子 / 网游",
+   "recruit_label": "实习",
+   "bgs": "",
+   "work_cities": "北京",
+   "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7698647256014489898/detail"
+  },
+  {
+   "post_id": "7697079530612197675",
+   "title": "项目管理实习生",
+   "project": "技术项目管理",
+   "recruit_label": "实习",
+   "bgs": "",
+   "work_cities": "广州",
+   "apply_url": "https://xiaopeng.jobs.feishu.cn/campus/position/7697079530612197675/detail"
+  }
+ ]
+}

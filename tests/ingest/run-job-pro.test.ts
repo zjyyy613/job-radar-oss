@@ -22,7 +22,7 @@ describe("bounded job-pro runner (offline)", () => {
       options.sources.map((source) => [source, "search", "", "--scope", "campus", "--page-size", "1", "--page", "1", "--compact"]),
     );
     for (const [run] of persistence.writeRun.mock.calls) {
-      expect(run).toMatchObject({ full_list: false, status: "success", records_seen: 1, records_new: 1, records_updated: 0, adapter_version: "job-pro-1.2.1/adapter-2" });
+      expect(run).toMatchObject({ full_list: false, status: "success", records_seen: 1, records_new: 1, records_updated: 0, adapter_version: "job-pro-1.2.1/adapter-3" });
     }
   });
 

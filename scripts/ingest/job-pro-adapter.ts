@@ -21,7 +21,9 @@ function locations(value: unknown, source: JobProSource): string[] {
   if (value === undefined || value === null || value === "") return [];
   if (Array.isArray(value)) {
     return value.map((item) => {
-      const name = ["xiaomi", "kuaishou"].includes(source) && typeof item === "object" && item !== null
+      // Feishu Hire tenants return city objects on the detail endpoint (and plain
+      // strings on search), so both shapes must be accepted for those sources.
+      const name = ["xiaomi", "kuaishou", "xpeng"].includes(source) && typeof item === "object" && item !== null
         ? upstreamObject(item).name : item;
       return text(name, "work_cities item") ?? fail("empty work_cities item");
     });

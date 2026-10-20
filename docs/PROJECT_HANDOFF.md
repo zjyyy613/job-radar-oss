@@ -4,10 +4,10 @@
 > 业务与冻结规则以 [Product Spec v1.0](specs/job-radar-product-spec-v1.0.md)、[Technical Architecture v0.1](architecture/job-radar-technical-architecture-v0.1.md)、[DESIGN.md](../DESIGN.md)、[README.md](../README.md) 为准，本文不复制其内容。
 > 维护约定：本文件由 **DSH 作为主要维护者**更新，ChatGPT 负责项目协调与任务状态核对，Codex 读取本文件的交接信息；按任务分配或完成节点更新，避免双方同时编辑，且每次更新都要附实际证据。
 
-- 文件版本：v14
+- 文件版本：v15
 - 最后更新：2026-10-20
 - 最后更新者：DSH
-- 更新节点：PRODUCT-04C-A（start_page 最小能力 + 京东第 3 页只读试点）完成
+- 更新节点：PRODUCT-04D（小鹏官方实习来源接入试点）完成
 
 ## 1. 当前稳定基线
 
@@ -69,6 +69,7 @@
 | ENGINEERING-03 | 新增岗位提取质量与采集超时专项（只读分析 + 提示词/观测最小修复） | DSH | Completed | `work/dsh`（本轮提交） | 生产首批 38 条中提取失败 10 条，**逐类归因：全部不是校验器误判**，根因＝「提示词从未声明校验器不变量」+ 两个结构性必败路径（①`required` 对未解析子句不可能获得确定性确认 ②中文数字 minimum 被解析器推给模型后必然无法被引文确认）。**修复＝纯提示词 6 条不变量 + 阶段耗时观测**（`search_ms/detail_ms/upsert_ms`），未改校验器/Gate/Evidence、未改 `EXTRACTION_VERSION`、零模型调用。**超时归因**：单次调用成本稳定（search≈1.7s、detail≈1.2s），page-size 2 使 search 占墙钟 41%（page-size 25 仅 5%），叠加 runner 网络与每记录 2 次 Supabase 往返 → 38 条耗尽 5 分钟来源预算。**小米 2 条 open→unknown 符合既有保守语义**（bounded 运行 `absence_not_proven`，永不判 closed）。测试 **536 通过** / lint / typecheck。报告见 [engineering-03](reports/engineering-03-extraction-quality-and-timeout.md) |
 | ENGINEERING-03.1 | refresh workflow 新增可选 `page_size`（默认 2）+ 分页窗口边界核查 | DSH | Completed | `work/dsh`（本轮提交） | **只改 `.github/workflows/refresh.yml`**：`workflow_dispatch.inputs.page_size`（number，默认 **2**）→ `REFRESH_PAGE_SIZE: ${{ inputs.page_size \|\| '2' }}`；schedule 无 inputs 故恒为 2，每日节奏/白名单/模型预算/Secrets/权限/超时**均未改**。**分页边界已核实并写入回归**：`page_size=20 × max_pages=2` → 恰好 40 条（`stop_reason=max_jobs`）；`page_size=25, max_jobs=40` → **只处理 25 条**（`25+25>40` 触发 `max_jobs`），**不得据此宣称 40 条**。40 条试点参数：`page_size=20, max_jobs=40, max_pages=2, global_cap=40`（仅为可用参数，**未授权执行**）。测试 **543 通过**（536+7）。 |
 | PRODUCT-04C-A | 采集 `start_page` 最小能力 + 京东 intern 第 3 页只读试点 | DSH | Completed | `work/dsh`（本轮提交） | **`start_page`（默认 1）**：`run-job-pro` 参数/循环、`run-refresh` 的 `REFRESH_START_PAGE`、workflow 输入三处打通；`startPage + maxPages − 1 ≤ 20` 受控；checkpoint 逐字段比对窗口（旧 checkpoint 缺该字段按 1 续跑，改动即拒）。**实测**（`jd/intern/start_page=3/page_size=25/max_pages=1/max_jobs=25`）：**1 页 / 25 条 / records_seen 25**、详情 **25/25**、准入 **25/25**、重复 0、26.3s（search 13% / detail 87%）；与 04A 旧快照比对：**与已覆盖前 50 位重叠 0/25**、与旧第 3 页切片 **25/25 顺序一致**（上游无漂移）。分类增益：技术研发 +14、运营 +3、工程与制造 +1、市场与商务 +1、**未分类 +6（24%）**（其中 4 条为分类器缺口、2 条真实歧义，**按边界未改分类器**）。**未连库、未做生产去重**：交付 25 条 ID 清单供独立比对。测试 **550 通过**/lint/typecheck。报告见 [product-04c-a](reports/product-04c-a-jd-deep-page-pilot.md)；**待生产写入授权** |
+| PRODUCT-04D | 小鹏官方实习来源接入试点（来源核实 + 最小接入 + 只读 dry-run） | DSH | Completed | `work/dsh`（本轮提交） | **来源已证**：`@ha7ch/job-pro@1.2.1`（未升级）返回 `source=xiaopeng.jobs.feishu.cn`，适配器基于飞书工厂且**已弃用海外 Greenhouse**；intern total **82**、campus **632**；post_id 为 19 位数字、链接 `…/campus/position/<id>/detail`、intern 标签 100%「实习」。**接入**：白名单新增 `xpeng`（`ADAPTER_VERSION` → `adapter-3`）+ **关键修复**（飞书 detail 的 `work_cities` 是对象数组，仅加白名单会让每条记录被拒）+ 2 个真实 fixture + 4 处测试。**dry-run**：1 页 25 条、详情 **25/25**、准入 **25/25**、0 重复、77.9s（search 8% / detail 92%）。**关键结论**：intern 池 **工程与制造 0/25**（9/25 为交付/新零售/售后，无对应类目），**campus 12/25（工艺与质量 9、机械与结构 2、机器人 1）** → 「补齐汽车/工艺方向」无法仅靠 intern，需正式校招 scope（本轮按边界未做）。测试 **554 通过**/lint/typecheck。报告见 [product-04d](reports/product-04d-xpeng-source-pilot.md)；**待发布审查与写入授权** |
 | — | 当前无进行中的产品开发任务 | — | — | — | 等待 User 分配 |
 
 本表只登记**已授权且有实际证据**的任务；未分配的工作不预填 Owner、不虚构进度。
