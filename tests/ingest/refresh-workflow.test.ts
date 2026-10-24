@@ -9,7 +9,7 @@ import { sameWindowOptions } from "../../scripts/ingest/run-refresh";
  * window must stay honest (a page size that does not divide max_jobs stops short
  * instead of silently claiming a full batch).
  */
-const workflow = readFileSync(".github/workflows/refresh.yml", "utf8");
+const workflow = readFileSync("docs/production/workflows/refresh.yml", "utf8");
 const refreshScript = readFileSync("scripts/ingest/run-refresh.ts", "utf8");
 
 /** Reads one `workflow_dispatch.inputs` entry without a YAML dependency. */

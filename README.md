@@ -320,7 +320,9 @@ M1 中仅实现**最小 Saved**（Product Improvement v1 Task 3，见 [Saved 报
 
 ## M0.5 Phase 2A refresh
 
-复用 `.github/workflows/refresh.yml`，现在显示为 **Refresh Job Radar**：ingestion/admission → canonicalization → incremental extraction → evidence/identity verification → summary。NCSS 仍独立手动入口；两个 workflow 共用 `job-radar-production-writer` 并发锁。首次真实 remote manual smoke 已成功。refresh 每日 UTC 23:17（北京时间次日 07:17）运行一次，使用同一 pipeline 和默认保守额度；NCSS 无 schedule。GitHub 调度可能延迟，不保证准点。
+## M0.5 Phase 2A refresh
+
+刷新流水线（ingestion/admission → canonicalization → incremental extraction → evidence/identity verification → summary）的**参考实现**保存在 [`docs/production/workflows/refresh.yml`](docs/production/workflows/refresh.yml)，**不在** `.github/workflows/` 下，因此 GitHub Actions 无法在本仓库执行它；它需要仓库所有者的密钥并写入真实数据库。NCSS 采集同样只作参考（[`docs/production/workflows/ingest-ncss.yml`](docs/production/workflows/ingest-ncss.yml)）。参见 [`docs/production/README.md`](docs/production/README.md)。
 
 默认八个 Batch A、intern、每页2条/每源1页2条/全局16条、模型最多8次；手动输入只能选择既有 allowlist。单次45分钟上限。密钥仅在运行步骤注入；需要 repository Actions Secrets `SUPABASE_URL`、`SUPABASE_SECRET_KEY`、`DEEPSEEK_API_KEY`；DeepSeek URL/model 为固定非秘密配置。
 

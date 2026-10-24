@@ -42,7 +42,7 @@ describe('incremental refresh',()=>{
  const r=await refresh(cp(),h.d);expect(r.application_status.closed).toBe(0);expect(h.state.jobs[0].consecutive_missing_count).toBe(0);
  });
  it('workflow shares its writer lock and pipeline across daily/manual runs with bounded model calls',()=>{
- const workflow=readFileSync('.github/workflows/refresh.yml','utf8'),ncss=readFileSync('.github/workflows/ingest-ncss.yml','utf8');
+ const workflow=readFileSync('docs/production/workflows/refresh.yml','utf8'),ncss=readFileSync('docs/production/workflows/ingest-ncss.yml','utf8');
  for(const w of [workflow,ncss]){expect(w).toContain('group: job-radar-production-writer');expect(w).toContain('cancel-in-progress: false');}
  expect(workflow).toContain('workflow_dispatch:');expect(workflow).toContain('timeout-minutes: 45');expect(workflow).not.toContain('NEXT_PUBLIC_');expect(workflow).not.toContain('path: .env');expect(workflow).toContain('checkpoint.json');
  // Open-source release: the production pipeline is manual-only here. It must never

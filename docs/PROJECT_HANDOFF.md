@@ -1,5 +1,7 @@
-# Job Radar — 三方协作交接文件
+# Job Radar — 维护者交接记录（历史留存）
 
+> **给外部贡献者**：这是项目开发过程的内部协作日志（中文），按时间记录每次施工的状态、证据与决定，**不是**上手文档，也**不是**当前的行为规范。代码行为以 [README](../README.md)、[Product Spec v1.0](specs/job-radar-product-spec-v1.0.md)、[Technical Architecture v0.1](architecture/job-radar-technical-architecture-v0.1.md)、[DESIGN.md](../DESIGN.md) 与测试为准；参与方式见 [CONTRIBUTING](../CONTRIBUTING.md)。文中出现的内部工具、协作角色与执行授权链属于当时的工作方式，与外部贡献无关。
+>
 > 本文件只记录**协作状态**（谁在做什么、做到哪、下一步），不替代任何业务规则与技术规范。
 > 业务与冻结规则以 [Product Spec v1.0](specs/job-radar-product-spec-v1.0.md)、[Technical Architecture v0.1](architecture/job-radar-technical-architecture-v0.1.md)、[DESIGN.md](../DESIGN.md)、[README.md](../README.md) 为准，本文不复制其内容。
 > 维护约定：本文件由 **DSH 作为主要维护者**更新，ChatGPT 负责项目协调与任务状态核对，Codex 读取本文件的交接信息；按任务分配或完成节点更新，避免双方同时编辑，且每次更新都要附实际证据。
@@ -21,7 +23,7 @@
 | 生产分支 commit（GitHub） | `18e042297f2b572f160bedad777e5edb5777810d` | 同一次 `ls-remote`，与 DSH 本地基线一致 |
 | 已部署版本（Vercel Production） | `18e042297f2b572f160bedad777e5edb5777810d` | **由 ChatGPT 通过 Vercel 部署接口核实**；DSH 未独立验证 |
 | DSH 本地分支 | `work/dsh`（纯本地，无 upstream，未推送；各任务具体 commit 见第 3 节） | `git rev-parse` |
-| 正式网站 | (production deployment not published) | 实测 HTTP 200；`/radar` 已渲染 Radar / Saved / Profile |
+| 正式网站 | 生产部署地址未在本开源版本公开（由维护者的私有环境维护；本仓库不承诺任何线上实例可用） | 部署与运维不属于本仓库范围 |
 
 **三个版本必须区分**
 
@@ -106,7 +108,7 @@
 - **扩容前的两个硬上限**：提取单批 `jobs.length > 500` 直接抛错（当前 429，**余量仅 71**，`scripts/ingest/batch-gate-extraction.ts:22`）；canonicalization 快照 `source_records ≤ 1000` / `source_runs ≤ 10000`（当前 43%，`supabase/migrations/20260928122238_canonicalization_reliability.sql:22-24`）。
 - `published_at` 仅 2/429 且两条均属 NCSS；根因已定位：腾讯 detail 载荷无 `post_date`；vivo 有 `post_date` 但**无时区**，被 `timestamp()` 的正则拒绝（`scripts/ingest/job-pro-adapter.ts:88`）。要让 vivo 贡献发布时间须改变时间解析策略。
 - `internship_type` / `recruitment_batch` 在 job-pro adapter 中**硬编码为 null**（`job-pro-adapter.ts:80-82`），上游 `recruit_label` / `project` 未采纳，故全库 0 条；上游实际提供该字段。
-- 腾讯 / 小米 / vivo 不在 `.github/workflows/refresh.yml` 默认调度源内，现有调度下长期停留 2 条/家。
+- 腾讯 / 小米 / vivo 不在 `docs/production/workflows/refresh.yml` 的默认来源内，生产调度下长期停留 2 条/家。
 - 迁移历史 debt：本地 `0001_job_radar_m0.sql` ↔ 远端 `20260928013502_job_radar_m0`；禁止重复执行初始 DDL，未做 history repair。
 - 真实库无 `Closed` 样本，且所有 run 均为 `full_list=false`，**不得据此推断任何 Closed**。
 - NCSS 来源无详情与申请链接（`description`/`requirements`/`apply_url`/`deadline` 恒为 null）。
