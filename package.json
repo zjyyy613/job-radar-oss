@@ -7,11 +7,11 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zjyyy613/job-radar.git"
+    "url": "https://github.com/zjyyy613/job-radar-oss.git"
   },
-  "homepage": "https://github.com/zjyyy613/job-radar#readme",
+  "homepage": "https://github.com/zjyyy613/job-radar-oss#readme",
   "bugs": {
-    "url": "https://github.com/zjyyy613/job-radar/issues"
+    "url": "https://github.com/zjyyy613/job-radar-oss/issues"
   },
   "scripts": {
     "dev": "next dev",
