@@ -1,0 +1,62 @@
+name: CI
+
+# Offline checks only: no secrets, no database, no model calls, no collection.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: lint / typecheck / test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Lint (zero warnings)
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Offline tests
+        run: npm test
+
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      # The production build is the last gate: it compiles routes and types that
+      # unit tests do not touch. It needs no database at build time.
+      - name: Production build
+        run: npm run build
+
+  ncss-python:
+    name: ncss python tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      # Standard library only; no Playwright, no network.
+      - name: Run NCSS unit tests
+        run: python -m unittest discover -s tests/ingest -p "test_ncss*.py" -v

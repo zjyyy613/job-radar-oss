@@ -45,7 +45,10 @@ describe('incremental refresh',()=>{
  const workflow=readFileSync('.github/workflows/refresh.yml','utf8'),ncss=readFileSync('.github/workflows/ingest-ncss.yml','utf8');
  for(const w of [workflow,ncss]){expect(w).toContain('group: job-radar-production-writer');expect(w).toContain('cancel-in-progress: false');}
  expect(workflow).toContain('workflow_dispatch:');expect(workflow).toContain('timeout-minutes: 45');expect(workflow).not.toContain('NEXT_PUBLIC_');expect(workflow).not.toContain('path: .env');expect(workflow).toContain('checkpoint.json');
- expect(workflow).toContain("cron: '17 23 * * *'");
+ // Open-source release: the production pipeline is manual-only here. It must never
+ // acquire an automatic trigger again, because it writes to a live database.
+ expect(workflow).not.toContain('cron:');
+ expect(workflow).not.toMatch(/^\s*schedule:/m);
  expect(workflow).toContain("format('{0}', inputs.model_cap) || '8'");
  });
 });

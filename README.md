@@ -1,5 +1,67 @@
 # Job Radar
 
+**Turn unstable official career pages into evidence-qualified job facts.**
+
+Job Radar is a job-discovery application plus a collection pipeline with an
+unusual property: it would rather reject a record than store an unverifiable
+one. Every accepted posting carries an authoritative locator (the employer's own
+host *and* the posting id in the URL), a real location, and substantive text;
+every qualification claim is backed by a quote from the job description, and
+anything it cannot prove stays explicitly *unverified* instead of being guessed.
+
+If you only read three files:
+
+| Concern | File |
+| --- | --- |
+| Admission contract (identity, official locator, substance) | [`scripts/ingest/job-pro-adapter.ts`](scripts/ingest/job-pro-adapter.ts) |
+| Conservative "can I prove it closed?" semantics | [`src/lib/domain/source-reliability.ts`](src/lib/domain/source-reliability.ts) |
+| Deterministic-first extraction with quote validation | [`scripts/ingest/gate-extraction-validation.ts`](scripts/ingest/gate-extraction-validation.ts) |
+
+Highlights:
+
+- **Evidence-qualified extraction.** A deterministic parser runs first; a model
+  is called only for clauses the parser could not resolve, and its output is
+  rejected unless every gate is literally supported by a quote from the
+  description. Rejected attempts are recorded by content hash and are not
+  retried, so cost cannot silently grow.
+- **Conservative state, not optimistic state.** A bounded crawl cannot prove a
+  posting disappeared, so reliability degrades to `unknown` ("not verified"),
+  never to `closed` without two consecutive full-list absences.
+- **Budgets are part of the contract.** Page size, pages, per-source jobs, global
+  jobs and model calls are all capped, validated, and covered by regression
+  tests.
+- **Offline-first testability.** The suite runs with no database and no API key
+  (574 specs), and CI in this repository holds no secrets.
+
+The scope is deliberately narrow: Chinese campus/internship positions from a
+fixed allowlist of official employer endpoints, a browser-local candidate
+profile, and a deterministic qualification engine. It is not a crawler for
+arbitrary sites.
+
+## Quick start without any credentials
+
+```sh
+npm ci
+npm run lint && npm run typecheck && npm test   # no database, no API key
+npm run dev                                     # UI shells; /radar needs a database
+```
+
+`/onboarding`, `/profile` and `/saved` work locally with browser storage only.
+Only `/radar` reads a server-side database; see [`.env.example`](.env.example)
+and [`CONTRIBUTING.md`](CONTRIBUTING.md). The design record lives in
+[`docs/`](docs/): 29 dated engineering reports with their machine-readable
+evidence.
+
+## License
+
+MIT — see [`LICENSE`](LICENSE). Third-party components keep their own licenses:
+[`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md). Security policy:
+[`SECURITY.md`](SECURITY.md). Contributions: [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+---
+
+## 中文说明
+
 当前已完成 **M0 / Task 1–7**：冻结契约、多来源 ingestion、保守 canonicalization、source reliability、Gate Extraction、本地 Guest Profile、确定性资格引擎和 Radar Browse / Inspect / Full Detail。Task 7 视觉与 Brand Direction 已由用户 Freeze。其后 **Product Improvement v1**（地点归一与城市筛选、组合筛选与偏好应用、最小 Saved、时间与招聘状态表达）已发布并冻结；M1 其余功能尚未实现。协作与进度状态见 [Project Handoff](docs/PROJECT_HANDOFF.md)，M0 最终验收见 [M0 Final Acceptance](docs/reports/2026-10-01-m0-final-acceptance.md)。
 
 冻结依据（按优先级）：

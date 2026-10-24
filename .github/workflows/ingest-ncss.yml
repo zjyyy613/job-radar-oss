@@ -1,5 +1,7 @@
 name: Ingest NCSS
 
+# PRODUCTION PIPELINE REFERENCE — manual only, not part of the OSS quick start.
+# Writes to a live database and needs owner-held secrets; a fork cannot run it.
 on:
   workflow_dispatch:
     inputs:

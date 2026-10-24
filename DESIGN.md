@@ -99,12 +99,11 @@ Semantic color 极少使用：Eligible 在列表中 mostly silent；Check 使用
 
 ## Project UI Skills and conflict resolution
 
-项目已安装 `.agents/skills/anti-ui-slop`、`.agents/skills/web-design-guidelines`、`.agents/skills/hallmark` 与 `.agents/skills/visual-quality-final-audit`，上游内容保留原样；安装来源及固定 commit 见各目录 `UPSTREAM.md`。日常允许使用的是前两个；`hallmark` 与 `visual-quality-final-audit` 不得自动启用，仅在用户明确授权的具体任务中使用。
+本项目公开版本包含两个第三方 UI Skills：`.agents/skills/anti-ui-slop` 与 `.agents/skills/hallmark`，上游内容保留原样；来源、固定 commit 与许可见各目录 `UPSTREAM.md` 与根目录 `THIRD-PARTY-NOTICES.md`。`hallmark` 不得自动启用，仅在明确授权的具体任务中使用。（开发历史中曾使用过另外两个 skill 包，因其再分发条款无法确认，已从本仓库及历史中移除；相关历史报告仍按当时事实保留其名称。）
 
 - **anti-ui-slop** 仅用于 product-specific design contract、implementation guardrails、finish gate。本文件即产品设计契约；后续按任务范围核验实际 desktop/mobile 与状态，不重新发明视觉方向。无需付费 UIZZE、MCP 或外部参考才能继续。
-- **web-design-guidelines** 仅用于 implementation/review audit、accessibility、responsive behavior、interaction/state completeness。其在线指南仍是低优先级参考，不能通过更新覆盖本设计基线。
 
-已阅读两个 SKILL.md、anti-ui-slop 的 operate/craft/audit 与 web-design-guidelines 当前在线规则。适用边界：
+已阅读 anti-ui-slop 的 operate/craft/audit 规则。适用边界：
 
 1. anti-ui-slop 的通用 craft 允许某些装饰模式；本项目上述禁用项优先。不得启用 Overdrive、重大 redesign、iOS 或无关工作流来扩大范围。
 2. 在线指南要求 transform/opacity-only；本项目允许必要的短 background transition，仍需 reduced-motion 与性能审查。

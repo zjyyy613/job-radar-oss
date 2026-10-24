@@ -1,7 +1,11 @@
 name: Refresh Job Radar
+
+# PRODUCTION PIPELINE REFERENCE — NOT ACTIVE IN THIS REPOSITORY.
+# The scheduled trigger was removed for the open-source release: this workflow
+# writes to a live database and would require owner-held secrets that do not
+# exist in a fork. It is kept so the production pipeline is documented and
+# reviewable. Do not add a `schedule:` trigger here.
 on:
-  schedule:
-    - cron: '17 23 * * *'
   workflow_dispatch:
     inputs:
       sources:

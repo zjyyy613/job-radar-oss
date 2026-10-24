@@ -38,9 +38,8 @@ describe("refresh workflow page_size input", () => {
 
   it("passes page_size through to the existing REFRESH_PAGE_SIZE with a 2 fallback", () => {
     expect(envLine("REFRESH_PAGE_SIZE")).toBe("${{ inputs.page_size || '2' }}");
-    // A scheduled run supplies no inputs, so the shell falls back to 2 — and the
-    // script itself also defaults to 2 if the variable is ever absent.
-    expect(workflow).toMatch(/schedule:\s*\n\s*- cron: '17 23 \* \* \*'/);
+    // A run without inputs falls back to 2 — and the script itself also defaults to 2.
+    expect(workflow).not.toMatch(/^\s*schedule:/m);
     expect(refreshScript).toContain("process.env.REFRESH_PAGE_SIZE??'2'");
     expect(refreshScript).toContain("process.env.REFRESH_MAX_JOBS??'2'");
     expect(refreshScript).toContain("process.env.REFRESH_GLOBAL_MAX_JOBS??'16'");
@@ -56,8 +55,10 @@ describe("refresh workflow page_size input", () => {
     expect(refreshScript).toContain("'--start-page'");
   });
 
-  it("keeps the schedule, allowlist, model budget, permissions and timeout unchanged", () => {
-    expect(workflow).toContain("cron: '17 23 * * *'");
+  it("keeps the allowlist, model budget, permissions and timeout unchanged", () => {
+    // Public release contract: manual only, so no automatic production writes.
+    expect(workflow).not.toMatch(/^\s*schedule:/m);
+    expect(workflow).toContain("workflow_dispatch:");
     expect(inputDefault("sources")).toBe("alibaba,meituan,jd,netease,kuaishou,oppo,liauto,antgroup");
     expect(envLine("REFRESH_SOURCES")).toBe("${{ inputs.sources || 'alibaba,meituan,jd,netease,kuaishou,oppo,liauto,antgroup' }}");
     expect(envLine("REFRESH_MODEL_CAP")).toContain("inputs.model_cap");
